@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 34" width="180" height="34" role="img" aria-label="HOSPES Flagship">
+  <title>HOSPES Flagship</title>
+  <rect x="0" y="4" width="26" height="26" rx="7" fill="#c77842"/>
+  <path d="M8 10h3.4v4.6h3.2V10H18v14h-3.4v-5.4h-3.2V24H8z" fill="#17221f"/>
+  <text x="34" y="23" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" font-weight="700" letter-spacing="1.6" fill="#e4c48a">HOSPES Flagship</text>
+</svg>

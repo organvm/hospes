@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hospes.organvm/spec/clearance_receipt.schema.json",
+  "title": "ClearanceReceipt",
+  "description": "One immutable, attributable event in a clearance's life. Recording a clearance and every later status decision appends exactly one receipt; receipts are never updated or deleted.",
+  "type": "object",
+  "required": [
+    "id",
+    "tenant_id",
+    "show_id",
+    "clearance_id",
+    "episode_id",
+    "event_type",
+    "to_status",
+    "actor_id",
+    "actor_role",
+    "correlation_id",
+    "created_at"
+  ],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "tenant_id": {"type": "string", "minLength": 1},
+    "show_id": {"type": "string", "minLength": 1},
+    "clearance_id": {"type": "string", "minLength": 1},
+    "episode_id": {"type": "string", "minLength": 1},
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "clearance.recorded",
+        "clearance.cleared",
+        "clearance.denied",
+        "clearance.reopened"
+      ]
+    },
+    "from_status": {"type": ["string", "null"], "enum": ["pending", "cleared", "denied", null]},
+    "to_status": {"type": "string", "enum": ["pending", "cleared", "denied"]},
+    "actor_id": {"type": "string", "minLength": 1},
+    "actor_role": {
+      "type": "string",
+      "enum": ["producer", "editorial_owner", "relationship_owner"]
+    },
+    "evidence_ref": {
+      "type": ["string", "null"],
+      "pattern": "^[a-z][a-z0-9_-]{1,31}://[A-Za-z0-9][A-Za-z0-9._~:/?#=&%+-]{1,207}$"
+    },
+    "correlation_id": {"type": "string", "pattern": "^clearance://[^\\s]+$"},
+    "created_at": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"event_type": {"const": "clearance.recorded"}},
+        "required": ["event_type"]
+      },
+      "then": {"properties": {"from_status": {"type": "null"}, "to_status": {"const": "pending"}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "event_type": {
+            "enum": ["clearance.cleared", "clearance.denied", "clearance.reopened"]
+          }
+        },
+        "required": ["event_type"]
+      },
+      "then": {
+        "required": ["evidence_ref", "from_status"],
+        "properties": {"evidence_ref": {"type": "string"}, "from_status": {"type": "string"}}
+      }
+    }
+  ],
+  "additionalProperties": false
+}

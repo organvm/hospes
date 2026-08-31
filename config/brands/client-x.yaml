@@ -1,0 +1,10 @@
+version: 1
+show_id: client-x
+show_name: "Client: Podcast X"
+logo_path: config/brand-assets/client-x-logo.svg
+favicon_path: config/brand-assets/client-x-favicon.svg
+primary_color: "#596d8f"
+secondary_color: "#182131"
+accent_color: "#d2b375"
+font_family: ui-sans-serif, system-ui, sans-serif
+custom_domain: guests.podcast-x.example

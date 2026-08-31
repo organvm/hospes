@@ -1,0 +1,68 @@
+show:
+  title: "[SHOW_TITLE]"
+  status: "private pilot"
+  primary_format: "video-native conversation that remains complete as audio"
+  recording_cities:
+    - "Los Angeles"
+    - "New York City"
+    - "Austin"
+
+audience_promise: >
+  Every guest enters with a consequential belief, project, problem, or contradiction.
+  The hosts expose the tension, stress-test it, and leave with a new artifact rather
+  than a recycled biography or promotional interview.
+
+format_engine:
+  fixed:
+    - "The Claim"
+    - "The Stress Test"
+    - "The Artifact"
+  rotating:
+    - "Receipts"
+    - "Object Lesson"
+    - "Explain It to Host"
+    - "Build the Worst Version"
+    - "Future Headline"
+    - "Opposite Chair"
+    - "Question for the Next Guest"
+
+host_functions:
+  ari:
+    function: "instinct, friction, comedy, skepticism, pace, social ease"
+    required_work:
+      - "approve or protect guest relationships"
+      - "record occasional personal notes"
+      - "prepare enough to challenge the guest"
+      - "show up and perform"
+    prohibited_work:
+      - "routine inbox management"
+      - "calendar negotiation"
+      - "manual follow-up tracking"
+  cohost:
+    function: "research, conceptual architecture, strange connections, synthesis, designed experiments"
+    required_work:
+      - "own the editorial thesis"
+      - "approve final episode structure"
+      - "operate or supervise the system"
+
+editorial_exclusions:
+  - "unstructured biography dump"
+  - "guest selected only for follower count"
+  - "generic promotional interview"
+  - "fake familiarity"
+  - "mass outreach from personal accounts"
+  - "asking guests to rescue or promote the show"
+  - "visible microphones in the final frame"
+  - "generic neon-logo podcast set"
+  - "advertising that is merely a bored script read"
+
+visual_rule: >
+  The room should read as a real conversational environment. Production technology
+  is hidden. The graphic layer may be unusual, kinetic, or uncanny, but the physical
+  room remains restrained.
+
+release_strategy:
+  bank_before_launch: 6
+  launch_drop: 3
+  default_cadence: "weekly after launch"
+  initial_goal: "prove repeatable format and returning audience, not maximize guest fame"

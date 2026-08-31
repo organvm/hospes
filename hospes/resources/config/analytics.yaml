@@ -1,0 +1,26 @@
+# Analytics policy. Credentials never live here — a provider names its
+# credential-wall key and the operator names the export the provider produced.
+# A null import_path is a visible `unconfigured` state, not a silent skip.
+version: 1
+fetch_schedule: manual_or_operator_authorized
+trend_window: 12
+metrics:
+  counters: [downloads, streams, top_clip_views]
+  ratios: [retention_pct, avg_consumption]
+providers:
+  spotify_creator_csv:
+    enabled: true
+    credential_ref: null
+    import_path: null
+  youtube_analytics:
+    enabled: true
+    credential_ref: credential://hospes/youtube-analytics
+    import_path: null
+  megaphone_chartable_import:
+    enabled: true
+    credential_ref: null
+    import_path: null
+  custom_csv_http:
+    enabled: false
+    credential_ref: credential://hospes/custom-analytics
+    import_path: null

@@ -1,0 +1,5 @@
+version: 1
+show_id: client-x
+principle: client_approved_specificity
+persona: Client-defined; no public copy is authoritative before attributable review.
+banned_phrases: [huge fans, incredible journey, groundbreaking, world-class]

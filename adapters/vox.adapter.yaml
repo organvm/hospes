@@ -1,0 +1,26 @@
+system: vox
+claimed_by: [github_scan]
+repo: organvm/vox
+verified: true
+verified_how: >
+  gh repo view organvm/vox (PRIVATE, pushedAt 2026-07-13). DISTINCT repo from
+  vox--architectura-gubernatio (see reconciliation table): the scan's "vox" is the shared
+  voice CORE (clone/synth/transcribe over ElevenLabs/Coqui/edge-tts + Whisper, FastAPI);
+  the audit's "Vox" refers to the GOVERNANCE engine vox--architectura-gubernatio. Both exist.
+disposition: preserve-rnd
+capability: >
+  Shared voice core: voice clone, synthesis, transcription, reading-style presets, FastAPI.
+  Media-adjacent runtime for intro/outro synth and Whisper transcription.
+seam:
+  consumes: [recording.completed]
+  emits: [transcript.ready]
+  interface: >
+    Optional service adapter for transcription/synth — keyless HOSPES v0 does NOT call it at
+    runtime (no paid APIs, no network); it is a later, opt-in R&D dependency.
+first_integration_step: >
+  Note vox as the transcription/synth backend option in spec/; keep it OUT of the v0 keyless
+  runtime path (ElevenLabs/Whisper imply network + paid APIs).
+caveats: >
+  Named "vox" in the scan vs "Vox / vox--architectura-gubernatio" in the audit — these are
+  two different repos; do not conflate. Runtime voice synth needs network/paid APIs, so it
+  cannot be in the $0/keyless v0 loop.

@@ -1,0 +1,743 @@
+{
+  "version": 1,
+  "note": "Single source of truth for demo personas, capability glossary, element tooltips, and guided-tour beats. Python reads personas; the browser reads all of it; scripts/check_guide_registry.py holds it in parity with capabilities.mjs and the dashboard markup.",
+  "depths": {
+    "pitch": "Why this matters commercially. Assumes no product knowledge.",
+    "tutorial": "What this is, in plain language, for a first-time viewer.",
+    "practitioner": "How to actually operate it during a show week.",
+    "expert": "Design intent, invariants, and the boundary being enforced."
+  },
+  "personas": {
+    "owner": {
+      "label": "Producer — owner",
+      "actor": "demo_owner",
+      "role": "relationship_owner",
+      "depth": "expert",
+      "headline": "Full authority. Every gate, every receipt, every boundary.",
+      "opening": "You hold relationship_owner. That is the only role that can protect a C4 figure or start a Pilot run, and the tour calls out each place the authority is load-bearing."
+    },
+    "ari": {
+      "label": "Host — co-host",
+      "actor": "demo_cohost",
+      "role": "relationship_owner",
+      "depth": "practitioner",
+      "headline": "The decision queue is yours. Everything else is context.",
+      "opening": "This is the show-week view: a queue of candidates waiting on a human, the prerequisites behind each one, and the evidence trail your decisions leave. Nothing here sends anything to anyone."
+    },
+    "investor": {
+      "label": "Investor",
+      "actor": "demo_investor",
+      "role": "relationship_owner",
+      "depth": "pitch",
+      "headline": "A guest-operations OS whose core asset is the refusal to automate judgment.",
+      "opening": "Booking software automates outreach. HOSPES deliberately does not: it prepares every decision to the last inch and then stops at a human. The tour shows where it stops, and why that boundary is the product."
+    },
+    "newcomer": {
+      "label": "First-time viewer",
+      "actor": "demo_visitor",
+      "role": "relationship_owner",
+      "depth": "tutorial",
+      "headline": "A guided walk through a podcast booking desk that never sends anything.",
+      "opening": "A podcast has to find guests, decide who to invite, prepare the invitation, and keep a record. This screen is that desk. Everything you see is invented test data, and no message can leave this machine."
+    }
+  },
+  "capabilities": {
+    "writable": {
+      "label": "Writable session",
+      "what": "This database accepts changes.",
+      "why": "The completed 14/14 specimen is opened read-only so a finished lifecycle can be inspected without being altered.",
+      "requires": "A review-scenario database rather than the completed one."
+    },
+    "completed": {
+      "label": "Completed specimen",
+      "what": "This is the finished, read-only 14/14 lifecycle.",
+      "why": "Showing a completed run beside a live one proves the pipeline terminates, not just that it starts.",
+      "requires": "The ari_demo_complete tenant."
+    },
+    "canDecideCandidates": {
+      "label": "Decide candidates",
+      "what": "Approve or reject a proposed guest.",
+      "why": "The core human gate. HOSPES ranks and prepares; a person chooses. No model, rule, or schedule can make this call.",
+      "requires": "host, editorial_owner, or relationship_owner"
+    },
+    "canProtect": {
+      "label": "Protect a relationship",
+      "what": "Mark a figure as off-limits to outreach.",
+      "why": "A C4 figure is someone whose relationship is worth more than any single booking. Protecting removes approve and reject entirely — the system cannot be talked into asking.",
+      "requires": "relationship_owner"
+    },
+    "canDraft": {
+      "label": "Preview a draft",
+      "what": "Render an invitation for human reading.",
+      "why": "Drafting is separated from sending by design. The preview is transient and the copy control stays disabled until a human records a review.",
+      "requires": "producer, editorial_owner, or relationship_owner"
+    },
+    "canViewContacts": {
+      "label": "View the private roster",
+      "what": "See encrypted contact routes for a candidate.",
+      "why": "Contact data is the most sensitive field in the system. It is encrypted at rest and revealed only to an authorized operator, never embedded in a draft.",
+      "requires": "host, producer, editorial_owner, or relationship_owner — plus an APPROVED, non-C4/C5 candidate before the panel opens"
+    },
+    "canViewTouchpoints": {
+      "label": "View touchpoints",
+      "what": "Read the informal contact history for a guest.",
+      "why": "Bookings are won in hallways and group chats. Recording that context prevents a cold, redundant, or duplicated approach.",
+      "requires": "An operator role plus a configured private-field custody key."
+    },
+    "canLogTouchpoint": {
+      "label": "Log a touchpoint",
+      "what": "Record an informal conversation as encrypted evidence.",
+      "why": "Informational only. A touchpoint can never advance workflow state — it is memory, not authority.",
+      "requires": "An operator role plus a configured private-field custody key."
+    },
+    "canSendPortalLink": {
+      "label": "Send a guest portal link",
+      "what": "Mint a one-time link that lets a booked guest fill in their own care profile, consent, and three preferred dates.",
+      "why": "Guest coordination is otherwise manual email back and forth. The link carries its token in the URL fragment, is exchanged once for a short session, and is carried to the guest by a human — HOSPES never sends it.",
+      "requires": "producer, editorial_owner, or relationship_owner, on a show whose guest_interaction mode is portal, with the portal secret, base url, and private-field custody all configured"
+    },
+    "canViewClearances": {
+      "label": "See the rights clearance gate",
+      "what": "Read every music, clip, IP, footage, and likeness clearance for the show, with its status and evidence custody.",
+      "why": "Publication is denied while any rights item is pending or denied, so the gate has to be visible before the episode is scheduled.",
+      "requires": "An operator or network role in the show's scope."
+    },
+    "canManageClearances": {
+      "label": "Record and decide clearances",
+      "what": "Add a rights item and move it to cleared, denied, or back to pending against an opaque evidence reference.",
+      "why": "Every decision writes an immutable receipt naming the operator and the evidence, so a clearance can never change status silently.",
+      "requires": "A producer, editorial owner, or relationship owner role in a writable session."
+    },
+    "canRecordEvidence": {
+      "label": "Record evidence",
+      "what": "File a typed operational receipt for something that happened elsewhere.",
+      "why": "HOSPES never performs outreach, booking, or signing. It records that a human did, with an opaque external reference and no private payload.",
+      "requires": "producer, editorial_owner, or relationship_owner"
+    },
+    "canManageRegister": {
+      "label": "Manage the register",
+      "what": "Create and supersede versioned partnership items.",
+      "why": "The register is append-only truth about the partnership, including explicitly named unknowns. Nothing is edited in place.",
+      "requires": "producer, editorial_owner, or relationship_owner"
+    },
+    "canReviewPartnership": {
+      "label": "Record a bounded review",
+      "what": "File a review receipt with counts and coverage.",
+      "why": "A review stores decision counts and coverage, never the discussion itself. The conversation belongs to the people who had it.",
+      "requires": "producer, editorial_owner, or relationship_owner"
+    },
+    "canRequestPilotPlan": {
+      "label": "Request a plan",
+      "what": "Ask the planner to rank the next action.",
+      "why": "The planner proposes an ordering with alternatives, timing, constraints, and stated risk. It never executes.",
+      "requires": "Any role except host."
+    },
+    "canStartPilot": {
+      "label": "Start a Pilot run",
+      "what": "Open a revisioned execution run.",
+      "why": "A run cannot start until the first four readiness gates are genuinely green, so the plan is always anchored to real prerequisites.",
+      "requires": "relationship_owner"
+    },
+    "canMultiActivate": {
+      "label": "Activate a set",
+      "what": "Approve a ranked action covering more than one assignment.",
+      "why": "Activating several people at once carries more social risk than a single approach, so it is restricted to the person who owns the relationships.",
+      "requires": "relationship_owner"
+    },
+    "canPause": {
+      "label": "Pause the run",
+      "what": "Halt execution against the current revision.",
+      "why": "Stopping must be exactly as available as starting. A pause is a first-class decision with its own receipt.",
+      "requires": "relationship_owner"
+    },
+    "canPromote": {
+      "label": "Promote a backup",
+      "what": "Move an ordered backup into the primary slot.",
+      "why": "Guests fall through constantly. The backup order is decided in advance and calmly, not improvised the week of.",
+      "requires": "relationship_owner"
+    },
+    "canFallback": {
+      "label": "Fall back to rehearsal",
+      "what": "Substitute a technical rehearsal for the guest recording.",
+      "why": "A rehearsal is preserved separately and can never satisfy the guest-pilot gate. The fallback keeps the week productive without faking the milestone.",
+      "requires": "relationship_owner"
+    },
+    "canExport": {
+      "label": "Export decisions",
+      "what": "Emit the decision set for external use.",
+      "why": "Nothing is locked in. The record leaves in an inspectable form.",
+      "requires": "A writable session."
+    },
+    "canViewRevenue": {
+      "label": "View revenue",
+      "what": "Read the sponsor inventory, per-episode revenue, and the publication gate.",
+      "why": "A booking desk that cannot say what an episode earned forces the money to live in a spreadsheet nobody reconciles.",
+      "requires": "Any operator role in the active show, including a read-only host or network operator."
+    },
+    "canManageSponsors": {
+      "label": "Manage sponsors",
+      "what": "Register sponsors, declare an episode's ad slots, and record which slots are sold or reserved.",
+      "why": "Sold versus available has to be a record, not a memory, before anyone can promise the same slot twice.",
+      "requires": "A producer, editorial owner, or relationship owner on a writable specimen."
+    },
+    "canApproveSponsorClaims": {
+      "label": "Approve sponsor claims",
+      "what": "Approve a cited sponsor claim for external use, or withdraw that approval.",
+      "why": "An unverified sponsor claim read on air is the show's liability, not the advertiser's, so approval is editorial, deliberate, and attributable.",
+      "requires": "An editorial owner or relationship owner on a writable specimen."
+    },
+    "canViewGuestHistory": {
+      "label": "Read guest history",
+      "what": "See every prior season this show recorded for one guest identity.",
+      "why": "Re-asking someone who already declined is the most expensive avoidable mistake a booker makes. Memory is what prevents it.",
+      "requires": "A host, producer, editorial-owner, or relationship-owner session."
+    },
+    "canSetDoNotContact": {
+      "label": "Set do not contact",
+      "what": "Record — or lift — the standing instruction that this guest is never to be approached.",
+      "why": "It is the strongest word the product can say about a person, so it belongs to the one role that owns the relationship. Once set, imports, drafts, and outreach receipts are all refused.",
+      "requires": "A writable relationship-owner session."
+    },
+    "canViewAnalytics": {
+      "label": "Read show analytics",
+      "what": "See the provider-reported downloads, retention, and clip performance for this show.",
+      "why": "The desk needs to know what actually happened after publication, not just what was booked.",
+      "requires": "A host, producer, editorial-owner, or relationship-owner session."
+    },
+    "canExportAnalytics": {
+      "label": "Export analytics CSV",
+      "what": "Emit the stored analytics rows, with their provider receipts, as reporting CSV.",
+      "why": "Reporting leaves the desk in an inspectable form instead of a screenshot.",
+      "requires": "A writable owner session; the completed specimen exposes no export."
+    },
+    "canResearch": {
+      "label": "Run bounded research",
+      "what": "Start one cost-capped query against a named search source and read the cited brief it returns.",
+      "why": "Research is where an assistant is most tempted to invent. Every claim arrives attached to an allowlisted source, the spend is capped before the call is made, and nothing reaches an episode until a human verifies a claim, records a counterargument, approves, and locks it.",
+      "requires": "producer or editorial_owner"
+    },
+    "canViewPublishing": {
+      "label": "View publishing",
+      "what": "Read the publish board: every RSS, video, and clip package per episode, its state, and its delivery evidence.",
+      "why": "\"Did episode 12 actually go out, and where?\" is the question a show answers from memory until someone writes it down.",
+      "requires": "Any operator role in the active show, including a read-only host or network operator."
+    },
+    "canManagePublishing": {
+      "label": "Manage publishing",
+      "what": "Draft RSS and video packages, queue short-form clips, schedule an authorized publication, and record a failed delivery attempt.",
+      "why": "The package has to be prepared somewhere; preparing it here is what makes the rights and sponsor gates unavoidable.",
+      "requires": "A producer, editorial owner, or relationship owner on a writable specimen."
+    },
+    "canAuthorizePublication": {
+      "label": "Authorize a publication",
+      "what": "Record the human authorization receipt a publication needs, and mark a package published against its external identifier.",
+      "why": "Nothing leaves HOSPES on its own. A named human authorizes, and the external id they record can never be rewritten.",
+      "requires": "An editorial owner or relationship owner on a writable specimen."
+    },
+    "canViewNetwork": {
+      "label": "Read the network portfolio",
+      "what": "See every active show in the tenant at once: pipeline health, booking velocity, sponsor revenue, and the guests two shows share.",
+      "why": "A network operator runs a portfolio, not a show. Without one cross-show read the only way to answer 'how is the network doing' is to open each cockpit in turn and add the numbers by hand.",
+      "requires": "A network-operator session. No other role reads it, including one that operates a show inside the network."
+    },
+    "canExportNetworkReport": {
+      "label": "Export the network health report",
+      "what": "Render the whole portfolio — totals, per-show rows, and the guest-overlap matrix — as a PDF, HTML, or JSON document.",
+      "why": "The portfolio review leaves the room as a document. Every export writes an attributable receipt carrying the checksum of the exact file handed over, so the copy in someone's inbox is still traceable.",
+      "requires": "A writable network-operator session; the completed specimen exposes no export."
+    }
+  },
+  "elements": {
+    "synthetic-marker": {
+      "title": "Synthetic demo mode",
+      "body": "Every figure, route, and receipt on this screen is invented. The mode chip in the header stays on every cockpit surface, and the recorder refuses to film without it.",
+      "pitch": "The demo cannot be mistaken for production. That is enforced, not promised."
+    },
+    "context-grid": {
+      "title": "Operator identity",
+      "body": "Actor, role, tenant, and database are owned by the server. The browser cannot claim a different identity — every Authorization and X-Hospes header a page sends is stripped."
+    },
+    "context-role": {
+      "title": "Your role",
+      "body": "Role decides what you may do. The capability list beside it is computed from this value, so a control you cannot use is not merely disabled — it is absent."
+    },
+    "counters-coverage": {
+      "title": "Domain coverage",
+      "body": "How many partnership domains have any recorded truth at all. Unknowns are counted openly rather than left blank.",
+      "pitch": "Most operations tools hide what they do not know. This one counts it."
+    },
+    "agenda": {
+      "title": "12-minute agenda",
+      "body": "Decisions required, overdue obligations, blockers, risks, and unknowns — ordered so a short standup starts with what needs a human.",
+      "pitch": "The meeting agenda is generated from live state, so the conversation starts at the decisions instead of arriving at them."
+    },
+    "capabilities-panel": {
+      "title": "Engine capabilities",
+      "body": "Computed live from your role and the configured key material. Hover any entry to see what it does, why the boundary exists, and what it requires."
+    },
+    "audit-timeline": {
+      "title": "Attributable events",
+      "body": "Append-only. Every decision carries who made it and when. Nothing here can be edited or removed."
+    },
+    "feature-to-surface": {
+      "title": "Feature-to-surface map",
+      "body": "Overview: live context, domain coverage, attributable events, and capability status.\nWorkbench: candidate slate, pilot execution planner, decision capture, touchpoint timeline, and draft/receipt pathways.\nOperations: sponsor inventory, publication blockers, slot economics, and sponsor claims.\nIntelligence: analytics, relationship tracing, cross-show portfolio metrics, and export receipts."
+    },
+    "view-tabs": {
+      "title": "Four domains",
+      "body": "Overview is the standup and context surface. Workbench is where partner decisions are made. Operations holds sponsor and gate state. Intelligence is for analytics and cross-show portfolio checks. Publish, Register, Queue, and Analytics remain available in the shell as hidden legacy tabs."
+    },
+    "show-select": {
+      "title": "Active show",
+      "body": "One installation runs several shows. Flagship, field, and tenant shows each carry their own DNA, policy, and data scope."
+    },
+    "brand-mark": {
+      "title": "Show brand",
+      "body": "The logo, favicon, palette, and typeface come from the active show's brand file. White-labelling a client show is a YAML edit and a restart, never a code change."
+    },
+    "presentation-mode": {
+      "title": "Presentation mode",
+      "body": "Enlarges type and hides sensitive identifiers so the cockpit can be shown on a shared screen."
+    },
+    "readiness-matrix": {
+      "title": "14 readiness gates",
+      "body": "Every prerequisite for the pilot, each either genuinely met or visibly not. The score is derived from the database, never asserted.",
+      "pitch": "A single honest number for whether the week can actually happen."
+    },
+    "candidate-slate": {
+      "title": "Candidate slate",
+      "body": "One primary and two ordered backups. Deciding the fallback order before it is needed is the difference between a calm week and a scramble."
+    },
+    "planner": {
+      "title": "Execution planner",
+      "body": "Proposes a ranked action with alternatives, timing, constraints, rationale, and stated risk. It recommends; it never acts.",
+      "pitch": "This is where a competitor would put automation. The ranked action stops at a button a person has to press."
+    },
+    "planner-decisions": {
+      "title": "Explicit decisions",
+      "body": "Each control is a click against the current revision. If the plan changes underneath you, the revision changes and a stale approval cannot land."
+    },
+    "workbench-opportunity": {
+      "title": "Active candidate",
+      "body": "Selects which candidate the action console below operates on."
+    },
+    "btn-log-touchpoint": {
+      "title": "Log a chat",
+      "body": "Records an informal conversation — a hallway, a group chat, a call — as an encrypted note. Informational only: it cannot move workflow state."
+    },
+    "contact-roster": {
+      "title": "Private contact roster",
+      "body": "Encrypted contact routes, visible only to an authorized operator with a configured custody key — and only after the guest has been approved. Never for a protected C4 or C5 figure. A verified route can prefill an invitation without ever being persisted into the draft."
+    },
+    "draft-console": {
+      "title": "Invitation review",
+      "body": "Preview renders a draft for reading. Copy stays disabled until a human records a review. There is no send control anywhere in this product.",
+      "pitch": "The missing button is the point. No endpoint exists that could deliver this message."
+    },
+    "receipt-form": {
+      "title": "Operational receipt",
+      "body": "Records that something happened outside the system — an email a human sent, a booking a human made — as a typed receipt with an opaque reference and no private payload."
+    },
+    "guest-touchpoints": {
+      "title": "Touchpoint timeline",
+      "body": "The informal contact history for this guest, decrypted for display only. Context that prevents a cold or duplicated approach."
+    },
+    "clearance-tab": {
+      "title": "Clearance",
+      "body": "The rights checklist for every episode in this show: what is pending, what is cleared, what was denied, and which episodes are therefore blocked from publishing.",
+      "capability": "canViewClearances"
+    },
+    "guest-register": {
+      "title": "Guest history",
+      "body": "Cross-season memory for one guest: season, episode, outcome, and date, newest first. This is the record that makes the approval card's “Previously…” badge true.",
+      "capability": "canViewGuestHistory"
+    },
+    "relationship-map": {
+      "title": "Relationship paths",
+      "body": "Traces how you might reach a target through people you already know, to a chosen depth. Private labels stay redacted in the output.",
+      "pitch": "Warm-intro routing over an archive the show already owns."
+    },
+    "approval-queue": {
+      "title": "Decision queue",
+      "body": "The candidates waiting on a person, with live counts by outcome. This queue is the product's centre of gravity."
+    },
+    "card-actions": {
+      "title": "The human gate",
+      "body": "Approve, reject, or protect. Protecting removes approve and reject from the card entirely rather than disabling them — the system offers no way to ask.",
+      "pitch": "Protect a card and two of the three actions do not grey out, they disappear. The software cannot be persuaded."
+    },
+    "register-view": {
+      "title": "Partnership register",
+      "body": "Searchable current state with immutable history. Items are superseded, never edited, and missing domains are named explicitly."
+    },
+    "demo-fallback": {
+      "title": "CSV fallback",
+      "body": "An in-memory pipeline for a laptop with no database. Rows vanish on reload and are clearly marked as non-authoritative."
+    },
+    "revenue-view": {
+      "title": "Revenue",
+      "body": "Sold and available ad slots per episode, what the episode earned, and every sponsor reason it cannot publish yet.",
+      "capability": "canViewRevenue"
+    },
+    "btn-add-sponsor": {
+      "title": "Add sponsor",
+      "body": "Registers a brand with opaque contact and terms references. The real contact details and the signed deal stay with their external owner.",
+      "capability": "canManageSponsors"
+    },
+    "revenue-table": {
+      "title": "Episode revenue",
+      "body": "One row per episode, then one row per sponsor holding a slot on it: slots sold over slots held, and the money only the sold ones recognize.",
+      "capability": "canViewRevenue"
+    },
+    "btn-export-revenue": {
+      "title": "Accounting export",
+      "body": "Downloads the sold slots as Episode, Sponsor, Slot, Rate, Date — the five columns a bookkeeper imports without editing.",
+      "capability": "canViewRevenue"
+    },
+    "revenue-gate": {
+      "title": "Publication gate",
+      "body": "A committed slot left unsold, or a sponsor claim nobody approved, holds the episode. Both rules are configurable per show.",
+      "capability": "canViewRevenue"
+    },
+    "sponsor-claims": {
+      "title": "Claims governance",
+      "body": "Every factual sponsor claim carries its public source and verification date, and stays unapproved until an editorial owner approves it.",
+      "capability": "canApproveSponsorClaims"
+    },
+    "slot-inventory": {
+      "title": "Slot inventory",
+      "body": "Every declared slot with its rate, whether it is sold, reserved, or still available, and who holds it. Releasing a slot returns it to available and leaves a receipt.",
+      "capability": "canManageSponsors"
+    },
+    "notification-bell": {
+      "title": "Notification bell",
+      "body": "Every lifecycle transition that creates work for another role lands here: an approved candidate notifies the producer, a prepared brief notifies the host, a completed recording notifies the editor. The badge counts only notifications addressed to the signed-in role, and only that role can mark them read.",
+      "pitch": "Coordination stops living in someone's head. The system tells the right person the moment the work exists, and it can prove who saw it."
+    },
+    "my-queue": {
+      "title": "My Queue",
+      "body": "The tasks the same transitions assigned to your role, sorted by due date, with overdue items marked. Completing a task records who closed it. Nothing in this view sends, books, publishes, or advances a candidate.",
+      "pitch": "A production team gets one shared, per-role worklist instead of a group chat where tasks fall through."
+    },
+    "analytics-tab": {
+      "title": "Analytics view",
+      "body": "Opens the read-only analytics surface: provider-attributed episode metrics, a trend across recent episodes, and the receipts behind each read.",
+      "capability": "canViewAnalytics"
+    },
+    "analytics-view": {
+      "title": "Provider metrics and trends",
+      "body": "Analytics observes distribution; it never performs it. Metrics arrive from an operator import, a bounded provider fetch, or a scheduled read job, and each one names the provider receipt that authorized it.",
+      "capability": "canViewAnalytics"
+    },
+    "analytics-trends": {
+      "title": "Episode trend",
+      "body": "Downloads across the selected window of reported episodes, oldest to newest. Counters are summed across the providers that reported an episode and ratios are averaged."
+    },
+    "analytics-export": {
+      "title": "Export reporting CSV",
+      "body": "Downloads the stored analytics rows with their canonical metric columns and source receipt references. Non-numeric cells are neutralized so a spreadsheet cannot evaluate them as formulas.",
+      "capability": "canExportAnalytics"
+    },
+    "analytics-receipts": {
+      "title": "Provider receipts",
+      "body": "Every analytics read verifies its providers first and records the result. A provider whose credential wall is unprovisioned stays visibly blocked here rather than being silently substituted."
+    },
+    "research-console": {
+      "title": "Bounded research",
+      "body": "Brave, SerpAPI, SearXNG, and the allowlisted crawler all answer here. Sources outside the operator allowlist are not quietly dropped: they are counted as risk flags so you can see what was refused.",
+      "capability": "canResearch",
+      "pitch": "The cost is priced before the call, the sources are decided before the search, and the reviewed brief is frozen against its own checksum."
+    },
+    "publish-view": {
+      "title": "Publish",
+      "body": "Per episode, per platform. The card says what is drafted, whether a human authorized it, when it is scheduled, and what the platform gave back.",
+      "capability": "canViewPublishing",
+      "pitch": "One screen answers where every episode went and what is still stuck."
+    },
+    "publish-cards": {
+      "title": "Episode and platform cards",
+      "body": "One card per package. Its state is draft, blocked, authorized, scheduled, published, or failed — and a failed card keeps its attempt count rather than pretending the first try never happened.",
+      "capability": "canViewPublishing"
+    },
+    "publish-gate": {
+      "title": "Publication gate",
+      "body": "The same predicate the Revenue view enforces: an uncleared rights item or an unfilled committed sponsor slot blocks the episode, and the reason is named.",
+      "capability": "canViewPublishing"
+    },
+    "publish-adapters": {
+      "title": "Distribution adapters",
+      "body": "Which adapter would carry each platform, and why one is unconfigured. A missing credential is a visible state here, never a silent substitution.",
+      "capability": "canViewPublishing"
+    },
+    "publish-preview": {
+      "title": "Package preview",
+      "body": "The exact artifact a platform receives: a parseable RSS item, a video metadata document with timestamped chapters, or a clip card. Rendering it reads nothing and writes nothing.",
+      "capability": "canViewPublishing"
+    },
+    "btn-publish-refresh": {
+      "title": "Refresh publish board",
+      "body": "Re-reads the packages, the gate, and the adapter states for the active show and episode filter.",
+      "capability": "canViewPublishing"
+    },
+    "rss-form": {
+      "title": "Generate the RSS item",
+      "body": "Title, description, audio reference, duration, and chapters become one feed item. Generating renders it and drafts the job; it publishes nothing.",
+      "capability": "canManagePublishing"
+    },
+    "youtube-form": {
+      "title": "Video metadata",
+      "body": "Title, description, tags, playlist, thumbnail reference, and chapters. Tags stay inside the platform's character budget and the thumbnail stays with its external owner.",
+      "capability": "canManagePublishing"
+    },
+    "clip-form": {
+      "title": "Clip queue",
+      "body": "A start and end second on the episode timeline, a short-form destination, an opaque caption reference, and hashtags. Uploading the clip stays a human action.",
+      "capability": "canManagePublishing"
+    },
+    "network-tab": {
+      "title": "Network view",
+      "body": "The portfolio tab. It is present only for a network operator; every other role sees the cockpit without it, and the routes behind it refuse the read regardless.",
+      "capability": "canViewNetwork"
+    },
+    "network-view": {
+      "title": "Portfolio across every active show",
+      "body": "The one surface that reads across shows. Scope comes from the authenticated identity's tenant — never a path or a payload — so a second network's shows, guests, and revenue are unreachable from here.",
+      "capability": "canViewNetwork"
+    },
+    "network-portfolio": {
+      "title": "Shows",
+      "body": "One row per active show: candidates, how many reached approval and booking, bookings per week over the trailing window, sponsor revenue, and outstanding rights clearances. Opening a row switches the cockpit into that show's own dashboard."
+    },
+    "network-overlap": {
+      "title": "Guest overlap",
+      "body": "Guests with a candidate record on more than one show in the network. Two shows chasing the same person is a booking collision worth seeing before the invitation goes out, not after."
+    },
+    "network-export": {
+      "title": "Export the health report",
+      "body": "Renders the portfolio as PDF, HTML, or JSON. PDF needs the declared optional extra; without it the export reports the missing extra rather than returning a broken file.",
+      "capability": "canExportNetworkReport"
+    },
+    "network-receipts": {
+      "title": "Health report receipts",
+      "body": "Every export appends an attributable row: actor, role, format, and the SHA-256 of the exact document handed over. Which report left the cockpit is answerable without the file."
+    }
+  },
+  "beats": [
+    {
+      "id": "opening",
+      "view": "overview",
+      "target": "#page-title",
+      "title": "A booking desk that will not send",
+      "narration": {
+        "pitch": "HOSPES is guest operations for a podcast: find people, decide who to invite, prepare the ask, keep the record. Its defining property is what it refuses to do — there is no send endpoint in the product.",
+        "tutorial": "This is the main screen of a podcast booking desk. Everything on it is invented test data. Take the tour at your own pace with the arrows, or press play to let it run.",
+        "practitioner": "Show-week view. Overview is your standup, Workbench is the desk, Register is the record.",
+        "expert": "Composition boundary over the existing organs. The invariant under everything here: HOSPES drafts, humans decide and send."
+      }
+    },
+    {
+      "id": "synthetic",
+      "view": "overview",
+      "target": "[data-guide=\"synthetic-marker\"]",
+      "title": "Nothing here is real",
+      "narration": {
+        "pitch": "Every name and receipt is fictional, and the chip is enforced rather than promised — the recorder refuses to film a surface that does not display it.",
+        "tutorial": "This chip means every person and message you are about to see was made up for the demo. No real person is involved.",
+        "practitioner": "Marked bundle, resettable, non-authoritative. It never opens the real Pilot database.",
+        "expert": "Marker-v2 metadata plus a build receipt with generation cohesion and checksums. The canonical path is never a valid target."
+      }
+    },
+    {
+      "id": "identity",
+      "view": "overview",
+      "target": ".context-grid",
+      "title": "The server owns who you are",
+      "narration": {
+        "pitch": "Identity is not a client claim. The browser cannot assert a role it was not granted.",
+        "tutorial": "Your name, your role, and which database you are looking at. The screen cannot change these — only the program that started it can.",
+        "practitioner": "Actor, role, tenant, database, and the last verified migration.",
+        "expert": "Browser-supplied Authorization and X-Hospes-* headers are stripped at the boundary; identity is server-owned and the session cookie is SameSite-strict."
+      }
+    },
+    {
+      "id": "capabilities",
+      "view": "overview",
+      "target": "#capabilities",
+      "title": "Capabilities are computed, not configured",
+      "narration": {
+        "pitch": "Permissions here are derived from role and key material at render time, so the interface cannot show an action the backend would refuse.",
+        "tutorial": "This list shows what you are allowed to do. Hover any line to read what it means and why the limit exists.",
+        "practitioner": "If a control is missing, look here first — it is role or custody, not a bug.",
+        "expert": "One pure function of context. The tooltip glossary is held in parity with it by a predicate, so a new capability cannot ship unexplained."
+      }
+    },
+    {
+      "id": "agenda",
+      "view": "overview",
+      "target": "#agenda",
+      "title": "The standup starts at the decisions",
+      "narration": {
+        "pitch": "Decisions, overdue obligations, blockers, risks, and unknowns — generated from live state so a twelve-minute meeting begins where it should.",
+        "tutorial": "A ready-made meeting agenda, ordered so the things needing a person come first.",
+        "practitioner": "Work top to bottom. Unknowns are counted, not hidden.",
+        "expert": "Derived from the command-center projection; unknown is a first-class state rather than a null."
+      }
+    },
+    {
+      "id": "readiness",
+      "view": "workbench",
+      "target": ".readiness-shell",
+      "title": "Fourteen gates, honestly scored",
+      "narration": {
+        "pitch": "One number for whether the week can actually happen, derived from the database rather than asserted by anyone.",
+        "tutorial": "Fourteen things must be true before a recording can go ahead. This shows how many really are.",
+        "practitioner": "The planner will not open a run until the first four are green.",
+        "expert": "Every gate is a predicate over committed state. Nothing is marked met by hand."
+      }
+    },
+    {
+      "id": "slate",
+      "view": "workbench",
+      "target": "#candidate-slate",
+      "title": "One primary, two ordered backups",
+      "narration": {
+        "pitch": "Fallbacks are decided in advance, which is what turns a guest dropping out from a crisis into a substitution.",
+        "tutorial": "The chosen guest, plus two backups already ranked in case the first cannot make it.",
+        "practitioner": "Set positions early. Promotion later is one click against the current revision.",
+        "expert": "Slot assignment is a receipted decision, not a UI ordering."
+      }
+    },
+    {
+      "id": "gate",
+      "view": "workbench",
+      "target": "#cards",
+      "title": "The gate that cannot be automated",
+      "narration": {
+        "pitch": "Here is the whole thesis. Every candidate stops at a person — approve, reject, or protect. Press Protect on any card and approve and reject do not grey out, they disappear. A protected figure is someone whose relationship outranks any booking, and the software then offers no way to ask.",
+        "tutorial": "Each card is a possible guest, and you decide: approve, reject, or protect. Protect means never contact this person about the show. Try it on one — the approve and reject buttons vanish from that card entirely.",
+        "practitioner": "Your queue. Protect is the one that matters: it is permanent authority over the relationship, not a filter. Protect a card and watch its other two actions leave the DOM.",
+        "expert": "canProtect is relationship_owner alone. Protection removes the decision affordances rather than disabling them, so no client-side state can resurrect them. Exercise it here — the specimen is resettable."
+      }
+    },
+    {
+      "id": "roster",
+      "view": "workbench",
+      "target": "#contact-roster-panel",
+      "title": "Contact routes unlock only after a decision",
+      "narration": {
+        "pitch": "The private route is not merely encrypted, it is unreachable until someone has approved the guest — and it never unlocks for a protected C4 or C5 figure at all. Access follows the decision; it does not precede it.",
+        "tutorial": "Someone's email or phone, kept locked. It stays hidden until you approve that guest — you have to decide to invite them before you can see how to reach them. For a protected person it never unlocks.",
+        "practitioner": "Approve first, then the draft console and its roster open. Pick a verified route to prefill; the value never lands in the draft body.",
+        "expert": "The console is gated on canDraft AND disposition APPROVED AND a draftable status AND relationship_class outside C4/C5. Private-field custody gates the panel itself, so without a master key it is absent rather than empty."
+      }
+    },
+    {
+      "id": "draft",
+      "view": "workbench",
+      "target": "#draft-console",
+      "title": "Preview, review, and then stop",
+      "narration": {
+        "pitch": "The invitation is prepared to the last inch and then the product stops. There is no send control here or anywhere — not disabled, absent.",
+        "tutorial": "You can write and read the invitation, but nothing can mail it. A human has to copy it out and send it themselves.",
+        "practitioner": "Preview, record the review, then copy. Copy stays disabled until the review is persisted.",
+        "expert": "Draft preview is transient; only reviewed metadata is persisted. No send endpoint exists in the API surface."
+      }
+    },
+    {
+      "id": "touchpoints",
+      "view": "workbench",
+      "target": "#guest-touchpoint-panel",
+      "title": "The context that wins bookings",
+      "narration": {
+        "pitch": "Guests are won in hallways and group chats. Recording that informal history prevents the cold, redundant approach that loses them.",
+        "tutorial": "A list of casual conversations with this person, so nobody approaches them twice or forgets what was said.",
+        "practitioner": "Log chats as they happen. Encrypted, informational, cannot move state.",
+        "expert": "Notes are encrypted at rest and the receipt is explicitly non-authoritative over workflow."
+      }
+    },
+    {
+      "id": "network",
+      "view": "workbench",
+      "target": "#relationship-map-panel",
+      "title": "Who can introduce you",
+      "narration": {
+        "pitch": "Warm-intro routing across an archive the show already owns, to a chosen depth, with private labels redacted.",
+        "tutorial": "Type a name and it shows who you already know that could introduce you.",
+        "practitioner": "Depth 2 is usually the useful setting.",
+        "expert": "Scoped over the archive plus manual evidence edges; private labels never leave redaction."
+      }
+    },
+    {
+      "id": "audit",
+      "view": "overview",
+      "target": "#audit-timeline",
+      "title": "Append-only, attributable",
+      "narration": {
+        "pitch": "Every decision carries who made it and when, and nothing can be edited or removed. The record is the asset.",
+        "tutorial": "A permanent history of everything anyone did here.",
+        "practitioner": "Your receipts land here immediately.",
+        "expert": "Append-only with actor attribution; supersede rather than edit is the register's only mutation shape."
+      }
+    },
+    {
+      "id": "revenue",
+      "view": "revenue",
+      "target": "#revenue-table",
+      "title": "What the episode earned",
+      "narration": {
+        "pitch": "The same desk that books the guest tracks the ad inventory: sold versus available per episode, revenue per sponsor, and a CSV an accountant imports unedited.",
+        "tutorial": "This table is the money side. Each episode lists its sponsors, how many of their slots are sold, and what that adds up to.",
+        "practitioner": "Declare the episode's slots once, mark a slot sold when the deal closes, and export the CSV at month end. A committed slot left unsold shows up as a publication blocker before the episode ships.",
+        "expert": "Inventory is a first-class row, so available is representable instead of inferred. Revenue recognizes only sold assignments, and the committed-slot and approved-claim gates are per-show configuration feeding the same publish_blockers predicate rights clearance uses."
+      }
+    },
+    {
+      "id": "publish-board",
+      "view": "publish",
+      "target": "#publish-cards",
+      "title": "Where the episode actually went",
+      "narration": {
+        "pitch": "Distribution is where podcast operations quietly lose money: a clip never cut, a feed item never checked, an upload nobody can prove happened. This board is the receipt.",
+        "tutorial": "Each card is one episode on one platform. Prepare the package here, publish it wherever you normally do, then record the link it came back with.",
+        "practitioner": "Draft the RSS item and the video metadata, queue the clips, authorize once, then mark each platform published as you finish it. A failed upload gets recorded, not retried in silence.",
+        "expert": "Authorization precedes scheduling, both gates re-run at mark-published, and every attempt appends an immutable delivery receipt foreign-keyed to that authorization."
+      }
+    },
+    {
+      "id": "closing",
+      "view": "overview",
+      "target": "#page-title",
+      "title": "Drafts, decisions, and receipts",
+      "narration": {
+        "pitch": "Everything up to the decision is prepared. The decision itself, and the sending, stay human. That boundary is what a guest-relationship business is actually worth defending.",
+        "tutorial": "That is the whole tour: find people, decide, prepare the message, keep the record — and a person always presses the button.",
+        "practitioner": "Overview for the standup, Workbench for the week, Register for the record.",
+        "expert": "Composition over forking, human gates over automation, and a predicate for every claim."
+      }
+    },
+    {
+      "id": "analytics",
+      "view": "analytics",
+      "target": "#analytics-heading",
+      "title": "What happened after the episode shipped",
+      "narration": {
+        "pitch": "Booking without measurement is guesswork. This view carries downloads, retention, and clip performance back to the desk that made the decision — and it names the provider receipt behind every number.",
+        "tutorial": "This is the results screen. It shows how recent episodes performed, and where each number came from. Everything here is invented test data.",
+        "practitioner": "Pull the week's provider exports, read the trend across the last dozen episodes, and export the CSV for the report. Nothing here can change a provider.",
+        "expert": "A read organ. Metrics validate against spec/analytics.schema.json, carry a source_receipt_ref, and scheduled pulls are restricted to the read operation, so measurement can never acquire publish authority."
+      }
+    },
+    {
+      "id": "network-portfolio",
+      "view": "network",
+      "target": "#network-heading",
+      "title": "The whole network on one screen",
+      "narration": {
+        "pitch": "One operator can run five shows only if five shows can be read at once. This is the portfolio view: pipeline, velocity, revenue, and the guests two shows are both chasing — with a drilldown into any one of them.",
+        "tutorial": "This screen shows every show in the network side by side, instead of one show at a time. Click a row to open that show's own dashboard. All of it is invented test data.",
+        "practitioner": "Read the funnel per show, check bookings per week against the trailing month, spot a guest two shows are both pursuing, then export the health report for the review.",
+        "expert": "A network-operator-only projection. The role is the gate and the authenticated tenant is the scope, so no path or payload widens the read; each export writes a receipt carrying the checksum of the document handed over."
+      }
+    }
+  ]
+}

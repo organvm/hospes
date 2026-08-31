@@ -1,0 +1,25 @@
+{
+  "query": {"original": "New Guest founding claims"},
+  "web": {
+    "results": [
+      {
+        "title": "New Guest founded Company X in 2019",
+        "url": "https://techcrunch.com/2020/03/15/new-guest-company-x/",
+        "description": "Synthetic trade report: Company X was founded in 2019 by the synthetic guest.",
+        "page_age": "2020-03-15"
+      },
+      {
+        "title": "New Guest - reference entry",
+        "url": "https://en.wikipedia.org/wiki/New_Guest",
+        "description": "Synthetic encyclopedia entry describing the same founding date.",
+        "page_age": "2024-01-02"
+      },
+      {
+        "title": "Unvetted aggregator repost",
+        "url": "https://aggregator.example.test/new-guest",
+        "description": "Synthetic repost from a source the operator allowlist does not permit.",
+        "page_age": "2025-06-01"
+      }
+    ]
+  }
+}

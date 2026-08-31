@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/studio.schema.json",
+  "title": "Studio",
+  "description": "A physical or virtual recording location. Studios are first-class objects in HOSPES — they drive routing logic (which city, which space, whose equipment), touring-guest interception (batch guests in the same city), and visual grammar specifications. Studios may be host-owned, venue-rented, or remote.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["studio_id", "name", "city"],
+  "properties": {
+    "studio_id": {
+      "type": "string",
+      "description": "Stable UUID or slug for this studio."
+    },
+    "name": {
+      "type": "string",
+      "description": "Common name for this studio (e.g. 'Melrose Studios', 'NYC Satellite', 'Austin Home Setup')."
+    },
+    "city": {
+      "type": "string",
+      "description": "City where this studio is located. Used for routing and touring-guest batching."
+    },
+    "state_or_region": {
+      "type": ["string", "null"],
+      "description": "State or region (for disambiguation in large metro areas)."
+    },
+    "country": {
+      "type": "string",
+      "default": "US",
+      "description": "ISO 3166-1 alpha-2 country code."
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA timezone identifier (e.g. 'America/Los_Angeles'). Used for scheduling logic."
+    },
+    "ownership": {
+      "type": "string",
+      "enum": ["host_owned", "venue_rental", "partner_facility", "remote", "field"],
+      "description": "Whether the show owns, rents, or uses this space. 'field' = Producer's portable field-show setup."
+    },
+    "address_public": {
+      "type": ["string", "null"],
+      "description": "Public-facing address or neighborhood. Do not store precise private addresses inline. Private addresses live in operator-local files."
+    },
+    "technical_profile": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Technical capabilities: microphone rigs, camera setup, acoustic profile, lighting, streaming capability.",
+      "properties": {
+        "audio_setup": { "type": "string" },
+        "video_setup": { "type": "string" },
+        "hidden_mic_capable": {
+          "type": "boolean",
+          "description": "Whether the studio supports concealed microphone placement (per 'no visible microphones' visual grammar rule)."
+        },
+        "max_guests": { "type": "integer" },
+        "streaming_capable": { "type": "boolean" },
+        "remote_capable": { "type": "boolean" }
+      }
+    },
+    "visual_grammar_profile_id": {
+      "type": ["string", "null"],
+      "description": "Reference to the visual language specification used in this studio. Portable Salon Kernel v0–v2 are examples."
+    },
+    "routing_priority": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Priority rank when multiple studios are available for a given city and guest. Lower = preferred."
+    },
+    "availability_notes": {
+      "type": ["string", "null"],
+      "description": "Any standing constraints on availability (e.g. 'Tuesday–Thursday only', 'requires 2-week lead')."
+    },
+    "on_site_contact": {
+      "type": ["string", "null"],
+      "description": "Name of the on-site contact for guests (not a private phone number — that lives in operator-local files)."
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this studio is currently available for booking."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

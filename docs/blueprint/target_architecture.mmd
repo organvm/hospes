@@ -1,0 +1,58 @@
+flowchart LR
+    subgraph PRE["Guest intelligence & relationship"]
+        AP["application-pipeline\nscore + lifecycle"]
+        NG["network_graph.py\nweak-tie paths"]
+        CRM["ContactsService\ncontacts + activities"]
+    end
+
+    subgraph OPS["Guest operations"]
+        MAIL["universal-mail\ntriage + approvals"]
+        CAL["scheduling adapter\nreal calendar + studios"]
+        PORTAL["guest portal\nintake + consent + care"]
+    end
+
+    subgraph PROD["Production & editorial"]
+        CAP["multi-camera framework\ncapture profile"]
+        ARK["media-ark\ncanonical masters"]
+        SALON["salon-archive\nconversation record"]
+        LING["LingFrame\ntranscript intelligence"]
+        MAT["materia-collider\nclip ledger + EDL"]
+        EDIT["editorial standards\nepisode + evidence gates"]
+    end
+
+    subgraph YIELD["Content & distribution"]
+        AMP["asset-amplifier\ncontent yield"]
+        VOX["Vox\nvoice validation"]
+        ANN["announcement templates\nchannel payloads"]
+        SOCIAL["social-automation\ndispatch + receipts"]
+    end
+
+    subgraph CONTROL["Control plane"]
+        DOMAIN["Conversation OS domain kernel"]
+        HITL["approval + audit + policy"]
+        OP["operator dashboard"]
+    end
+
+    AP --> DOMAIN
+    NG --> DOMAIN
+    CRM --> DOMAIN
+    DOMAIN --> MAIL
+    MAIL --> CAL
+    CAL --> PORTAL
+    PORTAL --> CAP
+    CAP --> ARK
+    ARK --> SALON
+    SALON --> LING
+    LING --> MAT
+    MAT --> EDIT
+    EDIT --> AMP
+    AMP --> VOX
+    VOX --> ANN
+    ANN --> SOCIAL
+
+    DOMAIN <--> HITL
+    OP <--> HITL
+    HITL -. approval gates .-> MAIL
+    HITL -. approval gates .-> CAL
+    HITL -. approval gates .-> EDIT
+    HITL -. approval gates .-> SOCIAL

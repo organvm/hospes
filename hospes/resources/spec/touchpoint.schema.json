@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/touchpoint.schema.json",
+  "title": "Touchpoint",
+  "description": "A single communication event between the show team and a guest or their representative, in either direction. Touchpoints build the correspondence history for an AppearanceOpportunity. Every touchpoint is logged before any follow-up logic runs. The system DRAFTS outbound messages; the human sends them. Incoming messages are logged automatically from inbox ingestion.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["touchpoint_id", "opportunity_id", "channel", "direction", "timestamp"],
+  "properties": {
+    "touchpoint_id": {
+      "type": "string",
+      "description": "Stable UUID for this touchpoint."
+    },
+    "opportunity_id": {
+      "type": "string",
+      "description": "The AppearanceOpportunity this touchpoint belongs to."
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["email", "phone", "sms", "social_dm", "in_person", "calendar_event", "platform_form", "postal", "internal_note"],
+      "description": "Communication channel."
+    },
+    "direction": {
+      "type": "string",
+      "enum": ["outbound", "inbound", "internal"],
+      "description": "Whether this was sent by the show team, received from the guest side, or an internal note."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this touchpoint occurred or was drafted."
+    },
+    "sender": {
+      "type": "string",
+      "description": "person_id or name of the sender."
+    },
+    "recipient": {
+      "type": "string",
+      "description": "person_id or name of the recipient."
+    },
+    "summary": {
+      "type": "string",
+      "description": "Brief factual summary of the touchpoint content. Auto-generated summaries must be flagged as such."
+    },
+    "message_reference": {
+      "type": ["string", "null"],
+      "description": "External thread ID, email message-id, or document URL for the underlying message."
+    },
+    "sentiment": {
+      "type": ["string", "null"],
+      "enum": ["positive", "neutral", "uncertain", "negative", "requires_human_review", null],
+      "description": "Classified sentiment of the message. Only set after reply.classified event."
+    },
+    "intent": {
+      "type": ["string", "null"],
+      "enum": [
+        "POSITIVE_INTEREST", "NEEDS_MORE_INFORMATION", "CONTACT_ASSISTANT",
+        "CONTACT_PUBLICIST", "PROPOSED_TIMES", "FEE_REQUEST", "TRAVEL_REQUEST",
+        "TOPIC_CONCERN", "SOFT_DECLINE", "HARD_DECLINE", "FOLLOW_UP_LATER",
+        "UNSUBSCRIBE", "AMBIGUOUS", "REQUIRES_HUMAN", null
+      ],
+      "description": "Classified intent of an inbound reply. Drives next-action logic. AMBIGUOUS and REQUIRES_HUMAN always escalate to a human."
+    },
+    "promises_detected": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Free-text descriptions of any commitments detected in this message. Each should generate a Commitment record."
+    },
+    "draft_approved_by": {
+      "type": ["string", "null"],
+      "description": "person_id of the human who approved this outbound draft before sending. Required for all outbound touchpoints."
+    },
+    "sent_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "When the outbound message was actually sent by a human. Null if still a draft."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

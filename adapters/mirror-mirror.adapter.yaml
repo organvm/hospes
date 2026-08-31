@@ -1,0 +1,30 @@
+system: mirror-mirror
+claimed_by: [chatgpt_audit, local_scan, github_scan]
+repo: organvm/mirror-mirror
+verified: true
+verified_how: >
+  gh repo view organvm/mirror-mirror (PRIVATE, pushedAt 2026-07-12). GitHub description reads
+  "Private analytics and customer insights platform" but the local checkout at
+  ~/Workspace/mirror-mirror IS a React booking app — confirmed files: src/components/Booking.tsx,
+  GroupBooking.tsx, CalendarSync.tsx, AppointmentReminders.tsx, src/lib/reminderScheduler.ts
+  (+ a reminderScheduler test). Description-vs-code DRIFT is real.
+disposition: extract-package
+capability: >
+  Booking + group-booking UI, reminder configuration, calendar-sync UX, suggested-slot
+  scoring, confirmation dialogs, and operator dashboards. A rich interaction-design
+  prototype, NOT a production scheduler.
+seam:
+  consumes: [booking.proposed]
+  emits: [booking.confirmed, booking.rescheduled]
+  interface: >
+    Extract UX + preference/reminder schemas into @hospes/scheduling; the runtime is rewritten.
+    HOSPES emits availability windows and consumes confirmed bookings.
+first_integration_step: >
+  Lift the booking preference + reminder data model into spec/ as HOSPES scheduling contracts;
+  flag the mock calendar and browser-interval scheduler as REWRITE-REQUIRED.
+caveats: >
+  Prototype, not production. Booking uses hard-coded providers + simulated confirmation timing;
+  CalendarSync uses mock events + simulated connection; reminderScheduler runs on a browser
+  interval over Spark KV. Extract the interaction design and schemas; rewrite the infrastructure
+  (real free/busy, durable worker, real store) at HOSPES-adapter time. Extract design only —
+  do not treat any mock as production scheduling.

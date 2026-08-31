@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="hospes-active-show" content="__HOSPES_CANONICAL_SHOW__">
+  <meta name="hospes-demo-persona" content="__HOSPES_DEMO_PERSONA__">
+  <title>HOSPES — Partnership Cockpit</title>
+  <link rel="icon" href="/operator/brand/favicon.ico">
+  <link rel="stylesheet" href="./assets/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Skip to cockpit</a>
+  <main id="workspace">
+    <header class="header-row">
+      <div>
+        <span class="brand-mark" role="img" aria-label="Show logo" data-guide="brand-mark"></span>
+        <div class="eyebrow">HOSPES · private partnership operations</div>
+        <h1 id="page-title">Overview</h1>
+        <span class="hidden" hidden>Executive Overview</span>
+        <span class="hidden" hidden>Pilot Workbench</span>
+        <span class="hidden" hidden>Complete Register</span>
+        <p class="header-sub" id="page-subtitle">A live, SQLite-backed view of decisions, obligations, pilot gates, and evidence.</p>
+      </div>
+      <div class="mode-stack">
+        <label class="show-switcher" data-guide="show-select">Show<select id="show-select" aria-label="Active show" autocomplete="off">__HOSPES_SHOW_OPTIONS__</select></label>
+        <button class="quiet bell" id="btn-notifications" type="button" aria-expanded="false" aria-controls="notification-center" data-guide="notification-bell">Alerts<span class="bell-badge" id="notification-badge">0</span></button>
+        <span class="mode-badge live" id="mode-badge" data-guide="synthetic-marker">Live SQLite mode</span>
+        <button class="quiet" id="btn-guide" type="button" aria-pressed="false">Guided tour</button>
+        <button class="quiet" id="btn-presentation" type="button" aria-pressed="false" data-guide="presentation-mode">Presentation mode</button>
+        <form id="logout-form" method="post" action="/operator/logout"><input id="logout-csrf" name="csrf" type="hidden" value="__HOSPES_CSRF__"><button class="quiet" type="submit">Lock cockpit</button></form>
+      </div>
+    </header>
+
+    <nav class="view-tabs" aria-label="Partnership cockpit views" data-guide="view-tabs">
+      <button class="view-tab active" data-view="overview" type="button">Overview</button>
+      <button class="view-tab" data-view="workbench" type="button">Workbench</button>
+      <button class="view-tab" data-view="revenue" type="button">Operations</button>
+      <button class="view-tab" data-view="network" type="button" data-guide="network-tab">Intelligence</button>
+      <button class="view-tab hidden" data-view="publish" type="button">Publish</button>
+      <button class="view-tab hidden" data-view="register" type="button">Partnership Register</button>
+      <button class="view-tab hidden" data-view="queue" type="button">My Queue</button>
+      <button class="view-tab hidden" data-view="analytics" type="button" data-guide="analytics-tab">Analytics</button>
+    </nav>
+    <div data-guide="feature-to-surface" hidden></div>
+
+    <section class="panel notification-center hidden" id="notification-center" aria-label="Notification centre">
+      <div class="panel-head"><h3>Notifications</h3><span>role-addressed · in-app</span></div>
+      <div class="toolbar notification-toolbar">
+        <label>Type<select id="notification-filter" aria-label="Notification type" autocomplete="off"><option value="">All types</option><option value="draft_ready">Draft ready</option><option value="brief_ready">Brief ready</option><option value="clips_needed">Clips needed</option><option value="booking_confirmed">Booking confirmed</option><option value="assignment_assigned">Assigned</option></select></label>
+        <label class="inline-check" for="notification-unread-only"><input type="checkbox" id="notification-unread-only"> Unread only</label>
+        <button class="btn-primary" id="btn-notification-refresh" type="button">Refresh</button>
+        <button class="quiet" id="btn-notification-read-all" type="button">Mark all read</button>
+        <button class="quiet" id="btn-notification-close" type="button">Close</button>
+      </div>
+      <p class="status" id="notification-status" role="status" aria-live="polite">No notifications loaded.</p>
+      <ol id="notification-list" class="notification-list"><li class="empty">No notifications loaded.</li></ol>
+    </section>
+
+    <section class="toolbar partnership-toolbar" aria-label="Partnership controls">
+      <label>Partnership<select id="partnership-select" aria-label="Active partnership" autocomplete="off">__HOSPES_PARTNERSHIP_OPTIONS__</select></label>
+      <button class="btn-primary" id="btn-partnership-refresh" type="button">Refresh</button>
+    </section>
+    <p class="status" id="partnership-status" role="status" aria-live="polite">__HOSPES_STATUS__</p>
+
+    <section id="overview-view" class="cockpit-view" aria-labelledby="partnership-heading">
+      <section class="notice live-notice"><strong>Live source:</strong> bounded summaries and receipts are committed to SQLite. HOSPES never sends or delivers correspondence; touchpoint notes are encrypted, while contracts, private signatures, contact data, and deal terms stay in their external owners.</section>
+      <header class="partnership-intro">
+        <div class="eyebrow">Partnership purpose and phase</div>
+        <h2 id="partnership-heading">__HOSPES_PARTNERSHIP_HEADING__</h2>
+        <p id="partnership-purpose">__HOSPES_PARTNERSHIP_PURPOSE__</p>
+      </header>
+      <section class="context-grid" aria-label="Active operator context" data-guide="context-grid">
+        <div><span>Actor</span><b id="context-actor" class="sensitive-identity">__HOSPES_CONTEXT_ACTOR__</b></div>
+        <div data-guide="context-role"><span>Role</span><b id="context-role">__HOSPES_CONTEXT_ROLE__</b></div>
+        <div><span>Tenant</span><b id="context-tenant" class="sensitive-identity">__HOSPES_CONTEXT_TENANT__</b></div>
+        <div><span>Database</span><b id="context-database" class="sensitive-ref">__HOSPES_CONTEXT_DATABASE__</b></div>
+        <div><span>Last verification</span><b id="context-verified">__HOSPES_CONTEXT_VERIFIED__</b></div>
+      </section>
+      <section class="counters partnership-counters" aria-label="Partnership coverage">
+        <div class="counter"><b id="pc-total">__HOSPES_TOTAL__</b><span>Known items</span></div>
+        <div class="counter"><b id="pc-active">__HOSPES_ACTIVE__</b><span>Active</span></div>
+        <div class="counter unknown"><b id="pc-unknown">__HOSPES_UNKNOWN__</b><span>Unknown</span></div>
+        <div class="counter danger"><b id="pc-overdue">__HOSPES_OVERDUE__</b><span>Overdue</span></div>
+        <div class="counter" data-guide="counters-coverage"><b id="pc-coverage">__HOSPES_COVERAGE__</b><span>Domains covered</span></div>
+      </section>
+      <div class="split-grid">
+        <section class="panel" aria-labelledby="agenda-heading" data-guide="agenda"><div class="panel-head"><h3 id="agenda-heading">12-minute agenda</h3><span>decision-first</span></div><div id="agenda">__HOSPES_AGENDA__</div></section>
+        <section class="panel" aria-labelledby="capabilities-heading" data-guide="capabilities-panel"><div class="panel-head"><h3 id="capabilities-heading">Engine capabilities</h3><span>live</span></div><div id="capabilities" class="check-list">__HOSPES_CAPABILITIES__</div></section>
+      </div>
+      <section class="panel" data-guide="audit-timeline"><div class="panel-head"><h3>Recent attributable events</h3><span>append-only</span></div><ol id="audit-timeline" class="timeline">__HOSPES_AUDIT__</ol></section>
+    </section>
+
+    <section id="queue-view" class="cockpit-view hidden" aria-labelledby="queue-heading" data-guide="my-queue">
+      <section class="notice live-notice"><strong>My Queue:</strong> work a lifecycle transition assigned to your role, sorted by due date. Completing a task records who closed it; nothing here sends, books, or publishes.</section>
+      <header class="partnership-intro"><div class="eyebrow">Assigned to <span id="queue-role">your role</span></div><h2 id="queue-heading">Role queue</h2></header>
+      <section class="toolbar" aria-label="Queue controls">
+        <button class="btn-primary" id="btn-queue-refresh" type="button">Refresh queue</button>
+        <label class="inline-check" for="queue-include-done"><input type="checkbox" id="queue-include-done"> Include completed</label>
+      </section>
+      <p class="status" id="queue-status" role="status" aria-live="polite">No queue loaded.</p>
+      <ol id="queue-list" class="notification-list"><li class="empty">No queue loaded.</li></ol>
+    </section>
+
+    <div id="deferred-workspace"></div>
+  </main>
+  <footer>
+    Localhost partnership cockpit · human-sent correspondence only · no booking, signing, or auto-publishing routes · a publication is a recorded human receipt
+  </footer>
+  <script type="module" src="./assets/partnership-shell.js"></script>
+  <script type="module" src="./assets/guide.js"></script>
+</body>
+</html>

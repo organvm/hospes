@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/candidate.schema.json",
+  "title": "PrivateCandidateImportRow",
+  "description": "Private operator import contract. Raw contact roster values are accepted only at this boundary and must be encrypted before persistence; this schema is never a public response contract.",
+  "x-hospes-surface": "private-import-only",
+  "x-hospes-custody": "encrypt-before-persistence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_key", "guest_name", "why_guest", "why_now", "episode_thesis",
+    "proposed_artifact", "relationship_class", "relationship_owner", "route_type",
+    "route_reference", "route_verified_at", "preferred_city", "social_cost_1_5",
+    "ari_effort", "next_action", "source_provenance"
+  ],
+  "properties": {
+    "tenant_id": {"type": "string"},
+    "network_id": {"type": "string"},
+    "show_id": {"type": "string"},
+    "source_key": {"type": "string", "minLength": 1, "maxLength": 240},
+    "guest_id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$", "description": "Opaque cross-season guest identity. Defaults to source_key; two seasons that share it share one memory."},
+    "season": {"type": "string", "minLength": 1, "maxLength": 32, "pattern": "^[A-Za-z0-9][A-Za-z0-9 ._:/-]*$"},
+    "episode": {"type": "string", "minLength": 1, "maxLength": 32, "pattern": "^[A-Za-z0-9][A-Za-z0-9 ._:/-]*$"},
+    "do_not_contact": {"type": "boolean", "default": false, "description": "Declares the guest is never to be contacted. Only a relationship-owner import may declare it; every other row for a blocked guest is rejected."},
+    "guest_name": {"type": "string", "minLength": 2, "maxLength": 160},
+    "why_guest": {"type": "string", "minLength": 10, "maxLength": 2000},
+    "why_now": {"type": "string", "minLength": 10, "maxLength": 2000},
+    "episode_thesis": {"type": "string", "minLength": 20, "maxLength": 4000},
+    "proposed_artifact": {"type": "string", "minLength": 3, "maxLength": 1000},
+    "relationship_class": {"type": "string", "enum": ["C0", "C1", "C2", "C3", "C4", "C5"]},
+    "relationship_owner": {"type": "string"},
+    "route_type": {"type": "string"},
+    "route_reference": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,31}://"},
+    "route_verified_at": {"type": "string", "format": "date-time"},
+    "route_usable": {"type": "boolean"},
+    "preferred_city": {"type": "string"},
+    "social_cost_1_5": {"type": ["integer", "string"]},
+    "ari_effort": {"type": "string"},
+    "next_action": {"type": "string"},
+    "next_action_date": {"type": "string"},
+    "source_provenance": {"type": "string"},
+    "category": {"type": "string"},
+    "contact_roster": {"$ref": "#/definitions/contactRoster"}
+  },
+  "definitions": {
+    "contactRoster": {
+      "type": "object",
+      "additionalProperties": false,
+      "maxProperties": 4,
+      "properties": {
+        "publicist": {"$ref": "#/definitions/contactRosterEntry"},
+        "manager": {"$ref": "#/definitions/contactRosterEntry"},
+        "agent": {"$ref": "#/definitions/contactRosterEntry"},
+        "direct": {"$ref": "#/definitions/contactRosterEntry"}
+      }
+    },
+    "contactRosterEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1, "maxLength": 160},
+        "email": {"type": ["string", "null"], "format": "email", "maxLength": 254},
+        "phone": {"type": ["string", "null"], "minLength": 7, "maxLength": 40},
+        "notes": {"type": ["string", "null"], "maxLength": 1000},
+        "provenance_ref": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,31}://"},
+        "verified_at": {"type": ["string", "null"], "format": "date-time"},
+        "usable": {"type": "boolean", "default": false},
+        "preferred": {"type": "boolean", "default": false},
+        "permission_status": {
+          "type": "string",
+          "enum": ["pending_verification", "permitted", "do_not_use", "opted_out"]
+        }
+      }
+    }
+  }
+}

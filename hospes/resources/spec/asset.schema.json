@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/asset.schema.json",
+  "title": "Asset",
+  "description": "A media or document asset produced in connection with an episode or appearance. Assets include raw recordings, edited audio/video masters, transcript files, release documents, artwork, and derivative clips. The canonical archive of source media lives in an external system (e.g. media-ark); this record is the domain-layer reference. Asset records never store content inline — they carry pointers and metadata.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["asset_id", "episode_id", "asset_type"],
+  "properties": {
+    "asset_id": {
+      "type": "string",
+      "description": "Stable UUID for this asset record."
+    },
+    "episode_id": {
+      "type": "string",
+      "description": "The Episode this asset belongs to."
+    },
+    "opportunity_id": {
+      "type": ["string", "null"],
+      "description": "The AppearanceOpportunity this asset is associated with, if applicable."
+    },
+    "asset_type": {
+      "type": "string",
+      "enum": [
+        "raw_audio", "raw_video", "edited_audio_master", "edited_video_master",
+        "transcript_raw", "transcript_final", "release_form", "intake_form",
+        "research_brief", "episode_artwork", "clip_audio", "clip_video",
+        "social_graphic", "show_notes", "caption_file", "gift_receipt", "other"
+      ],
+      "description": "Classification of this asset."
+    },
+    "storage_uri": {
+      "type": ["string", "null"],
+      "description": "URI pointing to the asset in its canonical storage location. Never embed raw content here."
+    },
+    "content_hash": {
+      "type": ["string", "null"],
+      "description": "SHA-256 hash of the asset content for integrity verification."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "ingested", "processing", "review_required", "approved", "archived", "rejected"],
+      "description": "Current lifecycle status of this asset."
+    },
+    "approved_by": {
+      "type": ["string", "null"],
+      "description": "person_id of the human who approved this asset for use or publication."
+    },
+    "approved_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "duration_seconds": {
+      "type": ["number", "null"],
+      "description": "Duration in seconds for audio/video assets."
+    },
+    "language": {
+      "type": ["string", "null"],
+      "description": "BCP-47 language tag (e.g. en-US)."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

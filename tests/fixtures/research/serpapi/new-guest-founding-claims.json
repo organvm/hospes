@@ -1,0 +1,26 @@
+{
+  "search_metadata": {"status": "Success"},
+  "organic_results": [
+    {
+      "position": 1,
+      "title": "New Guest founded Company X in 2019",
+      "link": "https://techcrunch.com/2020/03/15/new-guest-company-x/",
+      "snippet": "Synthetic trade report naming the 2019 founding date.",
+      "date": "Mar 15, 2020"
+    },
+    {
+      "position": 2,
+      "title": "New Guest live sessions archive",
+      "link": "https://www.songkick.com/artists/new-guest",
+      "snippet": "Synthetic tour archive used only to corroborate public appearances.",
+      "date": "Jun 2, 2023"
+    },
+    {
+      "position": 3,
+      "title": "Insecure mirror of the same report",
+      "link": "http://techcrunch.com/2020/03/15/new-guest-company-x/",
+      "snippet": "Synthetic plaintext mirror that the source policy must refuse.",
+      "date": "Mar 15, 2020"
+    }
+  ]
+}

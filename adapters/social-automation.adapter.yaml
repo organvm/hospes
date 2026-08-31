@@ -1,0 +1,23 @@
+system: social-automation
+claimed_by: [chatgpt_audit, github_scan]
+repo: organvm/social-automation
+verified: true
+verified_how: gh repo view organvm/social-automation (PUBLIC, pushedAt 2026-06-25).
+disposition: retain-service
+capability: >
+  POSSE distribution dispatch: event ingestion, scheduling, platform adapters
+  (Mastodon/Discord/RSS-to-social), retries, circuit breakers, delivery receipts, and
+  distribution analytics.
+seam:
+  consumes: [content_unit.approved, episode.published]
+  emits: [distribution.dispatched, distribution.delivered]
+  interface: >
+    Service adapter over its dispatch surface — HOSPES hands off approved channel payloads;
+    it delivers and returns receipts. It does not author payloads.
+first_integration_step: >
+  Define the payload→dispatch contract in spec/ so HOSPES-compiled announcement payloads flow
+  to social-automation and receipts flow back.
+caveats: >
+  Delivery mechanics only — it is NOT the editorial source of truth. Announcement templates +
+  content engine create payloads; this delivers them. HOSPES never auto-sends outreach email
+  through it; distribution here is publication payloads, not guest correspondence.

@@ -1,0 +1,21 @@
+version: 1
+tenant_id: hospes
+show_id: field
+label: Field Show
+enabled: true
+default: false
+display_order: 20
+modes:
+  guest_interaction: operator_packet
+  outbound: manual_receipt
+roles: [network_operator, relationship_owner, producer, editorial_owner, editor]
+dna_ref: dna/field.show.yaml
+voice_ref: config/voices/field.yaml
+template_ref: config/templates/field.yaml
+brand_ref: config/brands/field.yaml
+pilot_policy_ref: config/pilot_policies/field.yaml
+provider_precedence:
+  calendar: [ics, manual]
+  research: [manual_citations, brave]
+  analytics: [spotify_creator_csv, megaphone_chartable_import]
+  distribution: [manual_external_receipt, rss, clip_queue]

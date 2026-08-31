@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HOSPES — Unlock Operator</title>
+  <link rel="icon" href="/operator/brand/favicon.ico">
+  <link rel="stylesheet" href="./assets/styles.css">
+</head>
+<body class="login-page" data-runtime-kind="">
+  <main class="login-shell">
+    <span class="mode-badge live" id="mode-badge" data-guide="synthetic-marker">Live SQLite mode</span>
+    <p class="hidden" hidden>SYNTHETIC DEMO — NON-AUTHORITATIVE DATA</p>
+    <span class="brand-mark" role="img" aria-label="Show logo"></span>
+    <div class="eyebrow">HOSPES · localhost operator</div>
+    <h1>Unlock the approval queue</h1>
+    <p class="header-sub">
+      Enter the operator token configured in the process environment. It is submitted in the POST
+      body, exchanged for an HttpOnly localhost session, and never stored by dashboard JavaScript.
+    </p>
+    <form class="login-form" method="post" action="/operator/session">
+      <label for="token">Operator token</label>
+      <input id="token" name="token" type="password" required autocomplete="current-password" aria-describedby="bootstrap-status">
+      <button class="btn-primary" type="submit">Unlock</button>
+    </form>
+    <p class="small-note" id="bootstrap-status">This service binds to 127.0.0.1 only. Guest portal links are generated for manual copy and send; HOSPES never transmits to an external recipient.</p>
+  </main>
+  <script type="module" src="./assets/bootstrap.js"></script>
+</body>
+</html>

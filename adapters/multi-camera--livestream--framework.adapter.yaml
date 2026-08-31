@@ -1,0 +1,25 @@
+system: multi-camera--livestream--framework
+claimed_by: [chatgpt_audit, github_scan]
+repo: organvm/multi-camera--livestream--framework
+verified: true
+verified_how: gh repo view organvm/multi-camera--livestream--framework (PUBLIC, pushedAt 2026-06-22).
+disposition: retain-service
+capability: >
+  Configurable capture + production-runbook framework: multiple production profiles,
+  multi-camera workflows, local recording, streaming output, audio routing (Dante/NDI),
+  health checks, YAML config, and an eight-phase operational runbook. Records the master
+  recording and hands it off.
+seam:
+  consumes: [recording.ready]
+  emits: [recording.completed]
+  interface: >
+    Config + runbook adapter — HOSPES selects a capture profile (studio/hidden-mic/field)
+    and receives a media handoff on recording completion. Does not own booking or episode
+    records.
+first_integration_step: >
+  Add HOSPES capture profiles (flagship-hidden-mic, nyc/la/austin-studio, field-gopro-kit,
+  remote-guest, live-salon) as YAML in spec/, referencing this framework's profile schema.
+caveats: >
+  A production/runbook framework, NOT a finished customer-facing streaming app — do not
+  market it as one. It must not own guest booking, episode records, or raw-media archival.
+  DISTINCT from a-i-council--coliseum (see that adapter and the reconciliation table).

@@ -1,0 +1,26 @@
+system: materia-collider
+claimed_by: [chatgpt_audit, github_scan]
+repo: organvm/materia-collider
+verified: true
+verified_how: >
+  gh repo view organvm/materia-collider (PRIVATE, pushedAt 2026-07-10). NOTE: its GitHub
+  description reads "Pre-codified experimental space for idea collision before organ
+  graduation" — a description-vs-capability drift; the audit/scan capability (time-coded clip
+  ledger) reflects the code, not the one-line description.
+disposition: extract-package
+capability: >
+  Time-coded clip database: clip annotations, search, coverage-gap analysis, rough-cut
+  timeline assembly, and EDL/CSV/Markdown export with usage + rights history. Sits between
+  transcript analysis and the content engine.
+seam:
+  consumes: [transcript.ready, media.ingested]
+  emits: [segment.identified, content_unit.generated]
+  interface: >
+    Package @hospes/clip-ledger — Recording→film, Topic/claim→object, candidate content
+    unit→clip, EDL→rough-cut. Extracted as a library over the master's identity.
+first_integration_step: >
+  Extract the clip-annotation + EDL-export schema into spec/ as the HOSPES clip-ledger
+  contract, keyed by Media Ark master identity.
+caveats: >
+  Do not duplicate Media Ark's master-asset identity — the clip ledger references masters,
+  it does not own them. The repo's one-line description understates it; trust the code.

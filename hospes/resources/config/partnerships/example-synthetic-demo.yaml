@@ -1,0 +1,71 @@
+version: 1
+partnership:
+  key: ari_synthetic_demo
+  label: "[SYNTHETIC] Private Pilot Demonstration"
+  purpose: Exercise the complete HOSPES decision and evidence lifecycle without representing any real person, correspondence, route, or authority.
+  status: active
+items:
+  - item_key: engine.synthetic_demo
+    category: engine
+    title: Synthetic runtime marker
+    summary: This partnership exists only inside a resettable demonstration database and cannot move a real pilot gate.
+    owner: HOSPES demo factory
+    state: done
+  - item_key: plan.synthetic_lifecycle
+    category: plan
+    title: Demonstrate the fourteen-gate lifecycle
+    summary: Exercise candidate review, a human planner decision, fixture evidence, and a completed specimen without external action.
+    owner: Synthetic operators
+    state: in_progress
+  - item_key: role.synthetic_relationship_owner
+    category: role
+    title: Synthetic relationship-owner role
+    summary: The relationship-owner session alone controls candidate protection, Pilot start, concurrent activation, promotion, fallback, and pause.
+    owner: Synthetic relationship owner
+    state: agreed
+  - item_key: agreement.synthetic_only
+    category: agreement
+    title: Synthetic data is never authority
+    summary: Every displayed figure is fictional, every route is fixture-only, and no correspondence or booking leaves this database.
+    owner: Synthetic operators
+    state: agreed
+    external_reference: doctrine://hospes/synthetic-demo-only
+  - item_key: deal.synthetic_none
+    category: deal
+    title: No economics or agreement effect
+    summary: The demonstration carries no ownership, revenue, sponsorship, contracting, or partnership consequences.
+    owner: Synthetic operators
+    state: agreed
+    external_reference: fixture://agreement/no-synthetic-economics
+  - item_key: obligation.explicit_clicks
+    category: obligation
+    title: Require explicit human demonstration clicks
+    summary: Candidate and planner decisions remain revision-checked human actions in the interactive review scenario.
+    owner: Synthetic relationship owner
+    state: current
+  - item_key: decision.fixture_window
+    category: decision
+    title: Fixture recording window
+    summary: A fictional recurring window is agreed solely so the demonstration can exercise the real Pilot predicate.
+    owner: Synthetic relationship owner
+    state: agreed
+    external_reference: calendar://fixture/ari-synthetic-demo-window
+  - item_key: receipt.fixture_custody
+    category: receipt
+    title: Fixture evidence custody
+    summary: Completed-specimen receipts point only to fixture owners and contain no real mailbox, studio, media, or scorecard evidence.
+    owner: HOSPES demo factory
+    state: current
+    external_reference: fixture://ari-synthetic-demo/evidence-ledger
+  - item_key: risk.authority_confusion
+    category: risk
+    title: Synthetic authority confusion
+    summary: Persistent warnings, a database marker, isolated tenant identifiers, and read-only completion prevent this specimen from masquerading as real state.
+    owner: HOSPES demo factory
+    state: current
+  - item_key: unknown.synthetic_none
+    category: unknown
+    title: No hidden real-world dependency
+    summary: The demonstration deliberately excludes real identities, contact data, credentials, external correspondence, and launch receipts.
+    owner: Synthetic operators
+    state: current

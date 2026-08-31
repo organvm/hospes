@@ -1,0 +1,32 @@
+system: aerarium
+claimed_by: [chatgpt_audit]
+repo: organvm/aerarium--res-publica
+verified: false
+verified_how: >
+  gh repo view organvm/aerarium (NOT FOUND) and 4444J99/aerarium (NOT FOUND). A repo search
+  resolves only organvm/aerarium--res-publica, described as "Treasury of the Public Thing —
+  ORGANVM institutional wing for fiscal sponsorship, entity formation, grant applications,
+  and donor infrastructure." NO bare "aerarium" repo exists. The audit's citation of an
+  "Aerarium" that "models a coordinated professional office behind one principal" and its
+  "institutional weight for one person, zero staff" thesis is NOT verifiable against the
+  repo that actually exists — that repo is a fiscal-sponsorship/nonprofit wing, a different
+  concern. verified:false = the named artifact is unconfirmed; the framing is retained as a
+  commercial-positioning note only.
+disposition: adapt-spec
+capability: >
+  (Per audit, UNVERIFIED against code.) Cited as modeling a coordinated professional office
+  behind a single principal — the source of the "institutional weight for one person, zero
+  staff" framing that HOSPES restates as "an invisible guest, production, and distribution
+  desk installed around a host with almost no staff."
+seam:
+  consumes: []
+  emits: []
+  interface: >
+    No runtime seam. Adapt as COMMERCIAL FRAMING only — the positioning statement, not code.
+first_integration_step: >
+  Carry only the positioning line into HOSPES README/docs ("invisible desk" framing); do NOT
+  extract or depend on any aerarium code until a real repo is confirmed.
+caveats: >
+  DISCREPANCY: the audit's "Aerarium" (one-principal office) does not match the only existing
+  repo (aerarium--res-publica, fiscal-sponsorship/nonprofit). Treat the framing as retained;
+  treat the code claim as unverified. Do not build against it.

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Draft guest packet — {{ guest_name }}</title>
+  <style>
+    :root { color-scheme: light; font-family: ui-sans-serif, system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { background: #f4f1ea; color: #1c1b18; line-height: 1.55; margin: 0 auto; max-width: 52rem; padding: 1.25rem; }
+    header, section { background: #fff; border: 1px solid #d8d2c5; border-radius: .75rem; margin-bottom: 1rem; padding: 1.25rem; }
+    .banner { background: #271f14; border-radius: .5rem; color: #fff1c7; font-weight: 800; letter-spacing: .05em; padding: .8rem; text-align: center; }
+    .meta { color: #665f54; display: flex; flex-wrap: wrap; gap: .5rem 1rem; }
+    h1, h2 { line-height: 1.15; }
+    a { overflow-wrap: anywhere; }
+    footer { color: #665f54; font-size: .85rem; text-align: center; }
+    @media (max-width: 30rem) { body { padding: .75rem; } header, section { padding: 1rem; } }
+  </style>
+</head>
+<body>
+  <div class="banner">DRAFT — NOT SENT — HUMAN REVIEW REQUIRED</div>
+  <header>
+    <p>HOSPES synthetic packet · {{ pilot_id }}</p>
+    <h1>{{ guest_name }}</h1>
+    <div class="meta">
+      <span>{{ city }}</span>
+      <span>{{ studio }}</span>
+      <span>{{ recording_window }}</span>
+      <span>Relationship {{ relationship_class }}</span>
+    </div>
+  </header>
+  <section>
+    <h2>Hosts and format</h2>
+    <p>{{ host_bio }}</p>
+    <h2>Episode thesis</h2>
+    <p>{{ episode_thesis }}</p>
+    <p>{{ invitation_note }}</p>
+    <p>No promotional participation is expected.</p>
+  </section>
+  <section>
+    <h2>Approved evidence</h2>
+    <ul>
+      {% for claim in claims %}
+      <li>{{ claim.claim }} — <a href="{{ claim.source_url }}">source</a>, verified {{ claim.verified_date }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  <section>
+    <h2>Draft delivery package</h2>
+    <ul>{% for item in asset_items %}<li>{{ item }}</li>{% endfor %}</ul>
+  </section>
+  <footer>No correspondence was sent. This synthetic packet carries no real contact or private guest data.</footer>
+</body>
+</html>

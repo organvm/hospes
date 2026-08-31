@@ -1,0 +1,6 @@
+version: 1
+show_id: field
+class_to_template: {C0: producer_field, C1: producer_field, C2: owner_field, C3: owner_field}
+templates:
+  producer_field: "Draft only: we would film [PLACE] through [OBJECT] and [INTERVENTION], subject to exact approval."
+  owner_field: "Draft only: the field format is specifically relevant because [VERIFIED REASON]."

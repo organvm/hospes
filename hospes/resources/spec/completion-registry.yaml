@@ -1,0 +1,172 @@
+version: 1
+repository: organvm/hospes
+milestone: HOSPES 1.0 Complete
+registry_owner: hospes/resources/spec/completion-registry.yaml
+substrates:
+  substrate.storage_migration:
+    title: Storage and migration
+    predicate: bash scripts/verify-storage-substrate.sh
+    receipt_owner: github://organvm/hospes/pulls
+  substrate.encryption_artifacts:
+    title: Encryption and artifact custody
+    predicate: python -m pytest tests/substrate/test_encryption_artifacts.py -q
+    receipt_owner: github://organvm/hospes/pulls
+  substrate.authentication_jobs:
+    title: Authentication and durable jobs
+    predicate: python -m pytest tests/substrate/test_authentication_jobs.py -q
+    receipt_owner: github://organvm/hospes/pulls
+issues:
+  - number: 9
+    title: "Example Private Pilot: record Pilot 1 at earliest confirmed production window"
+    dependencies:
+      - substrate.storage_migration
+      - substrate.encryption_artifacts
+      - substrate.authentication_jobs
+      - issue:19
+      - issue:20
+      - issue:21
+      - issue:23
+      - issue:24
+      - issue:26
+      - issue:27
+      - issue:34
+    predicate: python -m pytest tests/issue_predicates/test_issue_09.py -q
+    predicate_absent_reason: >-
+      The predicate artifact does not exist yet, and deliberately so. This issue closes on a
+      real recording — selection, scheduling, authorized correspondence, rehearsal, the take
+      itself, a master checksum handoff, and evaluation receipts. None of that has happened.
+      A test written now could only assert against fixtures, which would fabricate exactly the
+      receipt the close condition exists to demand, and would then report green forever.
+      Write tests/issue_predicates/test_issue_09.py when Pilot 1 is recorded, asserting
+      against the real receipts, and delete this field in the same change —
+      scripts/run_predicates.py reds if this reason outlives the artifact's arrival.
+    required_surfaces: [custody, security, documentation, human_receipts]
+    receipt_owner: github://organvm/hospes/issues/9
+    close_condition: Real Pilot 1 selection, scheduling, authorized correspondence, rehearsal, recording, master checksum handoff, and evaluation receipts exist; rehearsal alone never qualifies.
+  - number: 19
+    title: "[P1-1] Guest Suggestion: hospes suggest-guests → auto-suggest C2 alumni from Unlicensed Therapy archive"
+    dependencies: [substrate.storage_migration, substrate.authentication_jobs]
+    predicate: python -m pytest tests/issue_predicates/test_issue_19.py -q
+    required_surfaces: [cli, service, ui, security, documentation, receipts]
+    receipt_owner: github://organvm/hospes/issues/19
+    close_condition: The suggestion CLI ingests archive and tour provenance, applies gap, cost, class, and limit filters, emits the required import-compatible CSV, and supports dashboard review.
+  - number: 20
+    title: "[P1-2] Contact Roster per Guest: publicist, manager, agent, direct in candidate schema"
+    dependencies: [substrate.storage_migration, substrate.encryption_artifacts]
+    predicate: python -m pytest tests/issue_predicates/test_issue_20.py -q
+    required_surfaces: [schema, service, ui, security, documentation, receipts]
+    receipt_owner: github://organvm/hospes/issues/20
+    close_condition: Private roster imports retain encrypted route values and provenance while public contracts expose only opaque route references and authorized UI prefill.
+  - number: 21
+    title: "[P1-3] Informal Touchpoint Logging: Log a text/DM/hallway chat → lightweight receipt"
+    dependencies: [substrate.storage_migration, substrate.encryption_artifacts, substrate.authentication_jobs]
+    predicate: python -m pytest tests/issue_predicates/test_issue_21.py -q
+    required_surfaces: [api, service, ui, security, documentation, receipts]
+    receipt_owner: github://organvm/hospes/issues/21
+    close_condition: Authenticated operators can create and filter structured touchpoints with encrypted notes, attributable initiators, and guest plus executive timelines.
+  - number: 22
+    title: "[P1-4] Relationship Graph: hospes network-map --guest 'Theo Von' → second-degree paths"
+    dependencies: [substrate.storage_migration]
+    predicate: python -m pytest tests/issue_predicates/test_issue_22.py -q
+    required_surfaces: [cli, service, security, documentation, receipts]
+    receipt_owner: github://organvm/hospes/issues/22
+    close_condition: Tenant/show-scoped archive and manual edges validate private aliases, highlight target paths, and export safe Mermaid, Graphviz, JSON, and CSV.
+  - number: 23
+    title: "[P2-1] Multi-Show / Multi-Tenant Dashboard: show switcher in header"
+    dependencies: [substrate.storage_migration, substrate.authentication_jobs]
+    predicate: python -m pytest tests/issue_predicates/test_issue_23.py -q
+    required_surfaces: [api, service, ui, security, documentation, receipts]
+    receipt_owner: github://organvm/hospes/issues/23
+    close_condition: URL and session show state drive isolated reloads and per-show DNA, voice, templates, and branding with negative cross-show authorization proof.
+  - number: 24
+    title: "[P2-2] Guest CRM — Cross-Season Memory: Previously asked, declined, do-not-contact"
+    dependencies: [substrate.storage_migration, substrate.authentication_jobs]
+    predicate: python -m pytest tests/issue_predicates/test_issue_24.py -q
+    required_surfaces: [api, service, ui, security, documentation, receipts]
+    receipt_owner: github://organvm/hospes/issues/24
+    close_condition: Import and outbound DNC enforcement, cross-season history, owner-only controls, badges, and the complete-register timeline all pass.
+  - number: 25
+    title: "[P2-3] Sponsor / Ad Inventory Tracker: sold/available slots, revenue dashboard"
+    dependencies: [substrate.storage_migration, substrate.authentication_jobs]
+    predicate: python -m pytest tests/issue_predicates/test_issue_25.py -q
+    required_surfaces: [api, schema, service, ui, security, documentation, receipts]
+    receipt_owner: github://organvm/hospes/issues/25
+    close_condition: Sponsor inventory and slot CRUD, revenue totals, accounting CSV, claims governance, Revenue UI, and the configurable unfilled-slot gate pass.
+  - number: 26
+    title: "[P2-4] Rights / Clearance Gate: music, clip, IP checklist per episode"
+    dependencies: [substrate.storage_migration, substrate.encryption_artifacts, substrate.authentication_jobs]
+    predicate: python -m pytest tests/issue_predicates/test_issue_26.py -q
+    required_surfaces: [api, schema, service, ui, security, documentation, receipts]
+    receipt_owner: github://organvm/hospes/issues/26
+    close_condition: Clearance CRUD, filtering, reporting, evidence custody, badges, and publication denial for every status other than cleared pass.
+  - number: 27
+    title: "[P2-5] Team Notifications & Assignments: Producer draft due, Host brief review, Editor clips needed"
+    dependencies: [substrate.storage_migration, substrate.authentication_jobs]
+    predicate: python -m pytest tests/issue_predicates/test_issue_27.py -q
+    required_surfaces: [api, service, ui, security, documentation, receipts]
+    receipt_owner: github://organvm/hospes/issues/27
+    close_condition: Assignments, transition-driven notifications, My Queue, read controls, and authorized idempotent email or webhook previews with delivery receipts pass.
+  - number: 28
+    title: "[P3-1] Publishing Pipeline: RSS + YouTube + TikTok/Reels clip queue"
+    dependencies:
+      - substrate.storage_migration
+      - substrate.encryption_artifacts
+      - substrate.authentication_jobs
+      - issue:25
+      - issue:26
+    predicate: python -m pytest tests/issue_predicates/test_issue_28.py -q
+    required_surfaces: [api, schema, service, ui, security, documentation, provider_receipts]
+    receipt_owner: github://organvm/hospes/issues/28
+    close_condition: RSS, video, and clip packages plus previews, adapters, manual receipts, authorization, retry-safe transitions, and immutable delivery evidence pass.
+  - number: 29
+    title: "[P3-2] Analytics Hook: Pluggable providers (Spotify, YouTube, Chartable) → dashboard metrics"
+    dependencies: [substrate.storage_migration, substrate.authentication_jobs]
+    predicate: python -m pytest tests/issue_predicates/test_issue_29.py -q
+    required_surfaces: [cli, api, schema, service, ui, security, documentation, provider_receipts]
+    receipt_owner: github://organvm/hospes/issues/29
+    close_condition: Validated provider imports and pulls, read-only scheduling, metrics and trends UI, CSV export, and provider receipts pass.
+  - number: 30
+    title: "[P3-3] White-Label / Brand Config: config/brand.yaml → logo, colors, custom domain"
+    dependencies: [substrate.authentication_jobs, issue:23]
+    predicate: python -m pytest tests/issue_predicates/test_issue_30.py -q
+    required_surfaces: [service, ui, security, browser, documentation, receipts]
+    receipt_owner: github://organvm/hospes/issues/30
+    close_condition: Logos, favicons, login, header, portal, custom-domain config, per-show CSS variables, and browser assertions pass.
+  - number: 31
+    title: "[P3-4] Non-Technical Onboarding Wizard: hospes init → interactive setup (8 questions → working repo)"
+    dependencies: [substrate.storage_migration]
+    predicate: python -m pytest tests/issue_predicates/test_issue_31.py -q
+    required_surfaces: [cli, security, documentation, receipts]
+    receipt_owner: github://organvm/hospes/issues/31
+    close_condition: The exact eight-question interactive and JSON wizard produces complete editable config, validates and demos, reruns safely, and gates GitHub creation on authorization.
+  - number: 32
+    title: "[P4-1] Network-Level Dashboard: portfolio view for network ops"
+    dependencies:
+      - substrate.storage_migration
+      - substrate.authentication_jobs
+      - issue:23
+      - issue:25
+      - issue:29
+    predicate: python -m pytest tests/issue_predicates/test_issue_32.py -q
+    required_surfaces: [api, service, ui, security, pdf, documentation, receipts]
+    receipt_owner: github://organvm/hospes/issues/32
+    close_condition: Network-operator-only portfolio metrics, drilldown, escaped HTML, PDF export, and cross-tenant leakage tests pass.
+  - number: 33
+    title: "[P4-2] Guest Portal (Self-Serve): magic link → intake, consent, date picking"
+    dependencies:
+      - substrate.storage_migration
+      - substrate.encryption_artifacts
+      - substrate.authentication_jobs
+      - issue:23
+      - issue:30
+    predicate: python -m pytest tests/issue_predicates/test_issue_33.py -q
+    required_surfaces: [app, api, service, ui, security, browser, documentation, receipts]
+    receipt_owner: github://organvm/hospes/issues/33
+    close_condition: The isolated portal boundary, one-time fragment exchange, secure short session, noindex intake/consent/three-date UI, operator status, and expiry tests pass; links remain human-transmitted.
+  - number: 34
+    title: "[P4-3] AI Research Assistant (Bounded): click 'Research' → verified claims, counterarguments, receipts"
+    dependencies: [substrate.storage_migration, substrate.encryption_artifacts, substrate.authentication_jobs]
+    predicate: python -m pytest tests/issue_predicates/test_issue_34.py -q
+    required_surfaces: [api, service, ui, security, documentation, provider_receipts]
+    receipt_owner: github://organvm/hospes/issues/34
+    close_condition: Brave, SerpAPI, SearXNG, and allowlisted crawler jobs enforce cost and source policy and produce attributable, cited, immutable reviewed research.

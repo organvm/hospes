@@ -1,0 +1,7 @@
+version: 1
+tenant_id: hospes
+show_id: installed
+label: Installed HOSPES Fixture
+enabled: false
+modes: {guest_interaction: operator_packet, outbound: draft_only}
+roles: [producer, relationship_owner, editorial_owner]

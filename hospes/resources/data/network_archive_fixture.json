@@ -1,0 +1,26 @@
+[
+  {
+    "episode_no": "fixture-1",
+    "title": "Synthetic Alum",
+    "date": "2026-01-01",
+    "type": "guest",
+    "guest": "Synthetic Alum",
+    "confidence": "high"
+  },
+  {
+    "episode_no": "fixture-2",
+    "title": "Synthetic Returner",
+    "date": "2026-01-02",
+    "type": "guest",
+    "guest": "Synthetic Returner",
+    "confidence": "high"
+  },
+  {
+    "episode_no": "fixture-3",
+    "title": "Synthetic Returner",
+    "date": "2026-02-02",
+    "type": "guest",
+    "guest": "Synthetic Returner",
+    "confidence": "high"
+  }
+]

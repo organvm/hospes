@@ -1,0 +1,23 @@
+system: community-hub
+claimed_by: [github_scan]
+repo: organvm/community-hub
+verified: true
+verified_how: gh repo view organvm/community-hub (PUBLIC, pushedAt 2026-07-10).
+disposition: adapt-spec
+capability: >
+  FastAPI community portal (ORGAN-VI flagship): salon-archive browse, transcript surfacing,
+  participant profiles, live rooms, curricula browser, stats dashboard, and Atom feeds.
+  A public-facing show-hub / guest-directory / RSS pattern.
+seam:
+  consumes: [episode.published, segment.identified]
+  emits: []
+  interface: >
+    Spec adaptation — HOSPES borrows its public show-hub + guest-directory + RSS/Atom surface
+    pattern as a later public-face option; not wired into the v0 keyless loop.
+first_integration_step: >
+  Record the show-hub / guest-directory / Atom-feed surface pattern in spec/ as a later
+  public-face option; keep out of v0 runtime.
+caveats: >
+  Scan-only claim (not in the audit's disposition table). It is a public surface, so any
+  HOSPES adaptation must respect the archive's consent/redaction rules — no private guest data
+  on a public hub. Public-face concern, not a v0 dependency.

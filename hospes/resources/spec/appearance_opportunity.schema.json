@@ -1,0 +1,182 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/appearance_opportunity.schema.json",
+  "title": "AppearanceOpportunity",
+  "description": "The central aggregate of the HOSPES system. An AppearanceOpportunity represents one specific attempt to book one Person onto one Show for one proposed episode. Because a single person can decline in one year, accept a different project the next, appear on multiple shows, or return as a recurring guest, the Person and the Opportunity are separate records. One Person may have many AppearanceOpportunities — across shows, across years, as a solo guest or part of a group. The state machine on this object is the canonical pipeline tracker that prevents duplicate outreach, lost follow-ups, and broken promises.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["opportunity_id", "person_id", "show_id", "state", "relationship_class", "source_provenance"],
+  "properties": {
+    "opportunity_id": {
+      "type": "string",
+      "description": "Stable UUID for this specific booking attempt."
+    },
+    "person_id": {
+      "type": "string",
+      "description": "The Person being invited."
+    },
+    "guest_id": {
+      "type": ["string", "null"],
+      "description": "Opaque cross-season guest identity, scoped to one tenant and show. Every guest_history row and every do-not-contact directive keys on it, so a guest carries one memory across seasons even though each season is a separate opportunity."
+    },
+    "season": {
+      "type": ["string", "null"],
+      "description": "Short season label this opportunity belongs to (for example 'S3'). A terminal decision writes it into the guest's cross-season memory."
+    },
+    "episode": {
+      "type": ["string", "null"],
+      "description": "Short episode label within the season (for example 'E5')."
+    },
+    "do_not_contact": {
+      "type": ["boolean", "null"],
+      "description": "Projected live directive for this guest identity. True refuses import, draft preview, draft persistence, and outreach receipts."
+    },
+    "guest_history_badge": {
+      "type": ["string", "null"],
+      "description": "Rendered memory badge for the approval card, for example 'Previously: S2E3 — SOFT_DECLINE (2024-03-15)'. Null when the guest has no prior season."
+    },
+    "show_id": {
+      "type": "string",
+      "description": "The Show this opportunity belongs to."
+    },
+    "episode_id": {
+      "type": ["string", "null"],
+      "description": "Linked Episode record once one is created. Null until BOOKED or later."
+    },
+    "state": {
+      "type": "string",
+      "description": "Current pipeline state. See states.json for the canonical state set and legal transitions.",
+      "enum": [
+        "DISCOVERED", "RESEARCHING", "QUALIFIED", "EDITORIAL_REVIEW",
+        "APPROVED", "CONTACT_ROUTE_IDENTIFIED", "OUTREACH_DRAFTED",
+        "OUTREACH_APPROVED", "OUTREACH_SENT", "FOLLOW_UP_DUE",
+        "INTERESTED", "NEGOTIATING", "SCHEDULING", "BOOKED",
+        "INTAKE_PENDING", "PREINTERVIEW_PENDING", "RELEASE_PENDING",
+        "PREP_IN_PROGRESS", "RECORDING_READY", "RECORDED",
+        "POST_RECORDING_FOLLOWUP", "TRANSCRIPT_READY", "CONTENT_IN_REVIEW",
+        "PUBLICATION_PENDING", "PUBLISHED", "RELATIONSHIP_NURTURE",
+        "DECLINED", "PAUSED", "REVISIT_LATER", "DUPLICATE",
+        "DO_NOT_CONTACT", "LEGAL_REVIEW", "NEEDS_HUMAN", "CANCELLED"
+      ]
+    },
+    "why_guest": {
+      "type": "string",
+      "description": "One-paragraph editorial case for why this person is a fit for the show. Specific, not generic praise."
+    },
+    "why_now": {
+      "type": "string",
+      "description": "Why this invitation is timely — a recent project, event, tension, or cultural moment."
+    },
+    "episode_thesis": {
+      "type": ["string", "null"],
+      "description": "The proposed central question or claim the episode would explore. Required before state advances past QUALIFIED."
+    },
+    "proposed_artifact": {
+      "type": ["string", "null"],
+      "description": "The object, document, or physical thing the guest would bring to the episode (per the show's segment design)."
+    },
+    "relationship_class": {
+      "type": "string",
+      "enum": ["C0", "C1", "C2", "C3", "C4", "C5"],
+      "description": "Relationship class at the time this opportunity was created. C4–C5 block all automated outreach and require explicit host approval."
+    },
+    "route": {
+      "type": ["string", "null"],
+      "description": "contact_route_id of the selected outreach route for this opportunity."
+    },
+    "contact_roster_refs": {
+      "type": "array",
+      "description": "Public-safe contact roster projection. Raw names, addresses, phone numbers, and notes are excluded; authorized operators use the private roster endpoint for transient reveal.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["roster_id", "role", "name_ref", "provenance_ref", "usable", "preferred", "permission_status"],
+        "properties": {
+          "roster_id": {"type": "string"},
+          "role": {"type": "string", "enum": ["publicist", "manager", "agent", "direct"]},
+          "name_ref": {"type": "string", "pattern": "^private-field://"},
+          "route_ref": {"type": ["string", "null"], "pattern": "^private-field://"},
+          "notes_ref": {"type": ["string", "null"], "pattern": "^private-field://"},
+          "provenance_ref": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,31}://"},
+          "verified_at": {"type": ["string", "null"], "format": "date-time"},
+          "usable": {"type": "boolean"},
+          "preferred": {"type": "boolean"},
+          "permission_status": {"type": "string", "enum": ["pending_verification", "permitted", "do_not_use", "opted_out"]}
+        }
+      }
+    },
+    "social_cost": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Estimated social cost of pursuing this opportunity through the selected route. System recommends the least expensive credible path, not the most likely immediate yes."
+    },
+    "ari_effort": {
+      "type": "string",
+      "enum": ["none", "review_only", "note_only", "direct_contact_required"],
+      "description": "How much of Host's personal social capital this opportunity requires. Drives the morning approval queue."
+    },
+    "city": {
+      "type": ["string", "null"],
+      "description": "Guest's home or current city. Drives studio routing and touring-guest interception."
+    },
+    "studio_id": {
+      "type": ["string", "null"],
+      "description": "Studio assigned for this recording. Null until SCHEDULING or later."
+    },
+    "target_window": {
+      "type": ["string", "null"],
+      "description": "Preferred recording window (e.g. 'Q3 2026', 'October LA trip')."
+    },
+    "relationship_path": {
+      "type": ["string", "null"],
+      "description": "Narrative description of the proposed outreach path and any warm-introduction chain."
+    },
+    "assigned_owner": {
+      "type": ["string", "null"],
+      "description": "person_id of the team member responsible for driving this opportunity forward."
+    },
+    "next_action": {
+      "type": ["string", "null"],
+      "description": "Human-readable description of the next concrete action required."
+    },
+    "next_action_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "When the next action is due. Triggers FOLLOW_UP_DUE state or a heartbeat alert."
+    },
+    "source_provenance": {
+      "type": "string",
+      "description": "How this opportunity was surfaced (e.g. 'RSS archive ingest', 'Host suggestion', 'producer research', 'referral from [person]')."
+    },
+    "editorial_fit_score": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Optional numeric editorial fit score (0–100). Auto-generated; not a binding filter."
+    },
+    "estimated_booking_probability": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Optional probability estimate (0.0–1.0). Auto-generated; informational only."
+    },
+    "decline_reason": {
+      "type": ["string", "null"],
+      "description": "Reason for decline if state is DECLINED. Preserved for future re-evaluation."
+    },
+    "revisit_after": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "If state is REVISIT_LATER, the date after which this opportunity should be reconsidered."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

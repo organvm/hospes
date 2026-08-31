@@ -1,0 +1,50 @@
+version: 2
+
+# The checkout-level RSS export is public source material, not a wheel fixture.
+# It is optional so an installed wheel remains useful with manual/database edges
+# without silently shipping or requiring the full source export.
+archive_sources:
+  - tenant_id: hospes
+    show_id: flagship
+    host_guest_id: ari
+    path_ref: resource://data/unlicensed-therapy/archive.json
+    provenance_ref: public-rss://unlicensed-therapy/archive
+    required: false
+
+aliases:
+  - tenant_id: hospes
+    show_id: flagship
+    guest_id: ari
+    visibility: public
+    label: Host
+  - tenant_id: hospes
+    show_id: flagship
+    guest_id: theo-von
+    visibility: public
+    label: Theo Von
+  - tenant_id: hospes
+    show_id: flagship
+    guest_id: mark-normand
+    visibility: public
+    label: Mark Normand
+
+targets:
+  - tenant_id: hospes
+    show_id: flagship
+    guest_id: mark-normand
+
+edges:
+  - tenant_id: hospes
+    show_id: flagship
+    source_guest_id: ari
+    target_guest_id: theo-von
+    edge_type: knows
+    relationship_class: C1
+    provenance_ref: owner://network/edge/theo-von
+  - tenant_id: hospes
+    show_id: flagship
+    source_guest_id: theo-von
+    target_guest_id: mark-normand
+    edge_type: introduced_by
+    relationship_class: C1
+    provenance_ref: owner://network/edge/mark-normand

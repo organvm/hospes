@@ -1,0 +1,33 @@
+system: persona-voice-governance
+claimed_by: [chatgpt_audit, github_scan]
+repo: organvm/vox--architectura-gubernatio (+ organvm/vox--publica, organvm/collective-persona-operations)
+verified: true
+verified_how: >
+  gh repo view organvm/vox--architectura-gubernatio (PRIVATE, pushedAt 2026-06-26),
+  organvm/vox--publica (PRIVATE, pushedAt 2026-07-10), and
+  organvm/collective-persona-operations (PUBLIC, pushedAt 2026-06-21). One adapter for the
+  three-repo voice/persona-governance cluster. NOTE: DISTINCT from organvm/vox (the voice
+  synth CORE — see vox.adapter.yaml and the reconciliation table).
+disposition: extract-package
+capability: >
+  Voice/persona governance: voice profiles, scoring dimensions, anti-pattern detection,
+  invariants, corpus comparison, editable style sheets, validate/diff tools
+  (vox--architectura-gubernatio); a human voice-QA review surface — compare/score/approve/reject
+  (vox--publica); and persona as a machine-readable interface — register, vocabulary
+  constraints, rhetorical patterns, audience model, context rules, composition, state
+  transitions (collective-persona-operations, planning/theoretical maturity).
+seam:
+  consumes: [outreach.draft_ready, content_unit.generated]
+  emits: [outreach.approved, content_unit.approved]
+  interface: >
+    Package @hospes/voice — every external output is generated under a DECLARED persona
+    (Host note, guest-desk, flagship show, Producer field show, sponsor, publication) and
+    validated before use. Governance engine extracted; the QA surface adapted.
+first_integration_step: >
+  Extract voice-profile + anti-pattern + invariant schema into spec/ as the HOSPES voice
+  contract, defining the six named personas as profiles.
+caveats: >
+  collective-persona-operations is planning/theoretical — do NOT claim a runtime implementation
+  exists. Do not use one voice profile for all people/channels. Do not expose internal persona
+  machinery to guests. This is the correct "make it not feel like AI" — declared personas +
+  validation, never fake typos or fabricated employees.

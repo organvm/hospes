@@ -1,0 +1,19 @@
+{
+  "query": {"original": "unsourced guest rumours"},
+  "web": {
+    "results": [
+      {
+        "title": "Anonymous forum thread",
+        "url": "https://forum.example.test/thread/1",
+        "description": "Synthetic thread from a source the operator allowlist does not permit.",
+        "page_age": "2025-01-01"
+      },
+      {
+        "title": "Aggregator repost",
+        "url": "https://aggregator.example.test/new-guest",
+        "description": "Synthetic repost from a source the operator allowlist does not permit.",
+        "page_age": "2025-06-01"
+      }
+    ]
+  }
+}

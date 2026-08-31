@@ -1,0 +1,26 @@
+system: public-record-data-scrapper
+claimed_by: [chatgpt_audit, github_scan]
+repo: organvm/public-record-data-scrapper
+verified: true
+verified_how: gh repo view organvm/public-record-data-scrapper (PUBLIC, pushedAt 2026-07-13).
+disposition: extract-package
+capability: >
+  Production-oriented multi-tenant contact/activity backend behind a UCC/MCA product:
+  ContactsService (CRUD, timezones, preferred methods, tags, provenance, search, activity
+  histories, scheduled activities, many-to-many associations) over PostgreSQL + Redis +
+  workers + OpenAPI + auth + a React dashboard. The audit proposes it as the durable Guest
+  CRM database/service layer.
+seam:
+  consumes: [person.created, relationship.edge_created]
+  emits: [followup.due]
+  interface: >
+    Package @hospes/contact-service — extract ContactsService + the contacts migration as the
+    production data/service shell; application-pipeline supplies the relationship LOGIC, this
+    supplies the durable store.
+first_integration_step: >
+  Extract the Contacts schema (timezone, preferred method, tags, provenance, associations,
+  activity ledger) into spec/ as the HOSPES Guest CRM contract; drop all UCC/MCA/lead fields.
+caveats: >
+  Ignore its UCC/MCA scraping purpose entirely — do not reuse lead language or the
+  public-record domain. Extract the multi-tenant service/database shell only. Postgres/Redis
+  are a later production concern, NOT part of the $0/keyless v0 (which stays stdlib+YAML).

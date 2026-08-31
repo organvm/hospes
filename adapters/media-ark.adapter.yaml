@@ -1,0 +1,26 @@
+system: media-ark
+claimed_by: [chatgpt_audit, github_scan, local_scan]
+repo: organvm/media-ark
+verified: true
+verified_how: >
+  gh repo view organvm/media-ark AND 4444J99/media-ark (both PRIVATE, pushedAt 2026-07-13).
+  Scan notes primary work is local-first at 4444J99/media-ark; both remotes resolve.
+disposition: retain-service
+capability: >
+  Canonical local-first media archive: ingest → sha256 dedup → OCR/enrichment → metadata
+  sidecars → canonical indexing, with integrity verification and repair, plus HTTP API + MCP
+  + dashboard. Owns the identity of the authoritative master file.
+seam:
+  consumes: [recording.completed]
+  emits: [media.ingested]
+  interface: >
+    Service adapter over its HTTP/MCP surface — HOSPES hands off recordings for canonical
+    ingest and reads back master identity + sidecars. Derivative workers read masters, never
+    overwrite them.
+first_integration_step: >
+  Wire a media-handoff seam so a completed recording flows to Media Ark for canonical ingest,
+  and HOSPES stores only the returned master identity (not the bytes).
+caveats: >
+  Media Ark is the archive of record; the content engine may read masters and write
+  derivatives but must never become the canonical store. Keeps the clean boundary that
+  protects provenance.

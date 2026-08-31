@@ -1,0 +1,27 @@
+system: application-pipeline
+claimed_by: [chatgpt_audit, github_scan]
+repo: organvm/application-pipeline
+verified: true
+verified_how: >
+  gh repo view organvm/application-pipeline (also present at 4444J99/application-pipeline,
+  PUBLIC, pushedAt 2026-07-13). NOTE: local scan claimed ~/Code/application-pipeline but that
+  path is MISSING on disk — the repo is authoritative, the local-path claim is not.
+disposition: extract-package
+capability: >
+  Opportunity state machine with scoring, funnel/velocity analytics, next-action and
+  overdue logic, a relationship CRM, and a weak-tie network graph with proximity scoring.
+  The audit's strongest hidden discovery: its application lifecycle maps almost 1:1 onto
+  the guest appearance lifecycle.
+seam:
+  consumes: [person.created, appearance.candidate_created]
+  emits: [appearance.qualified, appearance.approved, followup.due, relationship.edge_created]
+  interface: >
+    Python package @hospes/network-graph — extract crm.py + network_graph.py lifecycle,
+    scorecards, and pathfinding; call as a library, not a running service.
+first_integration_step: >
+  Copy the appearance state-machine + scoring semantics into spec/ as HOSPES domain
+  contracts, renaming application terms to podcast terms (application → appearance_opportunity,
+  interview → recording, outcome → booked/declined/revisit/published).
+caveats: >
+  Do not preserve job-application terminology in the product. Extract logic; do not fork the
+  repo into HOSPES. Local-path claim in the scan is stale — trust the GitHub repo.

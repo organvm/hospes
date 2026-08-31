@@ -1,0 +1,280 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/sponsor.schema.json",
+  "title": "Sponsor",
+  "description": "A brand or organization running a sponsorship campaign on one or more episodes. Sponsors are tracked as domain objects so editorial independence, ad-read requirements, approval gates, and conflict-of-interest checks can be systematized. Sponsor financial commitments always require human approval — the system drafts ad reads and tracks deliverables; it never commits to a deal or sends invoices autonomously. Contact details and deal terms live with their external owner: this contract carries only opaque custody references to them.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "sponsor_id",
+    "name"
+  ],
+  "properties": {
+    "sponsor_id": {
+      "type": "string",
+      "description": "Stable UUID for this sponsor."
+    },
+    "name": {
+      "type": "string",
+      "description": "Brand or company name."
+    },
+    "category": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Industry or product category (for editorial conflict checking)."
+    },
+    "contact_route_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "contact_route_ids for the sponsor's representatives."
+    },
+    "campaigns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "campaign_id": {
+            "type": "string"
+          },
+          "show_id": {
+            "type": "string"
+          },
+          "episode_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "proposed",
+              "approved",
+              "active",
+              "completed",
+              "cancelled"
+            ]
+          },
+          "ad_format": {
+            "type": "string",
+            "enum": [
+              "host_read",
+              "produced_spot",
+              "house_ad",
+              "integration",
+              "other"
+            ],
+            "description": "Format of the sponsorship. See Commercial Break Lab in show DNA for format definitions."
+          },
+          "spots_contracted": {
+            "type": "integer"
+          },
+          "spots_delivered": {
+            "type": "integer"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "approved_by": {
+            "type": "string"
+          },
+          "approved_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "description": "Active and historical sponsorship campaigns."
+    },
+    "slots": {
+      "type": "array",
+      "description": "Ad inventory this sponsor holds. A slot exists whether or not it is sold, which is what makes sold-versus-available answerable; revenue recognizes sold slots only.",
+      "items": {
+        "type": "object",
+        "required": [
+          "type",
+          "rate",
+          "sold"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "slot_id": {
+            "type": "string",
+            "description": "Identity of the declared inventory slot on the episode."
+          },
+          "episode_id": {
+            "type": "string",
+            "description": "Episode this slot belongs to."
+          },
+          "episode_range": {
+            "type": "string",
+            "description": "Human-readable episode range the sponsor contracted for."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "pre",
+              "mid",
+              "post"
+            ],
+            "description": "Commercial break position."
+          },
+          "rate": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Slot rate in minor currency units (integer cents)."
+          },
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "default": "USD",
+            "description": "ISO 4217 code the rate is denominated in."
+          },
+          "sold": {
+            "type": "boolean",
+            "description": "True only when the slot is sold; a reserved slot is not sold."
+          },
+          "committed": {
+            "type": "boolean",
+            "default": false,
+            "description": "The show already promised this slot. A committed slot left unsold blocks publication unless the show configures that rule off."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "available",
+              "reserved",
+              "sold"
+            ],
+            "description": "Current inventory state of the slot."
+          },
+          "sold_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "When the sale was recorded; the accounting export's Date column."
+          }
+        }
+      }
+    },
+    "contact": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_:.\\-/]{1,199}$",
+      "description": "Opaque custody reference to the sponsor's contact record (for example vault://sponsor/contact). Raw names, emails, and phone numbers are rejected."
+    },
+    "terms": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_:.\\-/]{1,199}$",
+      "description": "Opaque custody reference to the signed deal terms held by their external owner."
+    },
+    "editorial_conflicts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Categories or brands that would conflict with this sponsor (for editorial independence checks)."
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "show_id": {
+      "type": "string",
+      "description": "Show that owns this sponsor record. Sponsors never cross a show boundary."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "ended"
+      ],
+      "default": "active",
+      "description": "Only an active sponsor may be assigned a new ad slot."
+    },
+    "claims": {
+      "type": "array",
+      "description": "Claims governance. Every factual claim an ad read makes about this sponsor carries its public source and verification date and must be explicitly approved for external use; an unapproved claim blocks the episode. Field semantics follow claim_evidence.schema.json.",
+      "items": {
+        "type": "object",
+        "required": [
+          "claim",
+          "source_url",
+          "verified_date",
+          "approved_for_external_use"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "claim_id": {
+            "type": "string"
+          },
+          "claim": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "verified_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "approved_for_external_use": {
+            "type": "boolean"
+          },
+          "approved_by": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "approved_by_role": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "editorial_owner",
+              "relationship_owner",
+              null
+            ]
+          },
+          "approved_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}

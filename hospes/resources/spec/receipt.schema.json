@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hospes.organvm/spec/receipt.schema.json",
+  "type": "object",
+  "required": ["receipt_id", "kind", "tenant_id", "show_id", "created_at"],
+  "properties": {
+    "receipt_id": {"type": "string", "minLength": 1},
+    "kind": {"type": "string", "enum": ["informal_touchpoint", "guest_history_entry", "manual_external_action", "media_handoff", "evaluation"]},
+    "tenant_id": {"type": "string", "minLength": 1},
+    "show_id": {"type": "string", "minLength": 1},
+    "guest_id": {"type": ["string", "null"]},
+    "opportunity_id": {"type": ["string", "null"]},
+    "partnership_id": {"type": ["string", "null"]},
+    "channel": {"type": ["string", "null"], "enum": ["text", "email", "ig", "in-person", "phone", "hallway", null]},
+    "notes_ref": {"type": ["string", "null"]},
+    "season": {"type": ["string", "null"], "maxLength": 32},
+    "episode": {"type": ["string", "null"], "maxLength": 32},
+    "disposition": {"type": ["string", "null"], "enum": ["APPROVED", "DECLINED", "SOFT_DECLINE", "HARD_DECLINE", "NO_RESPONSE", "REVISIT_LATER", "PROTECTED", "DO_NOT_CONTACT", "RECORDED", "PUBLISHED", "CANCELLED", null]},
+    "date": {"type": ["string", "null"], "format": "date"},
+    "recorded_by": {"type": ["string", "null"]},
+    "recorded_by_role": {"type": ["string", "null"], "enum": ["host", "producer", "editorial_owner", "relationship_owner", "legacy", null]},
+    "occurred_at": {"type": ["string", "null"], "format": "date-time"},
+    "initiator": {"type": ["string", "null"]},
+    "initiator_role": {"type": ["string", "null"], "enum": ["host", "producer", "editorial_owner", "relationship_owner", "legacy", null]},
+    "created_at": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {"if": {"properties": {"kind": {"const": "informal_touchpoint"}}}, "then": {"required": ["guest_id", "opportunity_id", "channel", "notes_ref", "occurred_at", "initiator", "initiator_role"], "properties": {"notes_ref": {"pattern": "^private-field://[0-9a-f-]{36}$"}}}},
+    {"if": {"properties": {"kind": {"const": "guest_history_entry"}}}, "then": {"required": ["guest_id", "season", "episode", "disposition", "date", "notes_ref", "recorded_by", "recorded_by_role"]}}
+  ]
+}

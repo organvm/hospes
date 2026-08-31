@@ -1,0 +1,208 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HOSPES Canonical Pipeline States",
+  "description": "Canonical state set for AppearanceOpportunity. Every opportunity has exactly one state at any time. Main states form a linear progression through the production lifecycle; branch states are terminal or holding states reachable from multiple points in the main flow. The transitions map lists legal next states from each state — derived conservatively from lifecycle order and the branch rules in transcript §4 and domain_kernel.yaml.",
+  "version": "0.1.0",
+  "main_states": [
+    {
+      "state": "DISCOVERED",
+      "ordinal": 1,
+      "description": "A Person was identified as a potential guest candidate. No research or editorial work has started."
+    },
+    {
+      "state": "RESEARCHING",
+      "ordinal": 2,
+      "description": "Background research is being conducted on the candidate: public work, prior interviews, editorial fit."
+    },
+    {
+      "state": "QUALIFIED",
+      "ordinal": 3,
+      "description": "Research complete. The candidate has a proposed episode thesis and passes editorial criteria. Ready for host review."
+    },
+    {
+      "state": "EDITORIAL_REVIEW",
+      "ordinal": 4,
+      "description": "The opportunity is in the host or producer approval queue. A human is reviewing why_guest, why_now, episode_thesis, and relationship_class."
+    },
+    {
+      "state": "APPROVED",
+      "ordinal": 5,
+      "description": "A human approved this opportunity for outreach. The system may now identify contact routes and draft messages."
+    },
+    {
+      "state": "CONTACT_ROUTE_IDENTIFIED",
+      "ordinal": 6,
+      "description": "The best available contact route has been identified and verified for this opportunity."
+    },
+    {
+      "state": "OUTREACH_DRAFTED",
+      "ordinal": 7,
+      "description": "The system generated a draft outreach message. Awaiting human review and approval before sending."
+    },
+    {
+      "state": "OUTREACH_APPROVED",
+      "ordinal": 8,
+      "description": "A human approved the outreach draft. Ready to send — the human sends it; the system records the action."
+    },
+    {
+      "state": "OUTREACH_SENT",
+      "ordinal": 9,
+      "description": "First outreach was sent by a human. The system begins tracking for replies and follow-up deadlines."
+    },
+    {
+      "state": "FOLLOW_UP_DUE",
+      "ordinal": 10,
+      "description": "A follow-up deadline was reached with no reply. A human must decide: send a follow-up draft, pause, or close."
+    },
+    {
+      "state": "INTERESTED",
+      "ordinal": 11,
+      "description": "The guest expressed positive interest. Scheduling or negotiation may now begin."
+    },
+    {
+      "state": "NEGOTIATING",
+      "ordinal": 12,
+      "description": "Active negotiation on fees, logistics, travel, topic scope, or format. All negotiation requires human handling — the system does not improvise."
+    },
+    {
+      "state": "SCHEDULING",
+      "ordinal": 13,
+      "description": "Scheduling dates, times, and studio for the recording."
+    },
+    {
+      "state": "BOOKED",
+      "ordinal": 14,
+      "description": "Recording is confirmed with date, time, and studio assignment."
+    },
+    {
+      "state": "INTAKE_PENDING",
+      "ordinal": 15,
+      "description": "Guest intake form (logistics preferences, care profile, shipping consent) is awaiting completion."
+    },
+    {
+      "state": "PREINTERVIEW_PENDING",
+      "ordinal": 16,
+      "description": "The pre-interview call between producer and guest is scheduled but not yet completed."
+    },
+    {
+      "state": "RELEASE_PENDING",
+      "ordinal": 17,
+      "description": "The guest release/consent form is outstanding. Recording may not proceed until signed."
+    },
+    {
+      "state": "PREP_IN_PROGRESS",
+      "ordinal": 18,
+      "description": "Production prep is active: research brief delivered to host, segment deck finalized, studio logistics confirmed."
+    },
+    {
+      "state": "RECORDING_READY",
+      "ordinal": 19,
+      "description": "All production, technical, and logistics checks have passed. The episode is cleared to record."
+    },
+    {
+      "state": "RECORDED",
+      "ordinal": 20,
+      "description": "The recording session is complete. Raw media is being ingested."
+    },
+    {
+      "state": "POST_RECORDING_FOLLOWUP",
+      "ordinal": 21,
+      "description": "Post-recording follow-up with the guest is due: thank-you note, gift arrangement, promise tracking."
+    },
+    {
+      "state": "TRANSCRIPT_READY",
+      "ordinal": 22,
+      "description": "A transcript has been generated and attached to the episode. Content review may begin."
+    },
+    {
+      "state": "CONTENT_IN_REVIEW",
+      "ordinal": 23,
+      "description": "Edited audio/video and derived content units are in human review before publication approval."
+    },
+    {
+      "state": "PUBLICATION_PENDING",
+      "ordinal": 24,
+      "description": "Content is approved and scheduled; distribution is queued."
+    },
+    {
+      "state": "PUBLISHED",
+      "ordinal": 25,
+      "description": "The episode is published to all distribution channels."
+    },
+    {
+      "state": "RELATIONSHIP_NURTURE",
+      "ordinal": 26,
+      "description": "Post-publication relationship maintenance. The system tracks nurture cadence and drafts check-ins; a human sends them."
+    }
+  ],
+  "branch_states": [
+    {
+      "state": "DECLINED",
+      "description": "The guest declined the invitation. Reason is recorded for future re-evaluation. Reachable from OUTREACH_SENT, FOLLOW_UP_DUE, INTERESTED, NEGOTIATING."
+    },
+    {
+      "state": "PAUSED",
+      "description": "Opportunity is on hold at human discretion — timing or capacity issue. May resume from any active state."
+    },
+    {
+      "state": "REVISIT_LATER",
+      "description": "Guest or show decided to revisit after a future date. revisit_after date is required. May resume from OUTREACH_SENT, INTERESTED, SCHEDULING."
+    },
+    {
+      "state": "DUPLICATE",
+      "description": "This record is a duplicate of another AppearanceOpportunity for the same Person + Show. The canonical record is the surviving one."
+    },
+    {
+      "state": "DO_NOT_CONTACT",
+      "description": "The guest explicitly opted out of all contact. Terminal state — no automation or human may initiate contact. Equivalent to person.do_not_contact_set on the linked Person."
+    },
+    {
+      "state": "LEGAL_REVIEW",
+      "description": "This opportunity is under legal review and all automated processing is halted. Requires human resolution."
+    },
+    {
+      "state": "NEEDS_HUMAN",
+      "description": "The system escalated this opportunity because it encountered a situation outside its decision scope. A human must review and manually advance or close."
+    },
+    {
+      "state": "CANCELLED",
+      "description": "A confirmed booking was cancelled before recording. Distinct from DECLINED (which is pre-booking). Reachable from BOOKED and later states."
+    }
+  ],
+  "transitions": {
+    "DISCOVERED": ["RESEARCHING", "PAUSED", "DUPLICATE", "DO_NOT_CONTACT", "NEEDS_HUMAN"],
+    "RESEARCHING": ["QUALIFIED", "DECLINED", "PAUSED", "DO_NOT_CONTACT", "NEEDS_HUMAN", "LEGAL_REVIEW"],
+    "QUALIFIED": ["EDITORIAL_REVIEW", "PAUSED", "REVISIT_LATER", "DO_NOT_CONTACT", "NEEDS_HUMAN"],
+    "EDITORIAL_REVIEW": ["APPROVED", "DECLINED", "PAUSED", "REVISIT_LATER", "DO_NOT_CONTACT", "NEEDS_HUMAN", "LEGAL_REVIEW"],
+    "APPROVED": ["CONTACT_ROUTE_IDENTIFIED", "PAUSED", "NEEDS_HUMAN"],
+    "CONTACT_ROUTE_IDENTIFIED": ["OUTREACH_DRAFTED", "PAUSED", "NEEDS_HUMAN"],
+    "OUTREACH_DRAFTED": ["OUTREACH_APPROVED", "APPROVED", "PAUSED", "NEEDS_HUMAN"],
+    "OUTREACH_APPROVED": ["OUTREACH_SENT", "OUTREACH_DRAFTED", "PAUSED"],
+    "OUTREACH_SENT": ["FOLLOW_UP_DUE", "INTERESTED", "DECLINED", "REVISIT_LATER", "DO_NOT_CONTACT", "NEEDS_HUMAN", "LEGAL_REVIEW"],
+    "FOLLOW_UP_DUE": ["OUTREACH_SENT", "INTERESTED", "DECLINED", "REVISIT_LATER", "DO_NOT_CONTACT", "PAUSED", "NEEDS_HUMAN"],
+    "INTERESTED": ["NEGOTIATING", "SCHEDULING", "DECLINED", "REVISIT_LATER", "PAUSED", "NEEDS_HUMAN", "LEGAL_REVIEW"],
+    "NEGOTIATING": ["SCHEDULING", "DECLINED", "REVISIT_LATER", "PAUSED", "NEEDS_HUMAN", "LEGAL_REVIEW"],
+    "SCHEDULING": ["BOOKED", "INTAKE_PENDING", "DECLINED", "REVISIT_LATER", "PAUSED", "NEEDS_HUMAN"],
+    "BOOKED": ["INTAKE_PENDING", "PREINTERVIEW_PENDING", "RELEASE_PENDING", "PREP_IN_PROGRESS", "CANCELLED", "PAUSED", "NEEDS_HUMAN", "LEGAL_REVIEW"],
+    "INTAKE_PENDING": ["PREINTERVIEW_PENDING", "RELEASE_PENDING", "PREP_IN_PROGRESS", "CANCELLED", "NEEDS_HUMAN"],
+    "PREINTERVIEW_PENDING": ["RELEASE_PENDING", "PREP_IN_PROGRESS", "CANCELLED", "NEEDS_HUMAN"],
+    "RELEASE_PENDING": ["PREP_IN_PROGRESS", "CANCELLED", "LEGAL_REVIEW", "NEEDS_HUMAN"],
+    "PREP_IN_PROGRESS": ["RECORDING_READY", "CANCELLED", "PAUSED", "NEEDS_HUMAN"],
+    "RECORDING_READY": ["RECORDED", "CANCELLED", "NEEDS_HUMAN"],
+    "RECORDED": ["POST_RECORDING_FOLLOWUP", "TRANSCRIPT_READY", "NEEDS_HUMAN", "LEGAL_REVIEW"],
+    "POST_RECORDING_FOLLOWUP": ["TRANSCRIPT_READY", "NEEDS_HUMAN"],
+    "TRANSCRIPT_READY": ["CONTENT_IN_REVIEW", "NEEDS_HUMAN", "LEGAL_REVIEW"],
+    "CONTENT_IN_REVIEW": ["PUBLICATION_PENDING", "TRANSCRIPT_READY", "LEGAL_REVIEW", "NEEDS_HUMAN"],
+    "PUBLICATION_PENDING": ["PUBLISHED", "CONTENT_IN_REVIEW", "LEGAL_REVIEW", "NEEDS_HUMAN"],
+    "PUBLISHED": ["RELATIONSHIP_NURTURE", "LEGAL_REVIEW", "NEEDS_HUMAN"],
+    "RELATIONSHIP_NURTURE": ["NEEDS_HUMAN"],
+    "DECLINED": ["REVISIT_LATER"],
+    "PAUSED": ["DISCOVERED", "RESEARCHING", "QUALIFIED", "EDITORIAL_REVIEW", "APPROVED", "CONTACT_ROUTE_IDENTIFIED", "OUTREACH_DRAFTED", "OUTREACH_APPROVED", "INTERESTED", "NEGOTIATING", "SCHEDULING", "BOOKED", "INTAKE_PENDING", "PREINTERVIEW_PENDING", "RELEASE_PENDING", "PREP_IN_PROGRESS"],
+    "REVISIT_LATER": ["RESEARCHING", "EDITORIAL_REVIEW", "DISCOVERED"],
+    "DUPLICATE": [],
+    "DO_NOT_CONTACT": [],
+    "LEGAL_REVIEW": ["NEEDS_HUMAN"],
+    "NEEDS_HUMAN": ["DISCOVERED", "RESEARCHING", "QUALIFIED", "EDITORIAL_REVIEW", "APPROVED", "CONTACT_ROUTE_IDENTIFIED", "OUTREACH_DRAFTED", "OUTREACH_APPROVED", "OUTREACH_SENT", "INTERESTED", "NEGOTIATING", "SCHEDULING", "BOOKED", "INTAKE_PENDING", "PREINTERVIEW_PENDING", "RELEASE_PENDING", "PREP_IN_PROGRESS", "RECORDING_READY", "RECORDED", "POST_RECORDING_FOLLOWUP", "TRANSCRIPT_READY", "CONTENT_IN_REVIEW", "PUBLICATION_PENDING", "PUBLISHED", "RELATIONSHIP_NURTURE", "DECLINED", "CANCELLED", "LEGAL_REVIEW"],
+    "CANCELLED": ["REVISIT_LATER", "NEEDS_HUMAN"]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "number_of_results": 2,
+  "results": [
+    {
+      "title": "New Guest - reference entry",
+      "url": "https://en.wikipedia.org/wiki/New_Guest",
+      "content": "Synthetic encyclopedia entry describing the 2019 founding date.",
+      "publishedDate": "2024-01-02"
+    },
+    {
+      "title": "New Guest conference keynote",
+      "url": "https://www.youtube.com/watch?v=synthetic-keynote",
+      "content": "Synthetic public keynote in which the guest repeats the founding claim.",
+      "publishedDate": "2022-09-08"
+    }
+  ]
+}

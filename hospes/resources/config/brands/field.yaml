@@ -1,0 +1,10 @@
+version: 1
+show_id: field
+show_name: HOSPES Field
+logo_path: config/brand-assets/field-logo.svg
+favicon_path: config/brand-assets/field-favicon.svg
+primary_color: "#6f7f5b"
+secondary_color: "#1c2420"
+accent_color: "#d8b56a"
+font_family: ui-sans-serif, system-ui, sans-serif
+custom_domain: null

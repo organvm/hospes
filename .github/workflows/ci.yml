@@ -1,0 +1,95 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: python-${{ matrix.python-version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.14"]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: pip install -e '.[test,api]'
+      - name: Run done predicate
+        run: bash done.sh
+
+  dashboard-quality:
+    name: dashboard-quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install Python and browser dependencies
+        run: pip install -e '.[test,api]'
+      - name: Install pinned dashboard tooling
+        run: npm ci
+      - name: Install pinned Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run authenticated mobile audit
+        env:
+          HOSPES_OPERATOR_TOKEN: synthetic-ci-operator-token
+        run: bash scripts/run-dashboard-quality.sh
+      - name: Upload dashboard evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: dashboard-quality
+          path: artifacts/dashboard-quality
+          if-no-files-found: error
+
+  postgresql-16:
+    name: postgresql-16
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+      - name: Install PostgreSQL 16 toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes postgresql-16
+      - name: Verify PostgreSQL 16 TLS bootstrap and migration ledger
+        env:
+          HOSPES_POSTGRES_BIN: /usr/lib/postgresql/16/bin
+        run: bash scripts/verify-postgres-bootstrap.sh
+
+  hospes-done:
+    name: hospes-done
+    if: always()
+    needs: [python, dashboard-quality, postgresql-16]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require the complete Phase 0 predicate set
+        env:
+          PYTHON_RESULT: ${{ needs.python.result }}
+          DASHBOARD_RESULT: ${{ needs.dashboard-quality.result }}
+          POSTGRESQL_RESULT: ${{ needs.postgresql-16.result }}
+        run: |
+          test "$PYTHON_RESULT" = success
+          test "$DASHBOARD_RESULT" = success
+          test "$POSTGRESQL_RESULT" = success

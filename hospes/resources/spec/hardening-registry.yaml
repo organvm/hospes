@@ -1,0 +1,1806 @@
+# HOSPES hardening registry — the deferred review-finding control plane.
+#
+# Sibling of completion-registry.yaml. That registry owns the SHIPPED surface
+# (17 issues, closed); this one owns the DEFERRED surface (109 findings held in
+# 11 consolidated hardening issues) so `done.sh` can see review debt instead of
+# reporting green above it.
+#
+# Two rules are load-bearing and are enforced by scripts/check_hardening.py:
+#
+#   1. No row carries a count, a percentage, or a distance. Open/closed totals,
+#      per-severity counts, and ratchet comparisons are DERIVED from the rows
+#      and from live GitHub state. There is no field here to lie in.
+#   2. Absence must be named. An empty `files` list requires
+#      `attribution: unattributed` plus an `attribution_note`; a `severity`
+#      whose rank differs from the GitHub `priority` requires a
+#      `severity_note`. "N/A" is never a resting state.
+#
+# `priority` is the label the finding carries on GitHub, recorded as-found and
+# never edited here. `severity` is this registry's own re-anchoring. They are
+# separate fields on purpose: the backlog's labels are demonstrably mis-anchored
+# (path traversal and consent-form clickjacking arrived P2; "register four event
+# types in a YAML" arrived P1), and silently overwriting a label would destroy
+# the evidence that the re-ranking happened at all.
+#
+# `files` means WHERE THE FIX LANDS, not where the symptom is observed. For
+# H-70.8 that is the schema itself; for H-72.5 it is the validator, not the
+# config file it fails to validate.
+
+version: 1
+repository: organvm/hospes
+registry_owner: hospes/resources/spec/hardening-registry.yaml
+campaign: HOSPES 1.0 post-merge hardening
+plan: docs/plans/2026-08-15-hospes-heal-expand-ideal-forms.md
+
+# Severity vocabulary — this registry's own anchoring, applied uniformly.
+severities:
+  S1:
+    title: Exploitable, cross-tenant, or legally load-bearing
+    definition: >-
+      Reachable by an actor who should not reach it (wrong role, other tenant,
+      unauthenticated), leaks or crosses a custody boundary, or defeats a
+      consent artifact that carries legal weight.
+  S2:
+    title: Wrong durable data or an unrecoverable state
+    definition: >-
+      Produces incorrect persisted data (money, receipts, identity, provenance)
+      or strands a record in a state the supported API cannot leave.
+  S3:
+    title: Recoverable, cosmetic, or internal-only
+    definition: >-
+      Messaging, ordering, developer ergonomics, or a defect whose blast radius
+      is a single retry.
+
+# Theme vocabulary — closed. A theme is what makes a SWEEP possible: rows
+# sharing a theme share a fix shape, so the theme drives batching, and `phase`
+# says which plan phase owns it.
+themes:
+  authorization:
+    title: Server-side role enforcement missing or divergent
+    phase: 1
+  client-only-gate:
+    title: Capability enforced in the client but not the server, or vice versa
+    phase: 1
+  actor-provenance:
+    title: Receipt records a synthesized actor instead of the authenticated one
+    phase: 1
+  portal-entry-point:
+    title: Guest portal application has no production mount
+    phase: 2
+  portal-intake-bypass:
+    title: Portal intake reachable without a session or custody
+    phase: 2
+  trusted-origins:
+    title: Token-bearing origin derived from caller input instead of config
+    phase: 2
+  error-envelope:
+    title: Exception detail flows to an external caller
+    phase: 2
+  tenant-scoping:
+    title: Lookup keyed on show alone, crossing the tenant boundary
+    phase: 2
+  do-not-contact:
+    title: Outbound path not gated on an active do-not-contact directive
+    phase: 2
+  schema-conformance:
+    title: Emitted payload does not satisfy its declared schema
+    phase: 2
+  canonical-identity:
+    title: Identity derived non-injectively or from a non-canonical alias
+    phase: 2
+  validate-then-commit:
+    title: Row committed before the validation that can reject it
+    phase: 2
+  path-canonicalization:
+    title: Prefix matched textually, admitting traversal
+    phase: 2
+  money-currency:
+    title: Minor units summed across differing currencies
+    phase: 2
+  receipt-provenance:
+    title: Receipt timestamp or source taken from the wrong record
+    phase: 2
+  pagination:
+    title: Listing silently truncates at a cap
+    phase: 2
+  fail-open-predicate:
+    title: Guard admits the unenumerated case
+    phase: 3
+  config-ignored:
+    title: Declared configuration is not read at the decision point
+    phase: 3
+  readiness-probe:
+    title: Availability reported without probing the dependency
+    phase: 3
+  race-and-lock:
+    title: Concurrent decision without a lock or a re-read
+    phase: 3
+  idempotence:
+    title: Retry does not converge on the original outcome
+    phase: 3
+  checksum-verification:
+    title: Stored checksum not verified, or absent for migrated rows
+    phase: 3
+  migration-backfill:
+    title: Migration leaves legacy rows in a state later code assumes away
+    phase: 3
+  dead-end-state:
+    title: Record reaches a state the supported API cannot leave
+    phase: 3
+  input-validation:
+    title: Input accepted that downstream code cannot honour
+    phase: 3
+  lease-lifetime:
+    title: Lease shorter than the work it protects
+    phase: 3
+  active-show-gate:
+    title: Write accepted for an inactive or unregistered show
+    phase: 3
+  aggregation-scope:
+    title: Aggregate spans records it should exclude
+    phase: 3
+  failure-isolation:
+    title: One participant's failure aborts or corrupts the batch
+    phase: 3
+  ordering-and-ranking:
+    title: Sort drops or buries records that should surface
+    phase: 3
+  secret-scanning:
+    title: Generated artifact escapes the secret scan
+    phase: 3
+  domain-kernel-registration:
+    title: Executable schema ships contracts the domain kernel does not declare
+    phase: 3
+  message-quality:
+    title: Operator-facing message names the wrong cause
+    phase: 3
+  brand-resolution:
+    title: Brand resolved at the wrong scope or from the wrong source
+    phase: 3
+  browser-hardening:
+    title: Missing browser-side security header on a sensitive surface
+    phase: 3
+  workspace-bootstrap:
+    title: Onboarding leaves the generated workspace unusable
+    phase: 3
+  state-semantics:
+    title: State name asserts something the code did not do
+    phase: 3
+  missing-read-path:
+    title: Data is sealed with no authorized reader
+    phase: 3
+  client-render-state:
+    title: Client renders an action the server will deterministically refuse
+    phase: 3
+  read-only-mode:
+    title: Mutation surface active in a query-only scenario
+    phase: 3
+
+# Contradictions the taxonomy surfaced. Each is DECIDED here rather than
+# silently resolved by whichever sweep lands first. `resolution` is binding on
+# the implementing PR.
+contradictions:
+  - id: C-1
+    between: [H-73.2, H-73.1, H-81.11]
+    conflict: >-
+      H-73.2 wants the duplicate-receipt lookup ordered BEFORE the
+      do-not-contact check so a legitimate provider retry after a later block
+      returns the existing receipt; H-73.1 and H-81.11 want do-not-contact
+      enforced before any guest-bearing write.
+    resolution: >-
+      Order duplicate-receipt lookup first, but scope it strictly to returning
+      an ALREADY-EXISTING receipt unchanged. Do-not-contact continues to gate
+      every path that creates or mutates state. A retry is a read; a mint is a
+      write. Implement as two distinct code paths, not one reordered branch.
+  - id: C-2
+    between: [H-71.5]
+    conflict: >-
+      Prescribed as a client-only fix ("disable the export button"), which the
+      Phase 1 audit flags as the exact shape of a mislabeled server hole.
+    resolution: >-
+      Treat as server-side until proven otherwise. Before implementing, confirm
+      whether the revenue CSV route enforces an export capability; if it does
+      not, this row is an `authorization` finding and its theme changes. Do not
+      ship the button fix alone.
+    needs_code_check: true
+  - id: C-3
+    between: [H-82.8, H-82.9]
+    conflict: >-
+      Opposite-direction gating in one file: H-82.8 wants a form HIDDEN for
+      blocked cards, H-82.9 wants an action SHOWN for read-only roles.
+    resolution: >-
+      Both are correct and both are symptoms of gating on a coarse
+      manage-capability. Resolve together by splitting view-capability from
+      manage-capability at the card level, derived from the Phase 1 capability
+      list. Landing either alone re-encodes the other.
+  - id: C-4
+    between: [H-73.9, H-81.2]
+    conflict: >-
+      H-73.9 wants `host` ADMITTED to record guest history; H-81.2 wants `host`
+      REFUSED a portal-link mint. Read as role statements these contradict.
+    resolution: >-
+      Not a contradiction once capability replaces role. `host` holds the
+      guest-history capability and does not hold the portal-mint capability.
+      This is resolvable ONLY by Phase 1; neither row may be implemented as a
+      role-list edit beforehand.
+  - id: C-5
+    between: [H-70.3, H-70.5]
+    conflict: >-
+      H-70.3 restores a fail-closed status predicate. H-70.5 blocks migrated
+      clearances that carry no evidence. Landing H-70.3 alone makes the gate
+      look fail-closed while evidence-less migrated rows still pass.
+    resolution: >-
+      Land as one PR. H-70.3 without H-70.5 is a false closure — the gate reads
+      as repaired and the hole it was meant to close stays open.
+    landing_constraint: single-pr
+
+findings:
+  # ---- Issue #70 — rights-clearance gate (from PR #61) ----
+  - id: H-70.1
+    issue: 70
+    priority: P1
+    severity: S2
+    severity_note: >-
+      Legacy mutators bypass evidence and receipts, but reaching them still requires an
+      authorized caller; the effect is untrustworthy durable data, not an authorization break.
+    theme: actor-provenance
+    files: [hospes/platform.py, hospes/clearances.py]
+    attribution: symbol
+    attribution_note: >-
+      `add_clearance`/`update_clearance` are defined in hospes/platform.py,
+      which PR #61 never touched — the finding points at pre-existing legacy
+      code outside its own originating PR.
+    close_condition: >-
+      No code path can create or clear a clearance row without an actor,
+      evidence, checksum, and receipt; `publication_gate` rejects any row
+      lacking them.
+    status: open
+    evidence: review-thread
+  - id: H-70.2
+    issue: 70
+    priority: P1
+    severity: S2
+    severity_note: >-
+      Records against the wrong show inside the operator's own scope — wrong durable data, no
+      custody crossing.
+    theme: tenant-scoping
+    files: [dashboard/assets/partnership-workspace.js]
+    attribution: symbol
+    close_condition: >-
+      New clearances record against the active scoped show or an explicit
+      selector; `scopedShowIds()[0]` no longer decides.
+    status: open
+    evidence: review-thread
+  - id: H-70.3
+    issue: 70
+    priority: P1
+    severity: S1
+    theme: fail-open-predicate
+    files: [hospes/clearances.py]
+    attribution: symbol
+    severity_note: >-
+      Re-anchored up within P1: the gate authorizes PUBLICATION, and it fails
+      open on any status not enumerated. There is no CHECK constraint on the
+      column, so the set of unenumerated statuses is unbounded.
+    close_condition: >-
+      The publication gate blocks every status not explicitly cleared; a test
+      introduces an unenumerated status and asserts refusal.
+    status: open
+    evidence: review-thread
+    regression_class: true
+    landing_constraint: single-pr-with-H-70.5
+  - id: H-70.4
+    issue: 70
+    priority: P1
+    severity: S2
+    severity_note: >-
+      The lost update corrupts receipt lineage and needs two concurrent authorized deciders;
+      unreachable by an unauthorized actor.
+    theme: race-and-lock
+    files: [hospes/clearances.py]
+    attribution: symbol
+    close_condition: >-
+      Concurrent decisions serialize; the loser cannot append a receipt with a
+      stale `from_status`. Read-and-compare happens under a write lock inside
+      the savepoint.
+    status: open
+    evidence: review-thread
+  - id: H-70.5
+    issue: 70
+    priority: P1
+    severity: S1
+    theme: migration-backfill
+    files: [hospes/migrations.py, hospes/clearances.py]
+    attribution: symbol
+    severity_note: >-
+      Legacy `cleared` rows carry no evidence, no deciding identity, and no
+      receipt, yet the gate treats them as publishable — the same authorization
+      bypass as H-70.3 arriving through migration instead of through a status.
+    close_condition: >-
+      Evidence-less migrated `cleared` rows are either migrated to a blocking
+      state pending human re-decision, or rejected by the gate. A test asserts
+      an upgraded v-prior row cannot publish.
+    status: open
+    evidence: review-thread
+    landing_constraint: single-pr-with-H-70.3
+  - id: H-70.6
+    issue: 70
+    priority: P1
+    severity: S2
+    severity_note: >-
+      The 503 follows a committed state change, stranding an already-authorized publication.
+      Recoverable on re-read, so S2 rather than S1.
+    theme: validate-then-commit
+    files: [hospes/clearances.py]
+    attribution: symbol
+    close_condition: >-
+      Reveal/validation precedes the status+receipt commit, or the caller
+      receives a non-decrypted projection; a 503 can no longer follow a state
+      change that already authorized publication.
+    status: open
+    evidence: review-thread
+  - id: H-70.7
+    issue: 70
+    priority: P2
+    severity: S2
+    theme: pagination
+    files: [hospes/clearances.py]
+    attribution: symbol
+    close_condition: >-
+      The CSV report pages through every row, or a truncated export is marked
+      and refused. Silent truncation at MAX_LIST_LIMIT is gone.
+    status: open
+    evidence: review-thread
+  - id: H-70.8
+    issue: 70
+    priority: P2
+    severity: S2
+    theme: schema-conformance
+    files: [spec/clearance.schema.json, hospes/resources/spec/clearance.schema.json]
+    attribution: prose
+    attribution_note: >-
+      Two files: spec/ and the packaged mirror under hospes/resources/spec/
+      must stay identical.
+    close_condition: >-
+      `reveal_clearance` responses validate against spec/clearance.schema.json;
+      the four revealed properties are declared.
+    status: open
+    evidence: review-thread
+  - id: H-70.9
+    issue: 70
+    priority: P2
+    severity: S2
+    theme: config-ignored
+    files: [hospes/clearances.py]
+    attribution: symbol
+    close_condition: >-
+      Classification branches on `custody_mode` rather than on value syntax, or
+      the reserved `private-field://` scheme is rejected for external custody.
+    status: open
+    evidence: review-thread
+  - id: H-70.10
+    issue: 70
+    priority: P2
+    severity: S2
+    theme: input-validation
+    files: [hospes/clearances.py, hospes/distribution.py]
+    attribution: symbol
+    severity_note: >-
+      Re-anchored up from the P2 label: existing records can no longer be
+      drafted, authorized, or published — a regression that strands live data.
+    close_condition: >-
+      The gate uses the established episode-ID validation; identifiers the
+      prior path accepted (slash separators, up to 200 chars) are accepted
+      again, with a regression test pinning the accepted shape.
+    status: open
+    evidence: review-thread
+    regression_class: true
+  - id: H-70.11
+    issue: 70
+    priority: P2
+    severity: S3
+    severity_note: >-
+      A duplicate concurrent recording returns 409 instead of the winner's row; the caller
+      retries successfully.
+    theme: idempotence
+    files: [hospes/clearances.py]
+    attribution: symbol
+    close_condition: >-
+      A duplicate concurrent recording returns the winner's record rather than
+      409; the loser rolls back and refetches the scoped record before
+      concluding conflict.
+    status: open
+    evidence: review-thread
+  - id: H-70.12
+    issue: 70
+    priority: P2
+    severity: S1
+    theme: tenant-scoping
+    files: [hospes/migrations.py]
+    attribution: symbol
+    severity_note: >-
+      Re-anchored up from P2: the single-column FK accepts a clearance ID from
+      ANOTHER TENANT. This is a cross-tenant custody break, which the severity
+      rubric places at S1 regardless of the label it arrived with.
+    close_condition: >-
+      The receipt FK references `(tenant_id, show_id, clearance_id)` against
+      the scoped unique key; a test asserts a cross-tenant clearance ID is
+      rejected by the database, not merely by application code.
+    status: open
+    evidence: review-thread
+
+  # ---- Issue #71 — sponsor inventory & revenue (from PR #62) ----
+  - id: H-71.1
+    issue: 71
+    priority: P1
+    severity: S2
+    severity_note: >-
+      The migration fails and is left unapplied — an upgrade blocker on real data, not an
+      exposure.
+    theme: migration-backfill
+    files: [hospes/migrations.py]
+    attribution: symbol
+    close_condition: >-
+      Migration 016 reconciles pre-existing duplicates (or fails with a named
+      remediation) before creating the unique index; a fixture with duplicate
+      rows migrates successfully or aborts with an actionable message.
+    status: open
+    evidence: review-thread
+    upgrade_risk: true
+  - id: H-71.2
+    issue: 71
+    priority: P1
+    severity: S2
+    severity_note: >-
+      A numerically invalid revenue figure is wrong durable data shown to operators; no boundary
+      is crossed.
+    theme: money-currency
+    files: [hospes/sponsors.py]
+    attribution: symbol
+    close_condition: >-
+      Revenue totals group by currency or convert explicitly; no total is
+      labelled with a currency it does not uniformly hold.
+    status: open
+    evidence: review-thread
+  - id: H-71.3
+    issue: 71
+    priority: P1
+    severity: S2
+    severity_note: >-
+      A malformed show silently inherits the permissive runtime policy. A genuine fail-open, but
+      confined to one tenant's own configuration.
+    theme: fail-open-predicate
+    files: [hospes/configuration.py]
+    attribution: symbol
+    close_condition: >-
+      `sponsor_inventory_policy()` catches only missing-show, so a malformed
+      tracked show YAML raises instead of falling back to the permissive
+      runtime policy.
+    status: open
+    evidence: review-thread
+  - id: H-71.4
+    issue: 71
+    priority: P1
+    severity: S1
+    theme: tenant-scoping
+    files: [hospes/configuration.py]
+    attribution: symbol
+    severity_note: >-
+      Two tenants registering the same show identifier load each other's
+      policy. Cross-tenant, therefore S1.
+    close_condition: >-
+      Sponsor policy resolves on `(tenant_id, show_id)`; a test registers the
+      same show id under two tenants and asserts policy isolation.
+    status: open
+    evidence: review-thread
+  - id: H-71.5
+    issue: 71
+    priority: P2
+    severity: S2
+    theme: client-only-gate
+    files: [dashboard/assets/partnership-workspace.js, dashboard/assets/capabilities.mjs]
+    attribution: symbol
+    close_condition: >-
+      Export is refused where `canExport` is false — server-side if C-2's code
+      check finds the route unguarded, client-side additionally.
+    status: open
+    evidence: review-thread
+    contradiction: C-2
+  - id: H-71.6
+    issue: 71
+    priority: P2
+    severity: S2
+    theme: dead-end-state
+    files: [hospes/sponsors.py]
+    attribution: symbol
+    close_condition: >-
+      An assignment whose slot type was narrowed out can still be released
+      through the supported API; a test narrows `slot_types` after assignment
+      and completes a release.
+    status: open
+    evidence: review-thread
+  - id: H-71.7
+    issue: 71
+    priority: P2
+    severity: S3
+    severity_note: >-
+      An empty Date column on legacy rows of an export — cosmetic.
+    theme: migration-backfill
+    files: [hospes/migrations.py, hospes/sponsors.py]
+    attribution: symbol
+    close_condition: >-
+      `sold_at` is backfilled for pre-existing sold rows; `accounting_csv()`
+      exports a non-empty Date column for legacy records.
+    status: open
+    evidence: review-thread
+  - id: H-71.8
+    issue: 71
+    priority: P2
+    severity: S3
+    severity_note: >-
+      The message names the wrong cause; the block itself is correct.
+    theme: message-quality
+    files: [hospes/distribution.py]
+    attribution: symbol
+    close_condition: >-
+      Sponsor-only blockers are named as such in authorize/publish messaging,
+      not aliased to rights language.
+    status: open
+    evidence: review-thread
+    partially_addressed: 61f4e7a
+
+  # ---- Issue #72 — white-label branding (from PR #66) ----
+  - id: H-72.1
+    issue: 72
+    priority: P1
+    severity: S3
+    theme: brand-resolution
+    files: [config/brands/client-x.yaml, hospes/resources/config/brands/client-x.yaml]
+    attribution: prose
+    severity_note: >-
+      Re-anchored down from P1: the effect is an unreachable sample link in
+      shipped example config. No live tenant data is at risk.
+    close_condition: >-
+      The sample brand ships `custom_domain: null`; token creation against the
+      shipped sample yields a reachable URL.
+    status: open
+    evidence: review-thread
+  - id: H-72.2
+    issue: 72
+    priority: P1
+    severity: S1
+    theme: brand-resolution
+    files: [hospes/guest_portal.py, hospes/branding.py]
+    attribution: symbol
+    severity_note: >-
+      In a multi-show deployment every token renders one show's identity — a
+      cross-show identity leak on the guest-facing surface.
+    close_condition: >-
+      Brand resolves per token from the token's `show_id`, not once per
+      connection at app startup.
+    status: open
+    evidence: review-thread
+  - id: H-72.3
+    issue: 72
+    priority: P2
+    severity: S2
+    theme: validate-then-commit
+    files: [hospes/branding.py, hospes/api.py]
+    attribution: symbol
+    close_condition: >-
+      `portal_base_url` is resolved and validated before the token row is
+      inserted; a malformed custom domain leaves no orphaned active-looking
+      token.
+    status: open
+    evidence: review-thread
+  - id: H-72.4
+    issue: 72
+    priority: P2
+    severity: S3
+    severity_note: >-
+      Shipped defaults diverge from the installation brand — visible drift with no data effect.
+    theme: config-ignored
+    files: [hospes/branding.py]
+    attribution: symbol
+    close_condition: >-
+      `brand=None` loads the installation brand the portal app serves, not
+      hard-coded shipped defaults.
+    status: open
+    evidence: review-thread
+  - id: H-72.5
+    issue: 72
+    priority: P2
+    severity: S2
+    theme: config-ignored
+    files: [hospes/configuration.py]
+    attribution: symbol
+    attribution_note: >-
+      The prose names config/brand.yaml, but that is the file being validated;
+      the fix lands in `validate_configuration()`.
+    close_condition: >-
+      `hospes config validate` fails on a broken installation-level
+      config/brand.yaml instead of deferring the failure to runtime.
+    status: open
+    evidence: review-thread
+
+  # ---- Issue #73 — guest CRM cross-season memory (from PR #63) ----
+  - id: H-73.1
+    issue: 73
+    priority: P1
+    severity: S1
+    theme: do-not-contact
+    files: [hospes/candidate_import.py]
+    attribution: symbol
+    severity_note: >-
+      Re-import under the same `source_key` swaps an opportunity off a BLOCKED
+      guest's directive — a defeat of the do-not-contact boundary, which the
+      rubric places at S1.
+    close_condition: >-
+      Re-import with a differing `guest_id` under an existing `source_key` is
+      refused; a test asserts a blocked guest cannot be swapped out.
+    status: open
+    evidence: review-thread
+    contradiction: C-1
+  - id: H-73.2
+    issue: 73
+    priority: P2
+    severity: S3
+    severity_note: >-
+      A provider retry fails and can be reissued; per C-1 the reordering is read-only.
+    theme: idempotence
+    files: [hospes/candidate_import.py]
+    attribution: symbol
+    close_condition: >-
+      A provider retry after a later block returns the existing receipt
+      unchanged; the reordering is read-only per C-1 and creates no state.
+    status: open
+    evidence: review-thread
+    contradiction: C-1
+  - id: H-73.3
+    issue: 73
+    priority: P2
+    severity: S2
+    theme: migration-backfill
+    files: [hospes/platform.py]
+    attribution: symbol
+    close_condition: >-
+      `record_guest_history()` populates the interaction date on insert, so
+      `date DESC` cannot surface a stale interaction as most recent.
+    status: open
+    evidence: review-thread
+  - id: H-73.4
+    issue: 73
+    priority: P2
+    severity: S2
+    theme: canonical-identity
+    files: [hospes/guest_crm.py]
+    attribution: symbol
+    close_condition: >-
+      History UUID derivation is injective; a test with colon-bearing
+      guest_id/season/episode values produces distinct UUIDs.
+    status: open
+    evidence: review-thread
+  - id: H-73.5
+    issue: 73
+    priority: P2
+    severity: S2
+    theme: idempotence
+    files: [hospes/guest_crm.py]
+    attribution: symbol
+    close_condition: >-
+      A retry with a conflicting external reference raises 409 rather than
+      silently returning the original row.
+    status: open
+    evidence: review-thread
+  - id: H-73.6
+    issue: 73
+    priority: P2
+    severity: S3
+    severity_note: >-
+      Raises PlatformError instead of returning a blocked/due result; the caller sees a clear
+      error rather than a wrong answer.
+    theme: canonical-identity
+    files: [hospes/nurture.py, hospes/platform.py]
+    attribution: symbol
+    close_condition: >-
+      CRM-style identifiers (colons, dots, slashes, uppercase) reach
+      `contact_directive()` and return a blocked/due result instead of raising
+      PlatformError.
+    status: open
+    evidence: review-thread
+  - id: H-73.7
+    issue: 73
+    priority: P2
+    severity: S2
+    theme: schema-conformance
+    files: [hospes/guest_crm.py]
+    attribution: symbol
+    attribution_note: >-
+      The prose names spec/receipt.schema.json, but the schema is correct; the
+      fix is to return `receipt_id` from the entry constructor.
+    close_condition: >-
+      Guest-history entries carry `receipt_id` and validate against
+      spec/receipt.schema.json.
+    status: open
+    evidence: review-thread
+  - id: H-73.8
+    issue: 73
+    priority: P2
+    severity: S2
+    theme: canonical-identity
+    files: [hospes/guest_crm.py, hospes/service.py]
+    attribution: symbol
+    close_condition: >-
+      Row-ID aliases persist `guest_identity(opportunity)` rather than the
+      alias, so entries remain visible to cross-season lookups.
+    status: open
+    evidence: review-thread
+  - id: H-73.9
+    issue: 73
+    priority: P2
+    severity: S3
+    severity_note: >-
+      Hosts cannot use a form they are authorized for — a capability gap on the client only, and
+      one Phase 1 closes as a side effect.
+    theme: client-only-gate
+    files: [dashboard/assets/partnership-workspace.js]
+    attribution: symbol
+    close_condition: >-
+      The guest-history form is gated on the guest-history capability, which
+      `host` holds, rather than on `canManageRegister`.
+    status: open
+    evidence: review-thread
+    contradiction: C-4
+    blocked_by_phase: 1
+  - id: H-73.10
+    issue: 73
+    priority: P2
+    severity: S2
+    theme: do-not-contact
+    files: [hospes/candidate_import.py]
+    attribution: symbol
+    close_condition: >-
+      An import agreeing with the live do-not-contact state is a no-op; the
+      directive's attribution and reason are not rewritten.
+    status: open
+    evidence: review-thread
+    contradiction: C-1
+
+  # ---- Issue #76 — team notifications & assignments (from PR #64) ----
+  - id: H-76.1
+    issue: 76
+    priority: P1
+    severity: S2
+    severity_note: >-
+      The receipt names a synthesized authorizer, corrupting the audit trail; the action itself
+      was properly authorized.
+    theme: actor-provenance
+    files: [hospes/notifications.py]
+    attribution: symbol
+    attribution_note: >-
+      Pinned to the literal `"actor_role": "network_operator"` in
+      `record_delivery_receipt` (hospes/notifications.py:1024 at b787d58).
+    close_condition: >-
+      The delivery receipt records the actual authenticated authorizer; a test
+      authorizes as a non-network_operator role and asserts the receipt agrees.
+    status: open
+    evidence: review-thread
+  - id: H-76.2
+    issue: 76
+    priority: P1
+    severity: S1
+    theme: tenant-scoping
+    files: [hospes/configuration.py, hospes/notifications.py]
+    attribution: symbol
+    severity_note: >-
+      A same-named show in another tenant leaks its permissive outbound-mode
+      config across the tenant boundary. Cross-tenant, therefore S1.
+    close_condition: >-
+      Outbound delivery policy resolves on `(tenant_id, show_id)`; the sweep
+      that fixes H-71.4 covers this site.
+    status: open
+    evidence: review-thread
+  - id: H-76.3
+    issue: 76
+    priority: P2
+    severity: S2
+    theme: active-show-gate
+    files: [hospes/notifications.py]
+    attribution: symbol
+    close_condition: >-
+      `_assign` and `emit` apply the active-show gate `emit_transition`
+      already enforces.
+    status: open
+    evidence: review-thread
+  - id: H-76.4
+    issue: 76
+    priority: P2
+    severity: S2
+    theme: pagination
+    files: [hospes/notifications.py]
+    attribution: symbol
+    close_condition: >-
+      Read-all traverses beyond MAX_LIMIT; no unread notification survives a
+      read-all.
+    status: open
+    evidence: review-thread
+  - id: H-76.5
+    issue: 76
+    priority: P2
+    severity: S3
+    severity_note: >-
+      Ordering buries critical undated items; they stay reachable through the API.
+    theme: ordering-and-ranking
+    files: [hospes/notifications.py]
+    attribution: symbol
+    close_condition: >-
+      Critical items without a due date sort ahead of normal dated items.
+    status: open
+    evidence: review-thread
+  - id: H-76.6
+    issue: 76
+    priority: P2
+    severity: S3
+    severity_note: >-
+      Controls render and 409 in a demo scenario — cosmetic, in a non-production mode.
+    theme: read-only-mode
+    files: [dashboard/assets/notifications.js]
+    attribution: symbol
+    close_condition: >-
+      Mark read / Mark all read / Mark done are hidden in the query-only demo
+      scenario rather than rendering and 409ing.
+    status: open
+    evidence: review-thread
+
+  # ---- Issue #77 — onboarding wizard (from PR #67) ----
+  - id: H-77.1
+    issue: 77
+    priority: P1
+    severity: S3
+    severity_note: >-
+      Re-anchored down two ranks. An unauthenticated `gh` on PATH reports ready, producing a
+      clear downstream failure on a developer-only surface with no data effect.
+    theme: readiness-probe
+    files: [hospes/onboarding.py]
+    attribution: symbol
+    close_condition: >-
+      `GithubCliAdapter.available()` probes `gh auth status`; an unauthenticated
+      CLI on PATH reports unavailable.
+    status: open
+    evidence: review-thread
+  - id: H-77.2
+    issue: 77
+    priority: P1
+    severity: S1
+    theme: secret-scanning
+    files: [hospes/onboarding.py]
+    attribution: symbol
+    severity_note: >-
+      A newly generated config file silently skips the secret scan. The failure
+      mode is a committed credential, so this is S1 despite the modest diff.
+    close_condition: >-
+      `assert_no_secrets` runs over every generated config file, derived from
+      the generation manifest rather than an allowlist; adding a generated file
+      cannot bypass it.
+    status: open
+    evidence: review-thread
+  - id: H-77.3
+    issue: 77
+    priority: P1
+    severity: S3
+    theme: domain-kernel-registration
+    files: [config/domain_kernel.yaml, hospes/resources/config/domain_kernel.yaml]
+    attribution: prose
+    severity_note: >-
+      Re-anchored DOWN from P1. This is a declaration-parity chore with no
+      runtime effect on custody, money, or authorization — the clearest
+      instance of the backlog's mis-anchored labels, and the reason a naive
+      "P1s first" plan would work the wrong queue.
+    close_condition: >-
+      The four onboarding receipt/event types are declared in the domain
+      kernel and its packaged mirror; the schema-conformance harness validates
+      them.
+    status: open
+    evidence: review-thread
+  - id: H-77.4
+    issue: 77
+    priority: P1
+    severity: S2
+    severity_note: >-
+      Leaves the generated workspace unusable. The blast radius is a fresh install; no live data
+      is at risk.
+    theme: workspace-bootstrap
+    files: [hospes/onboarding.py]
+    attribution: symbol
+    close_condition: >-
+      The workspace is initialized and committed before `gh repo create
+      --source --push`; the created repo is non-empty.
+    status: open
+    evidence: review-thread
+  - id: H-77.5
+    issue: 77
+    priority: P1
+    severity: S2
+    severity_note: >-
+      Reads checkout-wide resources into a fresh workspace — wrong bootstrap state, contained to
+      install time.
+    theme: workspace-bootstrap
+    files: [hospes/onboarding.py]
+    attribution: symbol
+    close_condition: >-
+      The init-time demo run reads the new workspace's pipeline/config root,
+      not checkout-wide module-level resources.
+    status: open
+    evidence: review-thread
+  - id: H-77.6
+    issue: 77
+    priority: P1
+    severity: S2
+    severity_note: >-
+      A malformed runtime.yaml passes validation and fails later; the failure is loud when it
+      arrives.
+    theme: workspace-bootstrap
+    files: [hospes/onboarding.py]
+    attribution: symbol
+    close_condition: >-
+      `validate_workspace` calls `configuration.load_runtime` on the
+      workspace's own runtime.yaml; a malformed file fails validation.
+    status: open
+    evidence: review-thread
+  - id: H-77.7
+    issue: 77
+    priority: P2
+    severity: S1
+    theme: path-canonicalization
+    files: [hospes/configuration.py, hospes/onboarding.py]
+    attribution: symbol
+    severity_note: >-
+      Re-anchored UP from P2. `dna/../../outside.show.yaml` escapes the
+      intended root — path traversal, which the rubric places at S1 regardless
+      of the arriving label.
+    close_condition: >-
+      `dna_ref` is resolved and asserted to stay inside `<root>/dna`; a test
+      asserts a dot-segment escape is refused.
+    status: open
+    evidence: review-thread
+  - id: H-77.8
+    issue: 77
+    priority: P2
+    severity: S3
+    severity_note: >-
+      Emoji-only names alias to "show" at install time, immediately visible to the installer.
+    theme: input-validation
+    files: [hospes/onboarding.py]
+    attribution: symbol
+    close_condition: >-
+      `_slug` raises on emoji/symbol-only names instead of aliasing them to
+      "show".
+    status: open
+    evidence: review-thread
+
+  # ---- Issue #78 — analytics (from PR #68) ----
+  - id: H-78.1
+    issue: 78
+    priority: P1
+    severity: S2
+    severity_note: >-
+      Unverified import receipts admit wrong durable metrics; the provider path is already
+      authenticated.
+    theme: checksum-verification
+    files: [hospes/api.py]
+    attribution: prose
+    close_condition: >-
+      Import receipts are validated against stored provider receipts before
+      acceptance.
+    status: open
+    evidence: review-thread
+  - id: H-78.2
+    issue: 78
+    priority: P1
+    severity: S2
+    severity_note: >-
+      Trend aggregation spans the wrong period — wrong reported numbers, no boundary crossed.
+    theme: aggregation-scope
+    files: [hospes/analytics.py]
+    attribution: prose
+    close_condition: >-
+      Trend aggregation is restricted to the latest episode period.
+    status: open
+    evidence: review-thread
+  - id: H-78.3
+    issue: 78
+    priority: P1
+    severity: S1
+    theme: authorization
+    files: [hospes/api.py, hospes/analytics.py]
+    attribution: prose
+    attribution_note: >-
+      analytics.py is included because no public function there takes an
+      `actor_role`; enforcing on the API alone would leave the module
+      unable to express the check.
+    close_condition: >-
+      Analytics read and export routes enforce the capability server-side; a
+      test asserts a role without the analytics capability is refused.
+    status: open
+    evidence: review-thread
+    blocked_by_phase: 1
+  - id: H-78.4
+    issue: 78
+    priority: P2
+    severity: S2
+    theme: config-ignored
+    files: [hospes/analytics.py]
+    attribution: symbol
+    close_condition: >-
+      A provider disabled in the analytics policy is not fetched or charged.
+    status: open
+    evidence: review-thread
+  - id: H-78.5
+    issue: 78
+    priority: P2
+    severity: S3
+    severity_note: >-
+      The scheduled filter is advisory once H-78.4 lands and the enabled flag is honoured.
+    theme: config-ignored
+    files: [hospes/analytics.py]
+    attribution: symbol
+    close_condition: >-
+      The scheduled-provider filter is honoured by the fetch path.
+    status: open
+    evidence: review-thread
+  - id: H-78.6
+    issue: 78
+    priority: P2
+    severity: S2
+    theme: input-validation
+    files: [hospes/analytics.py]
+    attribution: symbol
+    close_condition: >-
+      Every analytics import row is validated as an object; a non-object row
+      is refused with a named error rather than raising downstream.
+    status: open
+    evidence: review-thread
+  - id: H-78.7
+    issue: 78
+    priority: P2
+    severity: S2
+    theme: failure-isolation
+    files: [hospes/analytics.py]
+    attribution: symbol
+    close_condition: >-
+      One provider's import failure does not abort the other providers in a
+      multi-provider fetch.
+    status: open
+    evidence: review-thread
+  - id: H-78.8
+    issue: 78
+    priority: P2
+    severity: S3
+    severity_note: >-
+      An inflated imported count is a reporting artifact; the metrics themselves are correct.
+    theme: aggregation-scope
+    files: [hospes/analytics.py]
+    attribution: symbol
+    close_condition: >-
+      The imported count reflects newly inserted metrics only.
+    status: open
+    evidence: review-thread
+  - id: H-78.9
+    issue: 78
+    priority: P2
+    severity: S2
+    theme: active-show-gate
+    files: [hospes/analytics.py]
+    attribution: symbol
+    close_condition: >-
+      Fetching requires an active registered show.
+    status: open
+    evidence: review-thread
+  - id: H-78.10
+    issue: 78
+    priority: P2
+    severity: S2
+    theme: input-validation
+    files: [hospes/analytics.py]
+    attribution: symbol
+    attribution_note: >-
+      Independently corroborated: `isfinite` appears nowhere in the tree at
+      b787d58, so no path rejects a non-finite projection.
+    close_condition: >-
+      Non-finite numeric projections (NaN, ±inf) are rejected at the boundary.
+    status: open
+    evidence: review-thread
+
+  # ---- Issue #80 — bounded research agent (from PR #69) ----
+  - id: H-80.1
+    issue: 80
+    priority: P1
+    severity: S1
+    theme: tenant-scoping
+    files: [hospes/research_agent.py]
+    attribution: annotated
+    severity_note: >-
+      `/run` for one tenant executes and CHARGES for another tenant's job.
+      Cross-tenant with a money effect.
+    close_condition: >-
+      `run_once()` leases only the requested job; a test asserts a tenant
+      cannot execute another tenant's queued job.
+    status: open
+    evidence: review-thread
+  - id: H-80.2
+    issue: 80
+    priority: P2
+    severity: S2
+    theme: lease-lifetime
+    files: [hospes/research_agent.py]
+    attribution: annotated
+    close_condition: >-
+      `run_job()` holds a lease covering the declared 120s timeout; a
+      60–120s provider call completes without failing `jobs.complete()`.
+    status: open
+    evidence: review-thread
+  - id: H-80.3
+    issue: 80
+    priority: P2
+    severity: S3
+    severity_note: >-
+      An empty-string counterargument satisfies review-readiness, but the human reviewer still
+      sees the empty field.
+    theme: input-validation
+    files: [hospes/research_agent.py]
+    attribution: annotated
+    close_condition: >-
+      `_review_ready()` requires a nonempty counterargument; `[""]` no longer
+      satisfies it.
+    status: open
+    evidence: review-thread
+  - id: H-80.4
+    issue: 80
+    priority: P2
+    severity: S2
+    theme: client-render-state
+    files: [dashboard/assets/app.js]
+    attribution: annotated
+    close_condition: >-
+      Crawler seeds are collected before the UI starts the job; a crawler job
+      started from the dashboard can succeed.
+    status: open
+    evidence: review-thread
+  - id: H-80.5
+    issue: 80
+    priority: P2
+    severity: S2
+    theme: failure-isolation
+    files: [hospes/research_agent.py]
+    attribution: annotated
+    close_condition: >-
+      A mid-retrieval ProviderError still records incurred cost in the ledger
+      and receipt.
+    status: open
+    evidence: review-thread
+  - id: H-80.6
+    issue: 80
+    priority: P2
+    severity: S2
+    theme: checksum-verification
+    files: [hospes/research_agent.py]
+    attribution: annotated
+    close_condition: >-
+      Read paths call `_assert_unmutated()`; an out-of-band edit to a locked
+      brief is detected rather than served as locked.
+    status: open
+    evidence: review-thread
+  - id: H-80.7
+    issue: 80
+    priority: P2
+    severity: S2
+    theme: checksum-verification
+    files: [hospes/research_agent.py]
+    attribution: annotated
+    close_condition: >-
+      `execute_job()` compares the rebuilt request against
+      `lease.payload_checksum` before retrieval.
+    status: open
+    evidence: review-thread
+  - id: H-80.8
+    issue: 80
+    priority: P2
+    severity: S2
+    theme: canonical-identity
+    files: [dashboard/assets/app.js]
+    attribution: annotated
+    close_condition: >-
+      Dashboard-derived guest identities cannot collide across distinct
+      candidates; research histories stay separate.
+    status: open
+    evidence: review-thread
+  - id: H-80.9
+    issue: 80
+    priority: P2
+    severity: S2
+    theme: migration-backfill
+    files: [hospes/migrations.py]
+    attribution: annotated
+    close_condition: >-
+      Upgraded v18 reviewed rows carry a `content_checksum`, so
+      `_assert_unmutated()` cannot skip them.
+    status: open
+    evidence: review-thread
+  - id: H-80.10
+    issue: 80
+    priority: P2
+    severity: S2
+    theme: race-and-lock
+    files: [hospes/research_agent.py]
+    attribution: annotated
+    close_condition: >-
+      `/complete` accepts manual research jobs only; it cannot race a live
+      provider worker's completion.
+    status: open
+    evidence: review-thread
+  - id: H-80.11
+    issue: 80
+    priority: P2
+    severity: S1
+    theme: path-canonicalization
+    files: [hospes/integration_adapters.py]
+    attribution: annotated
+    severity_note: >-
+      Re-anchored UP from P2. Dot-segment traversal and un-slashed sibling
+      paths escape the allowlisted scope — the single most classically
+      exploitable finding in the non-portal backlog, arriving mislabelled.
+    close_condition: >-
+      Allowlisted paths are canonicalized before prefix matching via a shared
+      `resolve_within(root, ref)`; a test asserts `../` and sibling-prefix
+      escapes are refused.
+    status: open
+    evidence: review-thread
+  - id: H-80.12
+    issue: 80
+    priority: P2
+    severity: S2
+    theme: fail-open-predicate
+    files: [hospes/integration_adapters.py]
+    attribution: annotated
+    close_condition: >-
+      A URL with an empty title still reaches source-policy evaluation; a
+      disallowed source cannot escape the risk flag and receipt accounting.
+    status: open
+    evidence: review-thread
+  - id: H-80.13
+    issue: 80
+    priority: P2
+    severity: S2
+    theme: config-ignored
+    files: [hospes/research_agent.py]
+    attribution: annotated
+    close_condition: >-
+      `start_job()` consults config/runtime.yaml's enabled flag and the
+      ProviderRegistry, so an operator-disabled provider cannot be called or
+      charged.
+    status: open
+    evidence: review-thread
+  - id: H-80.14
+    issue: 80
+    priority: P2
+    severity: S2
+    theme: validate-then-commit
+    files: [hospes/research_agent.py]
+    attribution: annotated
+    close_condition: >-
+      The research row and its background job are created atomically; no
+      orphaned queued row survives an enqueue failure.
+    status: open
+    evidence: review-thread
+
+  # ---- Issue #81 — guest self-service portal (from PR #75) ----
+  - id: H-81.1
+    issue: 81
+    priority: P1
+    severity: S1
+    theme: portal-intake-bypass
+    files: [hospes/guest_portal.py]
+    attribution: annotated
+    attribution_note: >-
+      The branch is the client-supplied-key test `"session" in payload` at
+      hospes/guest_portal.py:793-817 (b787d58), reaching `complete_intake`.
+    close_condition: >-
+      `POST /guest/intake` requires a valid session; the reference-only API is
+      not reachable from the guest route. A test asserts the session-less form
+      returns 4xx.
+    status: open
+    evidence: review-thread
+  - id: H-81.2
+    issue: 81
+    priority: P1
+    severity: S1
+    theme: authorization
+    files: [hospes/api.py]
+    attribution: annotated
+    close_condition: >-
+      The portal-link route enforces the documented capability server-side; a
+      test asserts a `host` bearer is refused and an authorized role succeeds.
+    status: open
+    evidence: review-thread
+    contradiction: C-4
+    blocked_by_phase: 1
+  - id: H-81.3
+    issue: 81
+    priority: P1
+    severity: S2
+    severity_note: >-
+      Forces an either/or between portal and operator intake. A configuration limitation whose
+      default is the safe mode, not an exposure.
+    theme: config-ignored
+    files: [hospes/api.py, hospes/configuration.py]
+    attribution: annotated
+    close_condition: >-
+      Portal availability is an additive capability (or an explicit
+      precedence), so enabling it does not disable operator-mediated intake.
+    status: open
+    evidence: review-thread
+  - id: H-81.4
+    issue: 81
+    priority: P1
+    severity: S3
+    theme: domain-kernel-registration
+    files: [config/domain_kernel.yaml, hospes/resources/config/domain_kernel.yaml]
+    attribution: annotated
+    attribution_note: >-
+      The issue annotates hospes/migrations.py, but the migration is correct;
+      the missing declaration is in the domain kernel and its mirror.
+    severity_note: >-
+      Re-anchored down: declaration parity, no runtime custody effect.
+    close_condition: >-
+      `portal_date_choices`, `portal_receipts`, and `availability.provided` are
+      declared in the domain kernel and its packaged mirror.
+    status: open
+    evidence: review-thread
+  - id: H-81.5
+    issue: 81
+    priority: P1
+    severity: S1
+    theme: schema-conformance
+    files: [hospes/guest_portal.py]
+    attribution: annotated
+    severity_note: >-
+      The consent record is the legally load-bearing artifact of the whole
+      portal, and it does not satisfy spec/consent.schema.json. S1 by the
+      rubric's third clause.
+    close_condition: >-
+      Sealed consent records validate against spec/consent.schema.json,
+      carrying `consent_id`, `person_id`, and the singular `consent_type`.
+    status: open
+    evidence: review-thread
+  - id: H-81.6
+    issue: 81
+    priority: P1
+    severity: S1
+    theme: portal-entry-point
+    files: [hospes/guest_portal.py, hospes/operator.py, hospes/__main__.py]
+    attribution: annotated
+    severity_note: >-
+      Not a defect in the usual sense — the feature is unreachable in
+      production. Held at S1 because it BLOCKS VERIFICATION of the other 19
+      findings in this issue; nothing else here can be runtime-confirmed until
+      the app is mounted.
+    close_condition: >-
+      A documented, runnable production entry point serves the guest portal;
+      the end-to-end mint → exchange → submit path is exercised against it.
+    status: open
+    evidence: review-thread
+    sequence_first_in_track: portal
+  - id: H-81.7
+    issue: 81
+    priority: P1
+    severity: S1
+    theme: trusted-origins
+    files: [hospes/guest_portal.py]
+    attribution: annotated
+    severity_note: >-
+      A token minted for show B is exchangeable and submittable through show
+      A's portal — a cross-show custody break.
+    close_condition: >-
+      Session exchange verifies the token's tenant/show against the show this
+      app serves; a test asserts a foreign-show token is refused.
+    status: open
+    evidence: review-thread
+  - id: H-81.8
+    issue: 81
+    priority: P1
+    severity: S1
+    theme: trusted-origins
+    files: [hospes/api.py]
+    attribution: annotated
+    close_condition: >-
+      Portal origins derive only from trusted configuration; a caller-supplied
+      `base_url` cannot place a signed token on a foreign origin. A test
+      asserts the request-body override is ignored.
+    status: open
+    evidence: review-thread
+  - id: H-81.9
+    issue: 81
+    priority: P1
+    severity: S2
+    severity_note: >-
+      `sent` asserts a transmission that did not occur — a false operator-facing record. The
+      no-send invariant is intact, so nothing actually left the system.
+    theme: state-semantics
+    files: [hospes/guest_portal.py]
+    attribution: annotated
+    close_condition: >-
+      A minted link is distinguishable from a delivered one; `sent` is
+      reserved for a recorded human send receipt. The no-send-route invariant
+      is preserved — this adds a state, never a transmission.
+    status: open
+    evidence: review-thread
+  - id: H-81.10
+    issue: 81
+    priority: P1
+    severity: S2
+    severity_note: >-
+      Care details are sealed correctly but readable by no authorized path: safe and unusable,
+      rather than exposed.
+    theme: missing-read-path
+    files: [hospes/guest_portal.py, hospes/api.py]
+    attribution: annotated
+    close_condition: >-
+      An authorized operator can read submitted care details through a service
+      or API path; `FieldVault.reveal_json` is no longer reachable only from a
+      test.
+    status: open
+    evidence: review-thread
+  - id: H-81.11
+    issue: 81
+    priority: P1
+    severity: S1
+    theme: do-not-contact
+    files: [hospes/guest_portal.py, dashboard/assets/app.js]
+    attribution: annotated
+    close_condition: >-
+      Portal links are refused for guests with an active do-not-contact
+      directive, server-side, with the dashboard action hidden to match.
+    status: open
+    evidence: review-thread
+    contradiction: C-1
+  - id: H-81.12
+    issue: 81
+    priority: P2
+    severity: S3
+    severity_note: >-
+      The dashboard hides an action that would in fact work; the operator can still mint through
+      the API.
+    theme: config-ignored
+    files: [hospes/api.py]
+    attribution: annotated
+    close_condition: >-
+      `guest_portal_configured` reports true for a custom-domain-only
+      configuration with `HOSPES_PORTAL_BASE_URL` unset.
+    status: open
+    evidence: review-thread
+  - id: H-81.13
+    issue: 81
+    priority: P2
+    severity: S1
+    theme: browser-hardening
+    files: [dashboard/guest/index.html, hospes/guest_portal.py]
+    attribution: annotated
+    severity_note: >-
+      Re-anchored UP from P2. UI redressing around a click-wrap consent button
+      attacks the legally load-bearing artifact — S1 by the rubric's third
+      clause, and one of the two clearest mis-anchorings in the backlog.
+    close_condition: >-
+      `PORTAL_CONTENT_SECURITY_POLICY` declares `frame-ancestors 'none'` and
+      the guest app emits `X-Frame-Options`; a test asserts both headers.
+    status: open
+    evidence: review-thread
+  - id: H-81.14
+    issue: 81
+    priority: P2
+    severity: S2
+    theme: dead-end-state
+    files: [hospes/guest_portal.py]
+    attribution: annotated
+    close_condition: >-
+      An expired one-time session tells the guest to request a fresh link, and
+      operator status reflects the unrecoverable state rather than `opened`.
+    status: open
+    evidence: review-thread
+  - id: H-81.15
+    issue: 81
+    priority: P2
+    severity: S2
+    theme: input-validation
+    files: [hospes/guest_portal.py]
+    attribution: annotated
+    close_condition: >-
+      A nonempty offered slate smaller than `PREFERRED_DATE_COUNT` is refused
+      before the link is minted, so no unsubmittable link can exist.
+    status: open
+    evidence: review-thread
+  - id: H-81.16
+    issue: 81
+    priority: P2
+    severity: S2
+    theme: canonical-identity
+    files: [hospes/guest_portal.py]
+    attribution: annotated
+    close_condition: >-
+      Portal intake assigns to `guest_crm.guest_identity(opportunity)`, so
+      consent, dates, and status stay attached to the cross-season guest.
+    status: open
+    evidence: review-thread
+  - id: H-81.17
+    issue: 81
+    priority: P2
+    severity: S2
+    theme: client-render-state
+    files: [dashboard/assets/app.js]
+    attribution: annotated
+    close_condition: >-
+      The dashboard forwards `offeredDates` when minting, so the promised
+      three-date selection is reachable from the UI.
+    status: open
+    evidence: review-thread
+  - id: H-81.18
+    issue: 81
+    priority: P2
+    severity: S2
+    theme: validate-then-commit
+    files: [hospes/guest_portal.py]
+    attribution: annotated
+    close_condition: >-
+      `public_base` is resolved and validated before the token insert commits;
+      no durable token exists for a mint that returned 503.
+    status: open
+    evidence: review-thread
+  - id: H-81.19
+    issue: 81
+    priority: P2
+    severity: S1
+    theme: portal-intake-bypass
+    files: [hospes/api.py]
+    attribution: annotated
+    severity_note: >-
+      Re-anchored UP from P2: the API mints a valid one-time link the guest
+      can only spend into a permanent 503. The guest's single credential is
+      consumed by a configuration error.
+    close_condition: >-
+      Minting is refused when `application.state.field_vault` is absent, so no
+      link can be spent into an unavoidable 503.
+    status: open
+    evidence: review-thread
+  - id: H-81.20
+    issue: 81
+    priority: P2
+    severity: S2
+    theme: idempotence
+    files: [hospes/guest_portal.py]
+    attribution: annotated
+    close_condition: >-
+      Completion state survives link replacement; a submission through an
+      earlier unexpired link is visible on the operator surface.
+    status: open
+    evidence: review-thread
+
+  # ---- Issue #82 — publishing pipeline (from PR #74) ----
+  - id: H-82.1
+    issue: 82
+    priority: P1
+    severity: S2
+    severity_note: >-
+      Stale draft state is reported as freshly drafted, with no supported route to correct it —
+      wrong durable data.
+    theme: idempotence
+    files: [hospes/distribution.py]
+    attribution: annotated
+    close_condition: >-
+      Resubmitting a fixed idempotency key on an incomplete draft either
+      updates the draft or is refused; the UI cannot report stale state as
+      freshly drafted.
+    status: open
+    evidence: review-thread
+  - id: H-82.2
+    issue: 82
+    priority: P1
+    severity: S2
+    severity_note: >-
+      Delivery evidence names an adapter the show did not select, corrupting provenance.
+    theme: config-ignored
+    files: [hospes/distribution.py]
+    attribution: annotated
+    close_condition: >-
+      Adapter resolution honours each show's `provider_precedence`; delivery
+      evidence names the adapter the show selected.
+    status: open
+    evidence: review-thread
+  - id: H-82.3
+    issue: 82
+    priority: P2
+    severity: S2
+    theme: error-envelope
+    files: [hospes/api.py]
+    attribution: annotated
+    close_condition: >-
+      A generic error envelope covers the implicated handlers; all nine
+      CodeQL alerts on this class clear, verified together with H-83.3.
+    status: open
+    evidence: codeql
+    evidence_note: >-
+      No review-thread permalink — this row was synthesized from a CodeQL
+      alert class (9 alerts), not from a reviewer comment.
+    alert_count: 9
+  - id: H-82.4
+    issue: 82
+    priority: P2
+    severity: S2
+    theme: input-validation
+    files: [hospes/distribution.py]
+    attribution: annotated
+    close_condition: >-
+      `caption_ref` rejects plain `http://`, consistent with the HTTPS-only
+      rule already applied to audio references.
+    status: open
+    evidence: review-thread
+  - id: H-82.5
+    issue: 82
+    priority: P2
+    severity: S2
+    theme: dead-end-state
+    files: [hospes/distribution.py]
+    attribution: annotated
+    close_condition: >-
+      A failed-and-still-authorized distribution can be rescheduled, matching
+      the domain contract's retryable declaration.
+    status: open
+    evidence: review-thread
+  - id: H-82.6
+    issue: 82
+    priority: P2
+    severity: S2
+    theme: schema-conformance
+    files: [spec/distribution.schema.json, hospes/resources/spec/distribution.schema.json]
+    attribution: annotated
+    close_condition: >-
+      `DistributionJob` declares the emitted shape (`id`, `tenant_id`,
+      `show_id`); real rows validate.
+    status: open
+    evidence: review-thread
+  - id: H-82.7
+    issue: 82
+    priority: P2
+    severity: S2
+    theme: receipt-provenance
+    files: [hospes/distribution.py]
+    attribution: annotated
+    close_condition: >-
+      `started_at` records the real attempt start, not the job's last update;
+      the immutable receipt carries a true duration.
+    status: open
+    evidence: review-thread
+  - id: H-82.8
+    issue: 82
+    priority: P2
+    severity: S3
+    severity_note: >-
+      Renders a form the backend deterministically refuses; the refusal itself is correct.
+    theme: client-render-state
+    files: [dashboard/assets/partnership-workspace.js]
+    attribution: annotated
+    close_condition: >-
+      Card rendering receives the episode's publishable/gate state and hides
+      the authorize form for blocked cards.
+    status: open
+    evidence: review-thread
+    contradiction: C-3
+  - id: H-82.9
+    issue: 82
+    priority: P3
+    severity: S3
+    theme: client-only-gate
+    files: [dashboard/assets/partnership-workspace.js]
+    attribution: annotated
+    close_condition: >-
+      The Preview-package action is gated on the view capability, not the
+      manage capability.
+    status: open
+    evidence: review-thread
+    contradiction: C-3
+
+  # ---- Issue #83 — network portfolio dashboard (from PR #79) ----
+  - id: H-83.1
+    issue: 83
+    priority: P1
+    severity: S2
+    severity_note: >-
+      Booking velocity reads the wrong timestamp — wrong reported analytics, no custody effect.
+    theme: receipt-provenance
+    files: [hospes/network_dashboard.py]
+    attribution: annotated
+    close_condition: >-
+      Booking velocity reads the `booking.confirmed` receipt's `occurred_at`
+      rather than the opportunity's last mutation.
+    status: open
+    evidence: review-thread
+  - id: H-83.2
+    issue: 83
+    priority: P1
+    severity: S2
+    severity_note: >-
+      Multi-currency totals are materially wrong in exported financials; the export itself is
+      authorized.
+    theme: money-currency
+    files: [hospes/network_dashboard.py]
+    attribution: annotated
+    close_condition: >-
+      Network revenue totals group by currency; no exported total sums across
+      differing currencies with a null currency label.
+    status: open
+    evidence: review-thread
+  - id: H-83.3
+    issue: 83
+    priority: P2
+    severity: S2
+    theme: error-envelope
+    files: [hospes/api.py]
+    attribution: annotated
+    close_condition: >-
+      Cleared together with H-82.3 by the single error envelope; all thirteen
+      alerts on the class clear.
+    status: open
+    evidence: codeql
+    evidence_note: >-
+      No review-thread permalink — synthesized from a CodeQL alert class (4
+      alerts), same root class as H-82.3.
+    alert_count: 4
+  - id: H-83.4
+    issue: 83
+    priority: P2
+    severity: S2
+    theme: client-render-state
+    files: [dashboard/assets/partnership-workspace.js]
+    attribution: annotated
+    close_condition: >-
+      `hydrateActiveView()` reaches the network-view branch for shows without
+      a partnership record; a network operator sees the portfolio.
+    status: open
+    evidence: review-thread
+  - id: H-83.5
+    issue: 83
+    priority: P2
+    severity: S2
+    theme: aggregation-scope
+    files: [hospes/network_dashboard.py]
+    attribution: annotated
+    close_condition: >-
+      The guest-overlap query excludes terminal statuses (PUBLISHED, DECLINED,
+      CANCELLED, DO_NOT_CONTACT); a historical record no longer reports as a
+      live collision.
+    status: open
+    evidence: review-thread
+  - id: H-83.6
+    issue: 83
+    priority: P2
+    severity: S2
+    theme: read-only-mode
+    files: [hospes/api.py]
+    attribution: annotated
+    close_condition: >-
+      Report export in query_only mode returns a controlled 403/409 rather
+      than a 500 from an untranslated SQLite write rejection.
+    status: open
+    evidence: review-thread
+  - id: H-83.7
+    issue: 83
+    priority: P2
+    severity: S3
+    severity_note: >-
+      Duplicate overlap entries for a renamed guest — a display artifact.
+    theme: canonical-identity
+    files: [hospes/network_dashboard.py]
+    attribution: annotated
+    close_condition: >-
+      Overlap DISTINCT applies to the guest key alone; a varying display name
+      cannot duplicate matrix entries.
+    status: open
+    evidence: review-thread

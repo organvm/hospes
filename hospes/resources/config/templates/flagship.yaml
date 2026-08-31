@@ -1,0 +1,6 @@
+version: 1
+show_id: flagship
+class_to_template: {C0: producer_cold, C1: producer_cold, C2: prior_collaborator, C3: prior_collaborator}
+templates:
+  producer_cold: "Draft only: [VERIFIED PROJECT] connects to [EPISODE TENSION]. May the human sender share the private brief?"
+  prior_collaborator: "Draft only: a prior conversation touched [VERIFIED SUBJECT]; this episode tests [THESIS]."

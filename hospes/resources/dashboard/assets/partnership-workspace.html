@@ -1,0 +1,379 @@
+<section id="workbench-view" class="cockpit-view hidden" aria-labelledby="workbench-heading">
+      <section class="notice live-notice"><strong>Pilot boundary:</strong> a technical rehearsal is preserved separately and can never satisfy the private guest-pilot gate. HOSPES previews drafts and tracks booking; humans send, schedule, sign, and record externally.</section>
+      <header class="partnership-intro"><div class="eyebrow">Pilot 1 · Los Angeles</div><h2 id="workbench-heading">Pilot Workbench</h2><p>One primary, two ordered backups, and every prerequisite visible before recording.</p></header>
+      <section class="readiness-shell" data-guide="readiness-matrix">
+        <div class="readiness-score"><b id="readiness-score">0/14</b><span id="readiness-label">Next gate unavailable</span></div>
+        <div id="readiness-matrix" class="check-list"></div>
+      </section>
+      <section class="panel"><div class="panel-head"><h3>Candidate slate</h3><span>primary + ordered backups</span></div><div id="candidate-slate" class="slate-grid" data-guide="candidate-slate"></div></section>
+      <section class="panel planner-panel" aria-labelledby="planner-heading" data-guide="planner">
+        <div class="panel-head"><h3 id="planner-heading">Pilot execution planner</h3><span id="planner-run-state">not started</span></div>
+        <div class="context-grid planner-policy">
+          <div><span>Policy</span><b id="planner-policy">—</b></div>
+          <div><span>Deadline</span><b id="planner-deadline">—</b></div>
+          <div><span>Revision</span><b id="planner-revision">—</b></div>
+          <div><span>Risk</span><b id="planner-risk">—</b></div>
+        </div>
+        <button id="btn-start-pilot" class="btn-primary hidden" type="button">Start Pilot run</button>
+        <div id="planner-empty" class="empty">Complete the first four gates to start a revisioned Pilot run.</div>
+        <div id="planner-plan" class="planner-plan hidden">
+          <div class="planner-ranked">
+            <div class="eyebrow">Ranked action</div>
+            <h4 id="planner-action">—</h4>
+            <p id="planner-action-detail"></p>
+          </div>
+          <div class="planner-columns">
+            <div><h4>Assignments and timing</h4><div id="planner-assignments" class="planner-list"></div><div id="planner-timing" class="planner-list"></div></div>
+            <div><h4>Alternatives</h4><div id="planner-alternatives" class="planner-list"></div></div>
+            <div><h4>Constraints</h4><div id="planner-constraints" class="planner-list"></div></div>
+            <div><h4>Rationale</h4><div id="planner-rationale" class="planner-list"></div></div>
+          </div>
+          <div id="planner-decisions" class="actions planner-decisions" data-guide="planner-decisions"></div>
+          <p class="small-note">Every decision is an explicit click against the current revision. HOSPES cannot send.</p>
+        </div>
+      </section>
+
+      <details class="capture-panel" open>
+        <summary>Legal pilot actions for this operator role</summary>
+        <div class="action-console">
+          <label data-guide="workbench-opportunity">Candidate<select id="workbench-opportunity"></select></label>
+          <button id="btn-log-touchpoint" class="btn-primary" type="button" data-guide="btn-log-touchpoint">Log chat</button>
+          <div id="legal-actions" class="legal-actions"></div>
+          <section id="draft-console" class="subpanel" data-guide="draft-console">
+            <h4>Invitation review</h4>
+            <p>Preview first. A separate human-review step persists safe metadata only; copy stays disabled until then. No send control exists.</p>
+            <div id="contact-roster-panel" class="contact-roster-panel" data-guide="contact-roster">
+              <h5>Private contact roster</h5>
+              <div id="contact-roster-pills" class="contact-roster-pills"><span class="empty">No encrypted contact routes on file.</span></div>
+              <label>Verified invitation prefill<input id="invitation-route-prefill" class="sensitive-ref" readonly autocomplete="off" spellcheck="false" value="No verified route selected"></label>
+              <p class="small-note">Visible only to an authorized operator. Prefill never sends, books, or persists the private value in a draft.</p>
+            </div>
+            <button id="btn-preview-draft" type="button">Preview invitation</button>
+            <button id="btn-review-draft" class="hidden" type="button">Approve review metadata</button>
+            <button id="btn-copy-draft" class="hidden" type="button">Copy preview</button>
+            <textarea id="draft-preview-output" class="hidden" readonly aria-label="Transient draft preview"></textarea>
+          </section>
+          <form id="slot-form" class="compact-form"><h4>Candidate position</h4><label>Slot<select name="slot"><option value="1">Primary</option><option value="2">Backup 1</option><option value="3">Backup 2</option></select></label><button type="submit">Set position</button></form>
+          <form id="studio-form" class="compact-form"><h4>Studio routing</h4><label>City<select name="city" autocomplete="off"><option>Los Angeles</option><option>New York City</option><option>Austin</option></select></label><label>Opaque studio reference<input name="studio_reference" required placeholder="studio://owner/room" autocomplete="off" spellcheck="false"></label><button type="submit">Record routing</button></form>
+          <form id="receipt-form" class="capture-form" data-guide="receipt-form"><h4 class="span-2">Operational receipt</h4><label>Type<select name="receipt_type" id="receipt-type" autocomplete="off"><option>outreach.sent</option><option>reply.classified</option><option>booking.confirmed</option><option>consent.signed</option><option>recording.ready</option><option>recording.completed</option><option>media.ingested</option></select></label><label>Occurred at<input name="occurred_at" type="datetime-local" required autocomplete="off"></label><label class="span-2">Opaque receipt reference<input name="external_reference" required placeholder="registry://owner/receipt" autocomplete="off" spellcheck="false"></label><div id="receipt-detail-fields" class="span-2 receipt-details"></div><p id="receipt-draft-warning" class="span-2 empty">Persist human-reviewed draft metadata before recording outreach.</p><button id="receipt-submit" class="btn-primary" type="submit">Record evidence only</button></form>
+          <form id="brief-form" class="capture-form"><h4 class="span-2">Verified brief and segment</h4><label class="span-2">Verified claim<input name="claim" required></label><label>Evidence source<input name="evidence_source" required></label><label>Segment title<input name="segment_title" value="Claim → Stress Test → Artifact" required></label><label class="span-2">Segment objective<input name="segment_objective" required></label><button type="submit">Record brief</button></form>
+          <form id="asset-form" class="compact-form"><h4>Six-kind asset package</h4><label>Opaque custody root<input name="custody_root" required placeholder="production://pilot/assets"></label><div id="asset-package-list" class="package-list"><p class="empty">No package UUIDs for this candidate.</p></div><button type="submit">Declare package</button></form>
+          <form id="commitment-form" class="compact-form"><h4>Commitment</h4><label>Summary<input name="summary" required></label><label>Owner role<select name="owner_role"><option>producer</option><option>editorial_owner</option><option>relationship_owner</option></select></label><label>Due<input name="due_at" type="datetime-local" required></label><button type="submit">Record commitment</button></form>
+          <form id="review-form" class="capture-form"><h4 class="span-2">Bounded review receipt</h4><label>Review kind<select name="review_kind" autocomplete="off"><option>ari_review</option><option>partnership_review</option><option>technical_rehearsal</option><option>pilot_scorecard</option></select></label><label>Occurred at<input name="occurred_at" type="datetime-local" required autocomplete="off"></label><label>Decisions<input name="decisions_count" type="number" inputmode="numeric" min="0" max="100" value="0" required></label><label>Coverage met<input name="coverage_met" type="number" inputmode="numeric" min="0" max="100" value="0" required></label><label>Coverage total<input name="coverage_total" type="number" inputmode="numeric" min="0" max="100" value="10" required></label><label>Opaque external reference<input name="external_reference" placeholder="scorecard://owner/pilot-1" autocomplete="off" spellcheck="false"></label><button class="btn-primary" type="submit">Record review</button></form>
+        </div>
+      </details>
+
+      <section id="guest-touchpoint-panel" class="panel" data-guide="guest-touchpoints"><div class="panel-head"><h3>Guest touchpoint timeline</h3><span>encrypted notes · informational only</span></div><ol id="guest-touchpoint-timeline" class="timeline"><li class="empty">No informal touchpoints for this guest.</li></ol></section>
+
+      <section id="clearance-panel" class="panel" aria-labelledby="clearance-heading" data-guide="clearance-tab">
+        <div class="panel-head"><h3 id="clearance-heading">Clearance</h3><span>rights gate · publication stays denied until every item is cleared</span></div>
+        <div id="clearance-badges" class="clearance-badges"><span class="empty">No clearances recorded for this show.</span></div>
+        <nav class="filter-bar" aria-label="Clearance status filter">
+          <button class="clearance-filter active" data-clearance-filter="" type="button">All</button>
+          <button class="clearance-filter" data-clearance-filter="pending" type="button">Pending</button>
+          <button class="clearance-filter" data-clearance-filter="cleared" type="button">Cleared</button>
+          <button class="clearance-filter" data-clearance-filter="denied" type="button">Denied</button>
+        </nav>
+        <ol id="clearance-list" class="timeline"><li class="empty">No rights items match this filter.</li></ol>
+        <details class="capture-panel" id="clearance-capture">
+          <summary>Add a rights clearance</summary>
+          <form id="clearance-form" class="capture-form">
+            <label>Episode<input name="episode_id" required maxlength="128" placeholder="episode-12" autocomplete="off"></label>
+            <label>Type<select name="type" autocomplete="off"><option value="music">music</option><option value="clip">clip</option><option value="IP">IP</option><option value="footage">footage</option><option value="guest_likeness">guest likeness</option></select></label>
+            <label>Rights holder<input name="rights_holder" class="sensitive-ref" required maxlength="500" autocomplete="off" spellcheck="false" placeholder="rights holder, or rights://owner/reference"></label>
+            <label>Cost, minor units<input name="cost" type="number" inputmode="numeric" min="0" value="0" required></label>
+            <label class="span-2">Licence terms<textarea name="license_terms" class="sensitive-ref" required maxlength="4000" spellcheck="false" placeholder="licence terms, or license://owner/reference"></textarea></label>
+            <label>Due date<input name="due_date" type="date"></label>
+            <p class="small-note span-2">Private values are encrypted at rest when field custody is configured; without it supply an opaque external custody reference. Recording a clearance never publishes, sends, or books anything.</p>
+            <button class="btn-primary" type="submit">Record clearance</button>
+          </form>
+        </details>
+        <div class="actions clearance-actions"><button id="btn-clearance-report" type="button">Export clearance report, CSV</button></div>
+        <textarea id="clearance-report-output" class="hidden" readonly aria-label="Clearance report CSV"></textarea>
+      </section>
+
+      <section id="relationship-map-panel" class="panel" aria-labelledby="relationship-map-heading" data-guide="relationship-map">
+        <div class="panel-head"><h3 id="relationship-map-heading">Relationship paths</h3><span>scoped archive + manual evidence</span></div>
+        <form id="network-map-form" class="toolbar network-map-controls">
+          <label>Start from<input name="guest" required maxlength="160" placeholder="Theo Von" autocomplete="off"></label>
+          <label>Depth<select name="depth"><option value="1">1 degree</option><option value="2" selected>2 degrees</option><option value="3">3 degrees</option><option value="4">4 degrees</option><option value="5">5 degrees</option></select></label>
+          <button class="btn-primary" type="submit">Trace target paths</button>
+        </form>
+        <p id="network-map-summary" class="empty">Choose a public guest name or scoped opaque alias. Private labels remain redacted.</p>
+        <ol id="network-target-paths" class="timeline"><li class="empty">No path requested.</li></ol>
+      </section>
+
+      <section class="approval-shell" data-guide="approval-queue">
+        <h3>Decision queue</h3>
+        <section class="counters" aria-label="Queue counts"><div class="counter"><b id="cnt-total">0</b><span>Total</span></div><div class="counter"><b id="cnt-pending">0</b><span>Pending</span></div><div class="counter"><b id="cnt-approve">0</b><span>Approved</span></div><div class="counter"><b id="cnt-reject">0</b><span>Rejected</span></div><div class="counter"><b id="cnt-protect">0</b><span>Protected</span></div></section>
+        <section class="toolbar" aria-label="Queue controls"><button class="btn-primary" id="btn-refresh" type="button">Refresh queue</button><label>State<input id="state-filter" type="text" autocomplete="off" placeholder="EDITORIAL_REVIEW"></label><label>Owner<input id="owner-filter" type="text" autocomplete="off" placeholder="opaque owner id"></label><button id="btn-apply-filters" type="button">Apply</button><button id="btn-demo" type="button">Demo CSV fallback</button><button id="btn-live" class="hidden" type="button">Return live</button><button id="btn-export" class="hidden" type="button">Export demo decisions</button></section>
+        <section class="demo-panel hidden" id="demo-panel" data-guide="demo-fallback"><h2>Demo CSV fallback — synthetic mode</h2><p>Rows and decisions remain in memory and disappear on reload.</p><button class="btn-primary" id="btn-load-demo" type="button">Load Demo Data</button><label class="file-picker" for="file-input">Choose pipeline CSV</label><input type="file" id="file-input" accept=".csv,text/csv"><span class="hidden" hidden>Demo CSV fallback — synthetic mode</span></section>
+        <nav class="filter-bar" aria-label="Decision filter"><button class="filter-btn active" data-filter="all" type="button">All</button><button class="filter-btn" data-filter="pending" type="button">Pending</button><button class="filter-btn" data-filter="approve" type="button">Approved</button><button class="filter-btn" data-filter="reject" type="button">Rejected</button><button class="filter-btn" data-filter="protect" type="button">Protected</button></nav>
+        <section class="notice" id="authority-notice">Decisions persist through the authenticated API. Contact details and correspondence bodies do not belong here.</section>
+        <p class="status" id="status" role="status" aria-live="polite"></p><section class="cards" id="cards" aria-label="Approval candidates" data-guide="card-actions"></section>
+        <section id="research-console" class="subpanel research-console" data-guide="research-console">
+          <h4>Bounded research</h4>
+          <p>Producer and editorial-owner sessions only. One cost-capped query runs through one named source, keeps only allowlisted citations, and produces nothing usable until a human reviews and locks it.</p>
+          <label>Source<select id="research-provider" autocomplete="off"><option value="brave">Brave</option><option value="serpapi">SerpAPI</option><option value="searxng">SearXNG</option><option value="allowlisted_crawler">Allowlisted crawler</option></select></label>
+          <p class="status" id="research-status" role="status" aria-live="polite">No research job requested.</p>
+          <div id="research-brief" class="research-brief"><p class="empty">No research brief is ready for review.</p></div>
+          <div id="research-controls" class="research-controls hidden">
+            <label>Counterargument<textarea id="research-counterargument" maxlength="400" placeholder="What would make this claim wrong?"></textarea></label>
+            <div class="actions">
+              <button id="btn-research-annotate" type="button">Record review pass</button>
+              <button id="btn-research-approve" type="button">Approve review</button>
+              <button id="btn-research-lock" type="button">Lock research</button>
+            </div>
+          </div>
+          <p class="small-note">HOSPES never auto-commits research. Approval and lock are separate human clicks, and locked content is frozen against its own checksum.</p>
+        </section>
+      </section>
+    </section>
+
+    <section id="revenue-view" class="cockpit-view hidden" aria-labelledby="revenue-heading" data-guide="revenue-view">
+      <header class="partnership-intro"><div class="eyebrow">Sponsor and ad inventory</div><h2 id="revenue-heading">Revenue</h2><p>Declared slots, who holds them, what the episode earned, and what still blocks publication. HOSPES never invoices or signs a deal.</p></header>
+      <section class="counters revenue-counters" aria-label="Revenue totals">
+        <div class="counter"><b id="rev-slots-sold">0</b><span>Slots sold</span></div>
+        <div class="counter"><b id="rev-slots-available">0</b><span>Slots available</span></div>
+        <div class="counter danger"><b id="rev-committed-unfilled">0</b><span>Committed unfilled</span></div>
+        <div class="counter"><b id="rev-total">0.00</b><span>Recognized revenue</span></div>
+      </section>
+      <section class="toolbar revenue-toolbar" aria-label="Revenue controls">
+        <label>Episode<input id="revenue-episode" type="search" autocomplete="off" placeholder="episode-12"></label>
+        <button class="btn-primary" id="btn-revenue-refresh" type="button">Refresh revenue</button>
+        <button id="btn-add-sponsor" type="button" data-guide="btn-add-sponsor">Add sponsor</button>
+        <button id="btn-export-revenue" type="button" data-guide="btn-export-revenue">Export CSV for accounting</button>
+      </section>
+      <section class="panel" data-guide="revenue-table">
+        <div class="panel-head"><h3>Episode revenue</h3><span id="revenue-policy-note">policy: runtime</span></div>
+        <div class="table-scroll">
+          <table id="revenue-table" class="revenue-table">
+            <thead><tr><th scope="col">Episode</th><th scope="col">Sponsor</th><th scope="col">Slots sold/total</th><th scope="col">Revenue</th></tr></thead>
+            <tbody id="revenue-rows"><tr class="empty-row"><td colspan="4">No sponsor inventory is declared for this show.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel" data-guide="slot-inventory">
+        <div class="panel-head"><h3>Slot inventory</h3><span>declared · sold · available</span></div>
+        <div class="table-scroll">
+          <table class="revenue-table">
+            <thead><tr><th scope="col">Episode</th><th scope="col">Slot</th><th scope="col">Rate</th><th scope="col">State</th><th scope="col">Holder</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+            <tbody id="slot-inventory-rows"><tr class="empty-row"><td colspan="6">No ad slot is declared for this show.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel" data-guide="revenue-gate">
+        <div class="panel-head"><h3>Publication gate</h3><span>committed slots + approved claims</span></div>
+        <ol id="revenue-gate" class="timeline"><li class="empty">No sponsor blocker on any episode.</li></ol>
+      </section>
+      <section class="panel" data-guide="sponsor-claims">
+        <div class="panel-head"><h3>Sponsors and claims governance</h3><span>cited · dated · explicitly approved</span></div>
+        <div id="sponsor-list" class="sponsor-list"><p class="empty">No sponsor is registered for this show.</p></div>
+      </section>
+      <details class="capture-panel">
+        <summary>Declare episode ad inventory</summary>
+        <form id="ad-slot-form" class="capture-form">
+          <label class="span-2">Episode<input name="episode_id" required placeholder="episode-12" autocomplete="off" spellcheck="false"></label>
+          <label>Pre-roll rate<input name="rate_pre" type="number" inputmode="numeric" min="0" step="0.01" value="1500.00"></label>
+          <label>Pre-roll<select name="offer_pre" autocomplete="off"><option value="committed">Sell · committed</option><option value="open" selected>Sell · not committed</option><option value="none">Do not sell</option></select></label>
+          <label>Mid-roll rate<input name="rate_mid" type="number" inputmode="numeric" min="0" step="0.01" value="1500.00"></label>
+          <label>Mid-roll<select name="offer_mid" autocomplete="off"><option value="committed">Sell · committed</option><option value="open" selected>Sell · not committed</option><option value="none">Do not sell</option></select></label>
+          <label>Post-roll rate<input name="rate_post" type="number" inputmode="numeric" min="0" step="0.01" value="1500.00"></label>
+          <label>Post-roll<select name="offer_post" autocomplete="off"><option value="committed">Sell · committed</option><option value="open" selected>Sell · not committed</option><option value="none">Do not sell</option></select></label>
+          <p class="small-note span-2">A committed slot is one the show already promised. Leaving it unsold blocks publication unless this show turns that rule off.</p>
+          <button class="btn-primary" type="submit">Declare inventory</button>
+        </form>
+      </details>
+      <details class="capture-panel">
+        <summary>Assign a slot to a sponsor</summary>
+        <form id="sponsorship-form" class="capture-form">
+          <label>Episode<input name="episode_id" required placeholder="episode-12" autocomplete="off" spellcheck="false"></label>
+          <label>Slot<select name="slot_type" autocomplete="off"><option value="pre">Pre-roll</option><option value="mid">Mid-roll</option><option value="post">Post-roll</option></select></label>
+          <label>Sponsor<select id="sponsorship-sponsor" name="sponsor_id" required autocomplete="off"></select></label>
+          <label>State<select name="status" autocomplete="off"><option value="sold">Sold</option><option value="reserved">Reserved</option></select></label>
+          <p class="small-note span-2">Recording a sale is bookkeeping about a decision a human already made. HOSPES sends no invoice and signs nothing.</p>
+          <button class="btn-primary" type="submit">Record assignment</button>
+        </form>
+      </details>
+      <details class="capture-panel">
+        <summary>Record a cited sponsor claim</summary>
+        <form id="sponsor-claim-form" class="capture-form">
+          <label>Sponsor<select id="claim-sponsor" name="sponsor_id" required autocomplete="off"></select></label>
+          <label>Verified on<input name="verified_date" type="date" required autocomplete="off"></label>
+          <label class="span-2">Claim<input name="claim" required maxlength="500" placeholder="Exactly what the ad read will assert"></label>
+          <label class="span-2">Public source URL<input name="source_url" required placeholder="https://example.test/press" autocomplete="off" spellcheck="false"></label>
+          <p class="small-note span-2">A claim is unapproved until an editorial or relationship owner approves it. An unapproved claim blocks the episode.</p>
+          <button class="btn-primary" type="submit">Record claim</button>
+        </form>
+      </details>
+    </section>
+
+    <section id="publish-view" class="cockpit-view hidden" aria-labelledby="publish-heading" data-guide="publish-view">
+      <header class="partnership-intro"><div class="eyebrow">Distribution and delivery evidence</div><h2 id="publish-heading">Publish</h2><p>Prepare the RSS item, the video metadata, and the clip queue for an episode; a human publishes elsewhere and records the receipt here. HOSPES sends nothing and schedules nothing without a human authorization receipt.</p></header>
+      <section class="counters publish-counters" aria-label="Publication totals">
+        <div class="counter"><b id="pub-published">0</b><span>Published</span></div>
+        <div class="counter"><b id="pub-scheduled">0</b><span>Scheduled</span></div>
+        <div class="counter danger"><b id="pub-failed">0</b><span>Failed attempts</span></div>
+        <div class="counter danger"><b id="pub-blocked">0</b><span>Blocked episodes</span></div>
+      </section>
+      <section class="toolbar publish-toolbar" aria-label="Publish controls">
+        <label>Episode<input id="publish-episode" type="search" autocomplete="off" placeholder="episode-12"></label>
+        <button class="btn-primary" id="btn-publish-refresh" type="button" data-guide="btn-publish-refresh">Refresh publish board</button>
+        <button id="btn-verify-adapters" type="button">Verify adapters</button>
+      </section>
+      <section class="panel" data-guide="publish-cards">
+        <div class="panel-head"><h3>Episode and platform cards</h3><span id="publish-webhook">webhook: unconfigured</span></div>
+        <div id="publish-cards" class="publish-cards"><p class="empty">No publication package is drafted for this show.</p></div>
+      </section>
+      <section class="panel" data-guide="publish-gate">
+        <div class="panel-head"><h3>Publication gate</h3><span>rights + sponsor blockers</span></div>
+        <ol id="publish-gate" class="timeline"><li class="empty">No blocker on any episode with a package.</li></ol>
+      </section>
+      <section class="panel" data-guide="publish-adapters">
+        <div class="panel-head"><h3>Distribution adapters</h3><span>ready · unconfigured · blocked</span></div>
+        <ul id="publish-adapters" class="adapter-list"><li class="empty">No adapter state loaded.</li></ul>
+      </section>
+      <section class="panel" data-guide="publish-preview">
+        <div class="panel-head"><h3>Package preview</h3><span id="publish-preview-note">nothing rendered yet</span></div>
+        <textarea id="publish-preview-output" readonly aria-label="Rendered package preview" placeholder="Choose Preview on a card, or generate a package below, to render the exact artifact a platform receives."></textarea>
+      </section>
+      <details class="capture-panel" data-guide="rss-form">
+        <summary>Generate the RSS item</summary>
+        <form id="rss-form" class="capture-form">
+          <label>Episode<input name="episode_id" required placeholder="episode-12" autocomplete="off" spellcheck="false"></label>
+          <label>Duration<input name="duration" placeholder="01:04:12" autocomplete="off" spellcheck="false"></label>
+          <label class="span-2">Title<input name="title" required maxlength="160" placeholder="Episode 12 — the artifact"></label>
+          <label class="span-2">Audio URL or custody reference<input name="audio_url" placeholder="https://cdn.example.test/ep12.mp3" autocomplete="off" spellcheck="false"></label>
+          <label class="span-2">Description<textarea name="description" maxlength="5000" placeholder="Show notes as they will appear in the feed."></textarea></label>
+          <label class="span-2">Chapters, one per line as <code>seconds title</code><textarea name="chapters" placeholder="0 Cold open&#10;420 The claim&#10;1800 Stress test"></textarea></label>
+          <p class="small-note span-2">Generating an item renders it; it publishes nothing. The draft is created blocked while any rights or sponsor blocker stands on the episode.</p>
+          <button class="btn-primary" type="submit">Generate and draft</button>
+        </form>
+      </details>
+      <details class="capture-panel" data-guide="youtube-form">
+        <summary>Prepare the video metadata</summary>
+        <form id="youtube-form" class="capture-form">
+          <label>Episode<input name="episode_id" required placeholder="episode-12" autocomplete="off" spellcheck="false"></label>
+          <label>Playlist<input name="playlist" maxlength="96" placeholder="Season 2" autocomplete="off"></label>
+          <label class="span-2">Title<input name="title" required maxlength="160"></label>
+          <label class="span-2">Tags, comma separated<input name="tags" placeholder="podcast, interview, artifact" autocomplete="off"></label>
+          <label class="span-2">Thumbnail custody reference<input name="thumbnail_ref" placeholder="asset://episode-12/thumbnail" autocomplete="off" spellcheck="false"></label>
+          <label class="span-2">Description<textarea name="description" maxlength="5000" placeholder="Description as it will appear on the video page."></textarea></label>
+          <label class="span-2">Chapters, one per line as <code>seconds title</code><textarea name="chapters" placeholder="0 Cold open&#10;420 The claim"></textarea></label>
+          <p class="small-note span-2">The thumbnail stays with its external owner: HOSPES stores an opaque reference to it, never the image.</p>
+          <button class="btn-primary" type="submit">Draft video metadata</button>
+        </form>
+      </details>
+      <details class="capture-panel" data-guide="clip-form">
+        <summary>Queue a short-form clip</summary>
+        <form id="clip-form" class="capture-form">
+          <label>Episode<input name="episode_id" required placeholder="episode-12" autocomplete="off" spellcheck="false"></label>
+          <label>Target<select name="target_platform" autocomplete="off"><option value="tiktok">TikTok</option><option value="reels">Reels</option><option value="shorts">Shorts</option></select></label>
+          <label>Start, seconds<input name="start_seconds" type="number" inputmode="numeric" min="0" max="86400" value="0" required></label>
+          <label>End, seconds<input name="end_seconds" type="number" inputmode="numeric" min="1" max="86400" value="60" required></label>
+          <label class="span-2">Caption custody reference<input name="caption_ref" required placeholder="caption://episode-12/clip-1" autocomplete="off" spellcheck="false"></label>
+          <label class="span-2">Hashtags, comma separated<input name="hashtags" placeholder="podcast, clips" autocomplete="off"></label>
+          <p class="small-note span-2">A clip is a queue entry with a window and a caption reference. Uploading it stays a human action, recorded here as a receipt.</p>
+          <button class="btn-primary" type="submit">Queue clip</button>
+        </form>
+      </details>
+    </section>
+
+    <section id="register-view" class="cockpit-view hidden" aria-labelledby="register-heading" data-guide="register-view">
+      <header class="partnership-intro"><div class="eyebrow">Versioned partnership truth</div><h2 id="register-heading">Complete Partnership Register</h2><p>Searchable current state with immutable history and explicit missing domains.</p></header>
+      <section class="toolbar register-filters"><label>Search<input id="register-search" type="search"></label><label>Owner<input id="register-owner" type="search"></label><label>Category<select id="register-category"><option value="">All</option></select></label><label>State<select id="register-state"><option value="">All</option></select></label><button id="btn-register-filter" type="button">Apply filters</button></section>
+      <section id="partnership-sections" class="partnership-sections"></section>
+      <details class="capture-panel"><summary>Create a bounded register item</summary><form id="partnership-item-form" class="capture-form"><label>Stable key<input name="item_key" required placeholder="unknown.example"></label><label>Category<select name="category" required></select></label><label>State<select name="state" required></select></label><label>Owner<input name="owner" required placeholder="Partners"></label><label class="span-2">Title<input name="title" required maxlength="160"></label><label class="span-2">Bounded summary<textarea name="summary" required maxlength="1000"></textarea></label><label>External owner reference<input name="external_reference" placeholder="registry://partnership/item"></label><label>Due date<input name="due_at" type="date"></label><button class="btn-primary" type="submit">Create item</button></form></details>
+      <details class="capture-panel"><summary>Link a typed external resource</summary><form id="resource-form" class="capture-form"><label>Resource type<select name="resource_type"><option>opportunity</option><option>commitment</option><option>operational_receipt</option><option>issue</option><option>capability</option><option>external_owner</option></select></label><label>Item id, optional<input name="item_id"></label><label class="span-2">Opaque reference<input name="resource_reference" required placeholder="github://owner/repo/issues/1"></label><label class="span-2">Label<input name="label" required></label><button type="submit">Link resource</button></form></details>
+      <section id="guest-register-panel" class="panel" data-guide="guest-register">
+        <div class="panel-head"><h3>Guest history</h3><span>cross-season memory · newest interaction first</span></div>
+        <form id="guest-history-filter" class="toolbar register-filters">
+          <label>Guest<select id="guest-history-guest" autocomplete="off"></select></label>
+          <label>Season<input id="guest-history-season" type="search" maxlength="32" placeholder="S1" autocomplete="off"></label>
+          <button class="btn-primary" type="submit">Apply</button>
+        </form>
+        <p id="guest-history-summary" class="empty">Choose a guest to read every season this show has recorded.</p>
+        <ol id="guest-history-timeline" class="timeline"><li class="empty">No cross-season history for this guest.</li></ol>
+        <details class="capture-panel"><summary>Record a prior-season interaction</summary><form id="guest-history-form" class="capture-form"><label>Guest<select name="opportunity_id" id="guest-history-opportunity" required autocomplete="off"></select></label><label>Season<input name="season" required maxlength="32" placeholder="S1" autocomplete="off"></label><label>Episode<input name="episode" required maxlength="32" placeholder="E5" autocomplete="off"></label><label>Disposition<select name="disposition" id="guest-history-disposition" required autocomplete="off"></select></label><label>Date<input name="date" type="date" required autocomplete="off"></label><label class="span-2">Private note<textarea name="notes" maxlength="2000" placeholder="Optional. Encrypted at rest and revealed only to an authorized operator."></textarea></label><p class="small-note span-2">Memory only. Recording what already happened changes no workflow state, moves no Pilot gate, and sends nothing.</p><button class="btn-primary" type="submit">Record interaction</button></form></details>
+      </section>
+      <section class="panel"><div class="panel-head"><h3>Revision history</h3><span>append-only</span></div><div id="revision-history" class="history-list"></div></section>
+    </section>
+<section id="analytics-view" class="cockpit-view hidden" aria-labelledby="analytics-heading" data-guide="analytics-view">
+      <section class="notice live-notice"><strong>Read organ:</strong> analytics observes distribution, it never performs it. Every metric names the provider receipt that authorized its read, and a provider with no declared export stays visibly unconfigured rather than being substituted.</section>
+      <header class="partnership-intro"><div class="eyebrow">Provider metrics and trends</div><h2 id="analytics-heading">Analytics</h2><p>Downloads, retention, and top-clip performance for the episodes this show reported, with the provider receipts behind them.</p></header>
+      <section class="toolbar analytics-toolbar" aria-label="Analytics controls">
+        <label>Trend window<select id="analytics-window" aria-label="Trend window" autocomplete="off"><option value="6">Last 6 episodes</option><option value="12" selected>Last 12 episodes</option><option value="24">Last 24 episodes</option></select></label>
+        <button class="btn-primary" id="btn-analytics-refresh" type="button">Refresh analytics</button>
+        <button id="btn-analytics-export" type="button" data-guide="analytics-export">Export CSV</button>
+      </section>
+      <p class="status" id="analytics-status" role="status" aria-live="polite">Analytics load when this view is opened.</p>
+      <section class="counters analytics-counters" aria-label="Analytics coverage">
+        <div class="counter"><b id="an-downloads">—</b><span>Downloads</span></div>
+        <div class="counter"><b id="an-retention">—</b><span>Avg retention %</span></div>
+        <div class="counter"><b id="an-clips">—</b><span>Top clip views</span></div>
+        <div class="counter"><b id="an-episodes">—</b><span>Episodes reported</span></div>
+      </section>
+      <section class="panel" aria-labelledby="analytics-trend-heading" data-guide="analytics-trends">
+        <div class="panel-head"><h3 id="analytics-trend-heading">Trend</h3><span id="analytics-trend-caption">awaiting first read</span></div>
+        <div id="analytics-trend-chart" class="trend-chart"><p class="empty">No analytics have been imported for this show.</p></div>
+      </section>
+      <section class="panel" aria-labelledby="analytics-table-heading">
+        <div class="panel-head"><h3 id="analytics-table-heading">Episode metrics</h3><span>provider-attributed</span></div>
+        <div class="table-scroll"><table class="metrics-table" id="analytics-table"><caption class="visually-hidden">Per-episode analytics with the providers that reported them</caption><thead><tr><th scope="col">Episode</th><th scope="col">Downloads</th><th scope="col">Retention</th><th scope="col">Top clip views</th><th scope="col">Period</th><th scope="col">Providers</th></tr></thead><tbody id="analytics-rows"><tr><td colspan="6" class="empty">No analytics have been imported for this show.</td></tr></tbody></table></div>
+      </section>
+      <section class="panel" aria-labelledby="analytics-receipts-heading" data-guide="analytics-receipts">
+        <div class="panel-head"><h3 id="analytics-receipts-heading">Provider receipts</h3><span>every read is attributable</span></div>
+        <ol id="analytics-receipt-list" class="timeline"><li class="empty">No provider verification has been recorded for this show.</li></ol>
+      </section>
+    </section>
+<section id="network-view" class="cockpit-view hidden" aria-labelledby="network-heading" data-guide="network-view">
+      <section class="notice live-notice"><strong>Network operator only:</strong> this is the one view that reads across shows. Scope is your tenant — never a path or a payload — and every health report you export leaves an attributable receipt with the checksum of the exact document handed over.</section>
+      <header class="partnership-intro"><div class="eyebrow">Portfolio across every active show</div><h2 id="network-heading">Network Portfolio</h2><p>Pipeline health, booking velocity, sponsor revenue, and guest overlap for every show registered active in this tenant.</p></header>
+      <section class="toolbar network-toolbar" aria-label="Network portfolio controls">
+        <label>Report format<select id="network-report-format" aria-label="Health report format" autocomplete="off"><option value="pdf" selected>PDF report</option><option value="html">HTML report</option><option value="json">JSON report</option></select></label>
+        <button class="btn-primary" id="btn-network-refresh" type="button">Refresh portfolio</button>
+        <button id="btn-network-export" type="button" data-guide="network-export">Export health report</button>
+      </section>
+      <p class="status" id="network-status" role="status" aria-live="polite">The portfolio loads when this view is opened.</p>
+      <section class="counters network-counters" aria-label="Network coverage">
+        <div class="counter"><b id="nw-shows">—</b><span>Shows</span></div>
+        <div class="counter"><b id="nw-candidates">—</b><span>Candidates</span></div>
+        <div class="counter"><b id="nw-booked">—</b><span>Booked</span></div>
+        <div class="counter"><b id="nw-velocity">—</b><span>Bookings per week</span></div>
+        <div class="counter"><b id="nw-revenue">—</b><span>Sponsor revenue</span></div>
+      </section>
+      <section class="panel" aria-labelledby="network-portfolio-heading" data-guide="network-portfolio">
+        <div class="panel-head"><h3 id="network-portfolio-heading">Shows</h3><span id="network-portfolio-caption">awaiting first read</span></div>
+        <div class="table-scroll"><table class="metrics-table network-table" id="network-table"><caption class="visually-hidden">Every active show with its pipeline health, booking velocity, and sponsor revenue</caption><thead><tr><th scope="col">Show</th><th scope="col">Candidates</th><th scope="col">Approved</th><th scope="col">Booked</th><th scope="col">Bookings/week</th><th scope="col">Revenue</th><th scope="col">Pending clearances</th><th scope="col">Drilldown</th></tr></thead><tbody id="network-rows"><tr><td colspan="8" class="empty">No show is registered active in this tenant.</td></tr></tbody></table></div>
+      </section>
+      <section class="panel" aria-labelledby="network-overlap-heading" data-guide="network-overlap">
+        <div class="panel-head"><h3 id="network-overlap-heading">Guest overlap</h3><span>one guest, more than one show</span></div>
+        <div class="table-scroll"><table class="metrics-table" id="network-overlap-table"><caption class="visually-hidden">Guests with a candidate record on more than one show in this network</caption><thead><tr><th scope="col">Guest</th><th scope="col">Shows</th><th scope="col">Count</th></tr></thead><tbody id="network-overlap-rows"><tr><td colspan="3" class="empty">No guest appears on more than one show.</td></tr></tbody></table></div>
+      </section>
+      <section class="panel" aria-labelledby="network-receipts-heading" data-guide="network-receipts">
+        <div class="panel-head"><h3 id="network-receipts-heading">Health report receipts</h3><span>every export is attributable</span></div>
+        <ol id="network-receipt-list" class="timeline"><li class="empty">No health report has been exported for this tenant.</li></ol>
+      </section>
+    </section>
+<dialog id="sponsor-dialog" aria-labelledby="sponsor-dialog-title">
+    <form id="sponsor-form" class="touchpoint-form">
+      <div class="dialog-head"><div><div class="eyebrow">Opaque custody references only</div><h2 id="sponsor-dialog-title">Add sponsor</h2></div><button id="btn-cancel-sponsor" class="quiet" type="button" aria-label="Close sponsor dialog">Close</button></div>
+      <label>Brand name<input name="name" required maxlength="120" autocomplete="off" placeholder="Athletic Greens"></label>
+      <label>Editorial category<input name="category" maxlength="64" autocomplete="off" placeholder="nutrition"></label>
+      <label class="span-2">Contact custody reference<input name="contact_ref" required autocomplete="off" spellcheck="false" placeholder="vault://sponsor/contact"></label>
+      <label class="span-2">Terms custody reference<input name="terms_ref" required autocomplete="off" spellcheck="false" placeholder="vault://sponsor/terms"></label>
+      <p class="small-note span-2">Sponsor contact details and deal terms stay with their external owner. HOSPES stores only an opaque reference to them.</p>
+      <button class="btn-primary" type="submit">Register sponsor</button>
+    </form>
+  </dialog>
+<dialog id="touchpoint-dialog" aria-labelledby="touchpoint-dialog-title">
+    <form id="touchpoint-form" class="touchpoint-form">
+      <div class="dialog-head"><div><div class="eyebrow">Informational evidence only</div><h2 id="touchpoint-dialog-title">Log chat</h2></div><button id="btn-cancel-touchpoint" class="quiet" type="button" aria-label="Close touchpoint dialog">Close</button></div>
+      <label>Guest<select id="touchpoint-opportunity" name="opportunity_id" required autocomplete="off"></select></label>
+      <label>Channel<select name="channel" required autocomplete="off"><option value="text">Text</option><option value="email">Email</option><option value="ig">Instagram</option><option value="in-person">In person</option><option value="phone">Phone</option><option value="hallway">Hallway</option></select></label>
+      <label>Occurred at<input name="occurred_at" type="datetime-local" required autocomplete="off"></label>
+      <label class="span-2">Private notes<textarea name="notes" required maxlength="2000" placeholder="What happened? Keep this factual and bounded."></textarea></label>
+      <p class="small-note span-2">The authenticated operator becomes the initiator. Notes are encrypted at rest; this receipt cannot send, book, or change workflow state.</p>
+      <button class="btn-primary" type="submit">Record touchpoint</button>
+    </form>
+  </dialog>

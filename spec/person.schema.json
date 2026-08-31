@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/person.schema.json",
+  "title": "Person",
+  "description": "A real human being who may be a guest candidate, a host, a publicist, an organizational contact, or any other participant. A Person is not a Guest — guest status is carried by AppearanceOpportunity. One Person may have many AppearanceOpportunities across shows and years.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["person_id", "canonical_name"],
+  "properties": {
+    "person_id": {
+      "type": "string",
+      "description": "Stable UUID or slug for this person across all shows and tenants."
+    },
+    "canonical_name": {
+      "type": "string",
+      "description": "The public name used to identify this person (first + last, stage name, mononym)."
+    },
+    "pronunciation": {
+      "type": "string",
+      "description": "IPA or phonetic spelling of the canonical name. Used in host prep packets."
+    },
+    "pronouns": {
+      "type": "string",
+      "description": "Stated pronouns (e.g. she/her, they/them). Volunteer information only."
+    },
+    "bio": {
+      "type": "string",
+      "description": "Short factual biography drawn from public sources. No invented claims."
+    },
+    "public_roles": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Current public-facing roles (e.g. author, musician, therapist, CEO)."
+    },
+    "organizations": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Organizations this person is publicly affiliated with."
+    },
+    "public_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "platform": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "verified_at": { "type": "string", "format": "date-time" }
+        },
+        "additionalProperties": true
+      },
+      "description": "Publicly discoverable profile URLs with verification timestamps."
+    },
+    "care_profile_id": {
+      "type": ["string", "null"],
+      "description": "Reference to a GuestCareProfile record for this person (see spec/care_profile.schema.json). Null until intake consent is obtained and the care profile is populated."
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["standard", "elevated", "legal_review_required"],
+      "description": "Operational risk classification. Elevated triggers additional human checkpoints."
+    },
+    "relationship_strength": {
+      "type": "string",
+      "enum": ["C0", "C1", "C2", "C3", "C4", "C5"],
+      "description": "Relationship class relative to the primary relationship owner. See relationship.schema.json and permission-matrix.yaml."
+    },
+    "relationship_owner": {
+      "type": ["string", "null"],
+      "description": "person_id of the host or team member who owns the relationship with this person."
+    },
+    "do_not_contact": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, no outreach of any kind may be sent. Hard stop — no automation overrides this."
+    },
+    "source_provenance": {
+      "type": "string",
+      "description": "How this person entered the system (e.g. RSS archive ingest, manual entry, referral)."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

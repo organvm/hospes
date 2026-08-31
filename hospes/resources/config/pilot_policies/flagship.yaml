@@ -1,0 +1,30 @@
+version: 1
+show_id: flagship
+policy:
+  key: flagship.default
+  version: 1
+  deadline_at: 2026-09-30T23:59:59-04:00
+  timezone: America/New_York
+  candidate_eligibility:
+    count: 3
+    network_id: hospes_network
+    city: New York
+    relationship_classes: [C2, C3]
+    max_social_cost: 2
+  follow_up_limit: 1
+  response_windows:
+    initial_hours: 48
+    follow_up_hours: 24
+  production_gate_durations:
+    booking: 12
+    consent: 6
+    brief: 8
+    asset_preflight: 8
+    rehearsal: 12
+  safety_reserve_hours: 24
+  human_authority_rules:
+    no_autonomous_sending: true
+    multi_activation_requires_owner_approval: true
+    decision_roles: [producer, editorial_owner, relationship_owner]
+  relationship_exposure_budget: 2
+  rehearsal_lead_hours: 48

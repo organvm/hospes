@@ -1,0 +1,148 @@
+version: 1
+partnership:
+  key: example_partnership
+  label: Host + Producer
+  purpose: Prove a private, relationship-safe conversation format before any public title or release.
+  status: active
+items:
+  - item_key: engine.candidate_intake
+    category: engine
+    title: Private candidate intake
+    summary: Idempotent tenant-scoped CSV ingestion with opaque route references and no contact data in Git.
+    owner: Producer
+    state: done
+  - item_key: engine.operator
+    category: engine
+    title: Localhost operator and approval queue
+    summary: Authenticated SQLite-backed review surface for Host's approve, reject, protect, and note decisions.
+    owner: Producer
+    state: done
+  - item_key: engine.receipts
+    category: engine
+    title: External receipt lifecycle
+    summary: Evidence-only intake for outreach, replies, booking, consent, readiness, recording, and media custody.
+    owner: HOSPES
+    state: done
+  - item_key: engine.command_center
+    category: engine
+    title: Partnership Command Center
+    summary: Reusable view over the engine, plans, roles, agreements, deals, obligations, decisions, receipts, risks, and unknowns.
+    owner: Producer
+    state: done
+  - item_key: plan.pilot_1
+    category: plan
+    title: Record Private Pilot 1 in Los Angeles
+    summary: Select one primary and two backups, complete Host review, human-send the invitation, rehearse, book, consent, preflight, and record privately.
+    owner: Producer
+    state: in_progress
+    due_at: 2026-08-05
+  - item_key: plan.pilots_2_3
+    category: plan
+    title: Complete Pilots 2 and 3
+    summary: Prove the format with an Producer-network guest in New York City and a weak-tie guest in Austin.
+    owner: Producer
+    state: planned
+    due_at: 2026-09-02
+  - item_key: plan.public_run
+    category: plan
+    title: Bank six recordings before launch
+    summary: Freeze the format after three pilots, prepare the launch package, book five to eight guests, and bank six strong episodes before release.
+    owner: Producer
+    state: planned
+  - item_key: role.anthony
+    category: role
+    title: Producer operating role
+    summary: Showrunner, executive producer, guest and editorial lead, and HOSPES operator.
+    owner: Producer
+    state: agreed
+  - item_key: role.ari
+    category: role
+    title: Host operating role
+    summary: Co-host, relationship owner, infrastructure provider, and weekly 12-minute decision-maker.
+    owner: Host
+    state: agreed
+  - item_key: role.studio_producer
+    category: role
+    title: Existing studio producer role
+    summary: Owns scheduling, intake, releases, room, crew, capture, hospitality, and master-media handoff.
+    owner: Studio producer
+    state: agreed
+  - item_key: agreement.human_send
+    category: agreement
+    title: Correspondence remains human-sent
+    summary: HOSPES may research, draft, classify, and track; Producer or the named producer performs every external send.
+    owner: Partners
+    state: agreed
+    external_reference: doctrine://hospes/human-send-only
+  - item_key: agreement.private_first
+    category: agreement
+    title: Private-first release boundary
+    summary: No pilot, clip, title, or episode becomes public until the private format and consent scope are proven.
+    owner: Partners
+    state: agreed
+    external_reference: doctrine://hospes/private-first
+  - item_key: agreement.relationship_protection
+    category: agreement
+    title: Protected relationships stay protected
+    summary: Pilot 1 uses C2 or C3 only; C4 and C5 never enter the launch queue.
+    owner: Host
+    state: agreed
+    external_reference: doctrine://hospes/relationship-protection
+  - item_key: deal.ownership
+    category: deal
+    title: Ownership and intellectual-property terms
+    summary: Canonical terms and signed owner are not yet linked; the command center keeps the gap visible without storing contract text.
+    owner: Partners
+    state: unknown
+    external_reference: registry://example-partnership/ownership-terms
+  - item_key: deal.economics
+    category: deal
+    title: Revenue, expenses, and recoupment
+    summary: Revenue share, expense authority, reimbursement, and recoupment terms are not yet linked to a canonical agreement owner.
+    owner: Partners
+    state: unknown
+    external_reference: registry://example-partnership/economic-terms
+  - item_key: deal.sponsorship
+    category: deal
+    title: Sponsorship and commercial authority
+    summary: Sponsor acceptance, sales authority, inventory, and conflict rules remain intentionally unresolved before flagship proof.
+    owner: Partners
+    state: unknown
+    external_reference: registry://example-partnership/sponsor-terms
+  - item_key: obligation.ari_review
+    category: obligation
+    title: Weekly 12-minute Host review
+    summary: Review the prepared queue, make relationship and editorial decisions, and confirm the recurring recording window.
+    owner: Host
+    state: current
+  - item_key: obligation.anthony_queue
+    category: obligation
+    title: Prepare decision-ready material
+    summary: Supply thesis, artifact, relationship owner, social cost, Host effort, verified route, city, and next action before Host reviews.
+    owner: Producer
+    state: current
+  - item_key: decision.internal_label
+    category: decision
+    title: Use Example Private Pilot internally
+    summary: Public naming waits until three private pilots prove the format.
+    owner: Partners
+    state: current
+  - item_key: receipt.pilot_owner
+    category: receipt
+    title: Pilot 1 owner issue
+    summary: The issue owns the software and real-world Pilot 1 predicates; a rehearsal cannot close it.
+    owner: Producer
+    state: current
+    external_reference: github://organvm/hospes/issues/9
+  - item_key: risk.publication
+    category: risk
+    title: Premature publication
+    summary: Nothing is published from the private-pilot lane; publishing routes remain structurally absent.
+    owner: Producer
+    state: current
+  - item_key: unknown.partnership_agreement
+    category: unknown
+    title: Signed partnership agreement owner
+    summary: The canonical agreement location, signatories, effective date, and amendment process have not been linked.
+    owner: Partners
+    state: unknown

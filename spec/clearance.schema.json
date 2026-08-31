@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hospes.organvm/spec/clearance.schema.json",
+  "title": "Clearance",
+  "description": "One rights item on one episode: music, clip, IP, footage, or guest likeness. Private counterparty values stay under custody; the record keeps opaque references, checksums, and attributable decision evidence.",
+  "type": "object",
+  "required": [
+    "clearance_id",
+    "type",
+    "status",
+    "episode_id",
+    "rights_holder_ref",
+    "license_terms_ref",
+    "custody_mode"
+  ],
+  "properties": {
+    "clearance_id": {"type": "string", "minLength": 1},
+    "tenant_id": {"type": "string", "minLength": 1},
+    "show_id": {"type": "string", "minLength": 1},
+    "episode_id": {"type": "string", "minLength": 1},
+    "type": {"type": "string", "enum": ["music", "clip", "IP", "footage", "guest_likeness"]},
+    "status": {"type": "string", "enum": ["pending", "cleared", "denied"]},
+    "blocks_publication": {
+      "type": "boolean",
+      "description": "True for every status other than cleared. Publication stays denied while any clearance on the episode blocks."
+    },
+    "cost_minor": {"type": "integer", "minimum": 0, "maximum": 1000000000},
+    "due_date": {"type": ["string", "null"], "format": "date"},
+    "custody_mode": {
+      "type": "string",
+      "enum": ["sealed", "external_reference"],
+      "description": "sealed: rights holder and licence terms are AES-256-GCM ciphertext behind private-field references. external_reference: no field vault is configured, so the operator supplied opaque references owned outside HOSPES."
+    },
+    "rights_holder_ref": {
+      "type": "string",
+      "pattern": "^(?:private-field://[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|[a-z][a-z0-9_-]{1,31}://[A-Za-z0-9][A-Za-z0-9._~:/?#=&%+-]{1,207})$"
+    },
+    "license_terms_ref": {
+      "type": "string",
+      "pattern": "^(?:private-field://[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|[a-z][a-z0-9_-]{1,31}://[A-Za-z0-9][A-Za-z0-9._~:/?#=&%+-]{1,207})$"
+    },
+    "rights_holder_checksum": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "license_terms_checksum": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "evidence_ref": {
+      "type": ["string", "null"],
+      "pattern": "^[a-z][a-z0-9_-]{1,31}://[A-Za-z0-9][A-Za-z0-9._~:/?#=&%+-]{1,207}$",
+      "description": "Opaque custody reference for the licence, refusal, or reopening evidence. Every status decision requires one."
+    },
+    "recorded_by": {"type": ["string", "null"]},
+    "recorded_by_role": {"type": ["string", "null"]},
+    "decided_by": {"type": ["string", "null"]},
+    "decided_by_role": {"type": ["string", "null"]},
+    "decided_at": {"type": ["string", "null"], "format": "date-time"},
+    "correlation_id": {"type": ["string", "null"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"enum": ["cleared", "denied"]}}, "required": ["status"]},
+      "then": {"required": ["evidence_ref"], "properties": {"evidence_ref": {"type": "string"}}}
+    }
+  ],
+  "additionalProperties": false
+}

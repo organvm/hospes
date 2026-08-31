@@ -1,0 +1,293 @@
+# HOSPES — Field Show DNA
+# Producer's location show: "Place → Object → Intervention → Artifact"
+# A separate show identity — distinct from the flagship in format, visual grammar,
+# cadence, and voice — running on the same OS backend.
+# All fields satisfy show.schema.json.
+
+show:
+  id: field
+  title: "[FIELD_SHOW_TITLE]"
+  status: concept
+  primary_format: >
+    Occasional observational films made inside the guest's own environment.
+    The guest's space is a third participant, not a backdrop.
+    Video-native; audio must carry the episode without the image when required.
+  recording_cities: []  # Location is determined by the guest; cities are not pre-fixed.
+  cadence: irregular — occasional films on the guest's territory
+
+audience_promise: >
+  The host enters the guest's own space and allows place, objects, and intervention
+  to surface things a controlled studio conversation cannot. Every film leaves with
+  something made, changed, or revealed inside that specific location.
+
+format_engine:
+  engine_label: "Place → Object → Intervention → Artifact"
+  fixed:
+    - name: Place
+      description: >
+        Establish why this location matters. The space is named and seen before the guest
+        is fully introduced. The first minutes explain what is here, who built it, and what
+        it costs to maintain or abandon it.
+      output: >
+        Opening sequence that grounds the audience in the specific environment.
+    - name: Object
+      description: >
+        The guest shows something that carries history, method, or conflict — a tool,
+        a material, an archive, a failed prototype, a personal artifact, a map, a score.
+        The object is real; it is not a prop.
+      output: >
+        An artifact angle sequence and a clip that isolates the object and its story.
+    - name: Intervention
+      description: >
+        The host asks the guest to demonstrate, change, test, rank, build, destroy, or
+        reinterpret something within their own space. The intervention is designed before
+        the shoot. It may produce something new, reveal a process, or force a choice.
+      output: >
+        The episode's central clip sequence; documentary proof of what happened.
+    - name: Artifact
+      description: >
+        Leave with a new object, text, prediction, route, sound, image, drawing, or question
+        produced by the intervention. The artifact must be exportable — photographable or
+        recordable — before the host leaves.
+      output: >
+        A physical or digital artifact, and the episode's closing asset.
+  rotating:
+    - name: Object Lesson
+      description: >
+        The guest selects a second object — something the host would not have chosen —
+        and explains why it belongs in this room.
+    - name: The Unfinished Thing
+      description: >
+        What is present in this space that the guest has not resolved, abandoned,
+        or completed? The host asks them to engage with it on camera.
+    - name: Receipts
+      description: >
+        An old photograph, plan, recording, or document of this space or the guest's
+        history with it. Ask what changed and what didn't.
+    - name: The Question for the Next Guest
+      description: >
+        The guest leaves a question for the next person whose space the host will visit.
+  selection_rubric:
+    - native to this specific location — would not work in a studio
+    - reveals something about the guest that their public profile does not
+    - produces a discrete, exportable clip
+    - respects the guest's territory — no ambush, no uninvited destruction
+    - remains understandable in audio-only form
+
+host_functions:
+  anthony:
+    function: >
+      observation, designed intervention, architectural curiosity, synthesis, documentary instinct
+    contrast_note: >
+      Producer operates solo in the field. The role is host, producer, and editor-in-chief
+      simultaneously. His function is to notice what the environment reveals, ask the
+      guest to act inside their own space, and produce the Artifact without any studio infrastructure.
+    operational_budget: self-directed — no weekly cadence constraint
+    required_work:
+      - design the intervention before the shoot
+      - operate or supervise the portable camera grammar on location
+      - produce the artifact before leaving the location
+      - own the editorial thesis and segment selection
+      - approve the final cut
+    prohibited_work:
+      - carrying studio décor into the guest's space
+      - disguising the small-camera observational grammar as studio cinema
+      - recording from a pre-set fixed interview position
+      - overproducing the space before capture
+
+editorial_exclusions:
+  - visible studio equipment brought into the guest's environment
+  - artificial set dressing in the guest's space
+  - disguising action-camera wide-angle character as conventional cinema
+  - treating the location as neutral backdrop rather than third participant
+  - biography-dump interview structure
+  - generic promotional conversation
+  - asking guests to rescue or promote the show
+  - unannounced or ambush interventions
+  - mass outreach from personal accounts
+  - fixed weekly release pressure that would compromise production quality
+
+visual_rule:
+  doctrine: >
+    The guest's environment is the set. The host brings capture equipment, not décor.
+    The wide-angle, high-dynamic-range character of small action cameras is treated as
+    an intentional observational language — documentary grammar — not disguised as
+    conventional studio cinema or broadcast interview.
+  non_negotiables:
+    - no studio set dressing or portable salon materials in the guest's space
+    - no fixed interview position — camera positions reveal the room
+    - no disguising the GoPro-class visual grammar as conventional cinema
+    - no large show logo elements in the physical space
+  camera_grammar:
+    - role: environmental master
+      description: >
+        Places first. Establishes the room's character, scale, and spatial logic before
+        participants are framed in the conventional interview sense.
+      optional: false
+    - role: guest angle
+      description: >
+        Medium or medium-close on the guest within their own space. Retains environment.
+      optional: false
+    - role: host angle
+      description: >
+        Equivalent framing on the host. May be more observational and less formal than
+        the guest angle.
+      optional: false
+    - role: roaming/object camera
+      description: >
+        Handheld or repositioned to follow the intervention, reveal the object, or capture
+        the moment of artifact production. This is the engine of the field format.
+      optional: true
+    - role: artifact/object detail
+      description: >
+        Close or overhead capture of the object or artifact being examined or produced.
+      optional: true
+  light_and_palette:
+    face_light: available light first; practical sources in the environment preferred over brought gear
+    background: the guest's actual environment — not controlled, not neutralized
+    neutral_palette:
+      - whatever the location provides
+      - one episode-specific signal element from the artifact or intervention
+    graphic_layer_rule: >
+      Post-production graphics preserve the observational texture of the shoot.
+      The graphic layer does not smooth the location into a studio feel.
+  graphic_language:
+    lower_thirds: sparse; location and guest name appear briefly, then disappear
+    segment_titles: optional; appear only when they sharpen navigation
+    thumbnail_rule: shows the location and the artifact, not a talking-head frame
+    episode_glyph: derived from the intervention or artifact of this specific episode
+  field_notes: >
+    Synchronization slate at the start of each setup and after any interruption.
+    The wide-angle grammar of small action cameras is the visual identity of this show —
+    own it rather than apologize for it.
+
+audio_rule:
+  doctrine: >
+    Independent local audio on every participant. Environmental audio is captured
+    as a primary editorial element, not eliminated. The guest's space should sound
+    like itself.
+  required_tracks:
+    - per-speaker audio on every participant (lavalier or local recorder)
+    - environmental/room audio as a dedicated track
+    - host audio on its own isolated track
+  safety_requirements:
+    - per-speaker audio must be local-recorded (not camera-only) to survive camera failure
+    - check levels and isolation before the intervention begins
+    - sync state confirmed after any interruption or camera reposition
+  sync_protocol: >
+    Synchronization slate at the start of each camera setup and immediately after any
+    interruption, camera repositioning, or pause in the intervention.
+
+release_strategy:
+  bank_before_launch: 0
+  launch_drop: 1
+  default_cadence: irregular — occasional films
+  initial_goal: >
+    Establish the field show as a distinct object with its own recognizable grammar before
+    committing to any release cadence. Each film is complete on its own terms.
+    The field show does not compete with the flagship's weekly rhythm.
+  pilot_phase:
+    count: 1
+    purpose: >
+      One location, one guest, one full production cycle to prove the portable grammar
+      and the backend integration before the second film.
+
+ad_rules:
+  philosophy: >
+    Advertising in the field show, if any, is treated as a designed interstitial.
+    Given the observational and irregular character of the field format, default to
+    house ads only until the format has established a consistent audience.
+  house_ads_first: true
+  formats:
+    - name: House Ad
+      description: >
+        Short promotion for the flagship show, an owned project, or the studio network.
+        Produced separately and clearly labeled.
+    - name: Thirty-Second Film
+      description: >
+        A self-contained micro-scene shot separately from the field episode and inserted
+        as a clearly labeled commercial break. Must be thematically coherent with the
+        field show's observational grammar.
+  production_rules:
+    - label sponsorship clearly
+    - do not invent personal use or results
+    - do not insert guests into ad reads without prior consent
+    - keep ads separate from the episode's documentary integrity
+    - prefer house ads over paid sponsorship until the format is proven
+  sponsor_intake_requirements:
+    - product truth
+    - actual host experience (if any)
+    - required factual claims
+    - prohibited claims
+    - legal language
+    - one clear call to action
+    - visual permissions
+    - tone boundaries — must be compatible with the field show's observational register
+    - approval deadline
+
+asset_requirements:
+  - asset: episode thesis
+    description: >
+      One-sentence statement of what this specific place and intervention revealed.
+  - asset: location brief
+    description: >
+      Pre-shoot document: what the location is, why this guest is here, the designed
+      intervention, and the expected artifact.
+  - asset: intervention record
+    description: >
+      Documentary sequence capturing the intervention in progress.
+  - asset: artifact documentation
+    description: >
+      Photograph, recording, or scan of the artifact produced. Must be exportable
+      before the host leaves the location.
+  - asset: primary clip
+    description: >
+      The strongest 90-second or less clip from the intervention or artifact moment.
+  - asset: environmental master clip
+    description: >
+      Opening sequence establishing the location.
+  - asset: chapter markers
+    description: Edit markers and timestamps for the full episode.
+  - asset: transcript
+    description: Full episode transcript with speaker labels.
+  - asset: description
+    description: Platform description for distribution.
+  - asset: guest delivery package
+    description: Clips and stills packaged for the guest's own use.
+
+voice:
+  show_persona: >
+    Observational, curious, patient. The field show voice is quieter than the flagship.
+    It notices things. It is not declarative. It earns its conclusions from what the
+    location and the intervention actually produced, not from what was planned.
+  tone_words:
+    - observational
+    - patient
+    - specific
+    - grounded
+    - curious
+  outreach_voice_ref: hospes/outreach_templates.yaml
+  prohibited_tones:
+    - fan-letter
+    - promotional pitch
+    - studio-show energy applied to a field context
+    - flattery as strategy
+    - urgency manufactured to compensate for irregular cadence
+
+relationship_rules:
+  classes_honored:
+    - C0  # personal inner circle — protected, never contacted through the OS
+    - C1  # direct creative collaborators
+    - C2  # warm professional network
+    - C3  # known-of, not known
+    - C4  # cold professional targets with a credible route
+    - C5  # fully cold contacts
+  protected_relationship_rule: >
+    C0 contacts are flagged as protected. The OS will not generate outreach toward them
+    without an explicit human-placed note releasing the contact.
+  routing_principle: >
+    Prefer the least socially expensive credible route. In the field format, guests are
+    often discovered through location-based logic (who is interesting in this city, who
+    owns a space worth entering). Route via the highest-trust available path.
+  auto_outreach_block: true
+  mass_outreach_ban: true

@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/episode.schema.json",
+  "title": "Episode",
+  "description": "A planned or completed episode of a Show. An Episode is linked to one or more AppearanceOpportunities and carries the production lifecycle from thesis through publication. The Episode is the creative unit; AppearanceOpportunity is the guest-relationship unit.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["episode_id", "show_id"],
+  "properties": {
+    "episode_id": {
+      "type": "string",
+      "description": "Stable UUID for this episode."
+    },
+    "show_id": {
+      "type": "string",
+      "description": "The Show this episode belongs to."
+    },
+    "opportunity_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "One or more AppearanceOpportunity IDs linked to this episode (single guest, panel, or group)."
+    },
+    "title": {
+      "type": ["string", "null"],
+      "description": "Working or final episode title."
+    },
+    "episode_number": {
+      "type": ["integer", "null"],
+      "description": "Sequential episode number within the show."
+    },
+    "thesis": {
+      "type": ["string", "null"],
+      "description": "The central question, claim, or frame the episode explores. Required before RECORDING_READY."
+    },
+    "editorial_angle": {
+      "type": ["string", "null"],
+      "description": "The specific tension, contrast, or narrative approach for this episode."
+    },
+    "recording_date": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Scheduled or actual recording date-time."
+    },
+    "release_date": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Scheduled or actual release date."
+    },
+    "host_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "person_ids of the hosts appearing in this episode."
+    },
+    "producer_id": {
+      "type": ["string", "null"],
+      "description": "person_id of the producer responsible for this episode."
+    },
+    "studio_id": {
+      "type": ["string", "null"],
+      "description": "Studio where the episode was or will be recorded."
+    },
+    "release_status": {
+      "type": "string",
+      "enum": ["pending", "signed", "exception_required"],
+      "description": "Status of the guest release agreement."
+    },
+    "technical_status": {
+      "type": "string",
+      "enum": ["not_started", "equipment_confirmed", "test_completed", "recording_ready", "recorded", "ingested"],
+      "description": "Technical readiness state."
+    },
+    "assets_status": {
+      "type": "string",
+      "enum": ["none", "raw_only", "processed", "reviewed", "approved"],
+      "description": "Post-production asset status."
+    },
+    "publication_status": {
+      "type": "string",
+      "enum": ["not_started", "in_review", "approved", "scheduled", "published", "correction_pending"],
+      "description": "Distribution and publication status."
+    },
+    "segment_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Ordered list of Segment IDs planned for this episode."
+    },
+    "research_brief_url": {
+      "type": ["string", "null"],
+      "description": "Link to the producer research brief for this episode."
+    },
+    "transcript_ready": {
+      "type": "boolean",
+      "default": false
+    },
+    "content_units_generated": {
+      "type": "boolean",
+      "default": false
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

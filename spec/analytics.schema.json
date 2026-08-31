@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hospes.organvm/spec/analytics.schema.json",
+  "title": "AnalyticsMetric",
+  "description": "One provider-attributed analytics observation for one episode over one closed period. Every record names the provider receipt that authorized the read, so no metric enters the store without an attributable provider verification.",
+  "type": "object",
+  "required": ["provider", "episode_id", "metrics", "period_start", "period_end", "fetched_at", "source_receipt_ref"],
+  "properties": {
+    "provider": {"type": "string", "enum": ["spotify_creator_csv", "youtube_analytics", "megaphone_chartable_import", "custom_csv_http"]},
+    "episode_id": {"type": "string", "minLength": 1},
+    "metrics": {
+      "type": "object",
+      "description": "Canonical metric names are downloads, streams, retention_pct, avg_consumption, top_clip_views, and top_clip_ref. Provider spellings are normalized onto those names; any further provider column is preserved verbatim.",
+      "properties": {
+        "downloads": {"type": ["number", "string"]},
+        "streams": {"type": ["number", "string"]},
+        "retention_pct": {"type": ["number", "string"]},
+        "avg_consumption": {"type": ["number", "string"]},
+        "top_clip_views": {"type": ["number", "string"]},
+        "top_clip_ref": {"type": "string"}
+      },
+      "additionalProperties": {"type": ["number", "string", "array"]}
+    },
+    "period_start": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+    "period_end": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+    "fetched_at": {"type": "string", "format": "date-time"},
+    "source_receipt_ref": {"type": "string", "pattern": "^[a-z][a-z0-9+.-]*://[^\\s]{3,512}$"}
+  },
+  "additionalProperties": false
+}

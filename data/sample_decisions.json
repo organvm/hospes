@@ -1,0 +1,8 @@
+[
+  {"guest_name": "Dana Reyes", "decision": "APPROVE", "note": "Perfect pilot candidate; approve for producer outreach."},
+  {"guest_name": "Marlow Chen", "decision": "APPROVE", "note": "Approve; strong co-host contrast."},
+  {"guest_name": "Sam Okafor", "decision": "APPROVE", "note": "Approve; I'll add a short personal note."},
+  {"guest_name": "Priya Nair", "decision": "NOTE", "note": "Interesting; hold for the fall book window."},
+  {"guest_name": "Jordan Blake", "decision": "PROTECT", "note": "Friend — I handle this one myself, do not auto-contact."},
+  {"guest_name": "Robin Vale", "decision": "REJECT", "note": "Great story but not a fit for the pilot slate."}
+]

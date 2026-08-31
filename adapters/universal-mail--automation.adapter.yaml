@@ -1,0 +1,26 @@
+system: universal-mail--automation
+claimed_by: [chatgpt_audit, github_scan, local_scan]
+repo: organvm/universal-mail--automation
+verified: true
+verified_how: >
+  gh repo view organvm/universal-mail--automation (PUBLIC, pushedAt 2026-07-13). Local
+  checkout confirmed at ~/Workspace/universal-mail--automation. Description explicitly states
+  "Draft-only, never sends."
+disposition: retain-service
+capability: >
+  Inbox triage across Gmail/Apple Mail: thread ingestion, classification, VIP/escalation,
+  follow-up aging, voice-matched draft generation, delivery evidence, and redacted operator
+  views. Architecturally refuses to send without evidence and approval.
+seam:
+  consumes: [outreach.draft_ready, reply.received]
+  emits: [reply.classified, outreach.draft_ready, followup.due]
+  interface: >
+    Service adapter over its /v1/ops/* HTTP surface — HOSPES sends draft-intent + persona,
+    receives classified threads and drafts. HOSPES owns podcast intent classes; the mail
+    service owns transport and triage.
+first_integration_step: >
+  Map its taxonomy (URGENT/VIP/FOLLOW_UP/ACTION_REQUIRED/WAITING/SENSITIVE/DELIVERY_EVIDENCE)
+  onto HOSPES appearance events in spec/, keeping the draft-only boundary explicit.
+caveats: >
+  DRAFT-ONLY by design and by charter — HOSPES never triggers autonomous sending; sending is
+  a human-gated action. Podcast-specific relationship permissions live in HOSPES, not here.

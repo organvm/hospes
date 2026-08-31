@@ -1,0 +1,20 @@
+{
+  "_note": [
+    "Shrink-only ratchet for the deferred review-finding backlog.",
+    "",
+    "scripts/check_hardening.py re-derives these counts from the registry rows on",
+    "every run and requires an EXACT match. Exact rather than a ceiling, in both",
+    "directions and on purpose:",
+    "",
+    "  - A count ABOVE the ratchet is a regression; the gate reds.",
+    "  - A count BELOW it means work landed and the bookkeeping did not; the gate",
+    "    also reds, so closing a finding and lowering this file are one change.",
+    "",
+    "That is what keeps the number honest. Nothing here is trusted — it is a claim",
+    "checked against the rows every run, and git history shows every time it moved.",
+    "Lowering it is the visible unit of progress on this campaign; raising it needs",
+    "a stated reason in the commit message."
+  ],
+  "open_total": 109,
+  "open_s1": 21
+}

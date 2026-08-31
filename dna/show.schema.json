@@ -1,0 +1,424 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/organvm/hospes/dna/show.schema.json",
+  "title": "HOSPES Show DNA",
+  "description": "Schema for a single show's identity, format engine, host functions, editorial constraints, visual/audio rules, release strategy, advertising policy, asset requirements, voice persona, and relationship governance.",
+  "type": "object",
+  "required": [
+    "show",
+    "audience_promise",
+    "format_engine",
+    "host_functions",
+    "editorial_exclusions",
+    "visual_rule",
+    "audio_rule",
+    "release_strategy",
+    "ad_rules",
+    "asset_requirements",
+    "voice",
+    "relationship_rules"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "show": {
+      "type": "object",
+      "description": "Core show identity block.",
+      "required": ["id", "title", "status", "primary_format", "recording_cities"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable machine-readable identifier. Used as show_id throughout the OS.",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Public-facing show title."
+        },
+        "status": {
+          "type": "string",
+          "description": "Lifecycle phase of the show.",
+          "enum": [
+            "concept",
+            "private pilot",
+            "banking",
+            "launched",
+            "hiatus",
+            "archived"
+          ]
+        },
+        "primary_format": {
+          "type": "string",
+          "description": "One-sentence statement of the format contract (e.g. video-native that remains complete as audio)."
+        },
+        "recording_cities": {
+          "type": "array",
+          "description": "Cities where episodes may be recorded.",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "cadence": {
+          "type": "string",
+          "description": "Release cadence descriptor (e.g. 'weekly', 'irregular', 'occasional films')."
+        }
+      }
+    },
+
+    "audience_promise": {
+      "type": "string",
+      "description": "The editorial contract with the audience — what every episode must deliver."
+    },
+
+    "format_engine": {
+      "type": "object",
+      "description": "The episode structure expressed as fixed (every episode) and rotating (selected per guest) segments.",
+      "required": ["fixed", "rotating"],
+      "additionalProperties": false,
+      "properties": {
+        "engine_label": {
+          "type": "string",
+          "description": "Short mnemonic for the format engine (e.g. 'Claim → Stress Test → Artifact')."
+        },
+        "fixed": {
+          "type": "array",
+          "description": "Segments that appear in every episode, in order.",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "required": ["name"],
+                "additionalProperties": true,
+                "properties": {
+                  "name": { "type": "string" },
+                  "description": { "type": "string" },
+                  "output": { "type": "string" }
+                }
+              }
+            ]
+          }
+        },
+        "rotating": {
+          "type": "array",
+          "description": "Segments chosen per episode based on guest and editorial fit.",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "required": ["name"],
+                "additionalProperties": true,
+                "properties": {
+                  "name": { "type": "string" },
+                  "description": { "type": "string" },
+                  "output": { "type": "string" }
+                }
+              }
+            ]
+          }
+        },
+        "selection_rubric": {
+          "type": "array",
+          "description": "Criteria a rotating segment must satisfy to be selected.",
+          "items": { "type": "string" }
+        }
+      }
+    },
+
+    "host_functions": {
+      "type": "object",
+      "description": "Per-host role definitions. Keys are host identifiers (e.g. 'ari', 'anthony'). At least one host required.",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["function", "required_work", "prohibited_work"],
+        "additionalProperties": false,
+        "properties": {
+          "function": {
+            "type": "string",
+            "description": "Comma-separated list of the host's editorial role attributes."
+          },
+          "contrast_note": {
+            "type": "string",
+            "description": "Optional note on how this host contrasts with the other host(s)."
+          },
+          "required_work": {
+            "type": "array",
+            "description": "Actions this host must personally perform — their irreducible human seat.",
+            "minItems": 1,
+            "items": { "type": "string" }
+          },
+          "prohibited_work": {
+            "type": "array",
+            "description": "Work the system takes over so this host never has to do it.",
+            "minItems": 1,
+            "items": { "type": "string" }
+          },
+          "operational_budget": {
+            "type": "string",
+            "description": "Target weekly time budget expressed as a plain statement (e.g. 'approximately 10 minutes per week')."
+          }
+        }
+      }
+    },
+
+    "editorial_exclusions": {
+      "type": "array",
+      "description": "Absolute prohibitions for this show. Nothing on this list may appear in any episode.",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+
+    "visual_rule": {
+      "type": "object",
+      "description": "Governing visual doctrine for this show.",
+      "required": ["doctrine"],
+      "additionalProperties": false,
+      "properties": {
+        "doctrine": {
+          "type": "string",
+          "description": "The core visual rule in one or two sentences."
+        },
+        "non_negotiables": {
+          "type": "array",
+          "description": "Absolute visual prohibitions.",
+          "items": { "type": "string" }
+        },
+        "camera_grammar": {
+          "type": "array",
+          "description": "Named camera angles/roles in order of hierarchy.",
+          "items": {
+            "type": "object",
+            "required": ["role", "description"],
+            "additionalProperties": false,
+            "properties": {
+              "role": { "type": "string" },
+              "description": { "type": "string" },
+              "optional": { "type": "boolean" }
+            }
+          }
+        },
+        "light_and_palette": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "face_light": { "type": "string" },
+            "background": { "type": "string" },
+            "neutral_palette": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "graphic_layer_rule": { "type": "string" }
+          }
+        },
+        "graphic_language": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "lower_thirds": { "type": "string" },
+            "segment_titles": { "type": "string" },
+            "thumbnail_rule": { "type": "string" },
+            "episode_glyph": { "type": "string" }
+          }
+        },
+        "evolution_path": {
+          "type": "array",
+          "description": "Versioned upgrade path for the visual package.",
+          "items": {
+            "type": "object",
+            "required": ["version", "label", "description"],
+            "additionalProperties": false,
+            "properties": {
+              "version": { "type": "string" },
+              "label": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "field_notes": {
+          "type": "string",
+          "description": "Optional notes specific to field/location recording contexts."
+        }
+      }
+    },
+
+    "audio_rule": {
+      "type": "object",
+      "description": "Audio capture doctrine for this show.",
+      "required": ["doctrine"],
+      "additionalProperties": false,
+      "properties": {
+        "doctrine": {
+          "type": "string",
+          "description": "Core audio philosophy in one sentence."
+        },
+        "required_tracks": {
+          "type": "array",
+          "description": "Audio tracks that must be captured for every recording.",
+          "items": { "type": "string" }
+        },
+        "safety_requirements": {
+          "type": "array",
+          "description": "Redundancy and pre-check requirements.",
+          "items": { "type": "string" }
+        },
+        "sync_protocol": {
+          "type": "string",
+          "description": "Synchronization method (e.g. 'synchronization slate at start and after interruptions')."
+        }
+      }
+    },
+
+    "release_strategy": {
+      "type": "object",
+      "description": "Launch and ongoing release parameters.",
+      "required": ["bank_before_launch", "launch_drop", "default_cadence", "initial_goal"],
+      "additionalProperties": false,
+      "properties": {
+        "bank_before_launch": {
+          "type": "integer",
+          "description": "Number of finished episodes to hold before any public release.",
+          "minimum": 0
+        },
+        "launch_drop": {
+          "type": "integer",
+          "description": "Number of episodes to release simultaneously at launch.",
+          "minimum": 1
+        },
+        "default_cadence": {
+          "type": "string",
+          "description": "Ongoing release cadence after launch (e.g. 'weekly', 'irregular')."
+        },
+        "initial_goal": {
+          "type": "string",
+          "description": "The primary success criterion for the launch phase."
+        },
+        "pilot_phase": {
+          "type": "object",
+          "description": "Optional private pilot phase definition.",
+          "additionalProperties": false,
+          "properties": {
+            "count": { "type": "integer", "minimum": 1 },
+            "purpose": { "type": "string" }
+          }
+        }
+      }
+    },
+
+    "ad_rules": {
+      "type": "object",
+      "description": "Advertising policy and available formats for this show.",
+      "required": ["philosophy", "formats"],
+      "additionalProperties": false,
+      "properties": {
+        "philosophy": {
+          "type": "string",
+          "description": "The governing principle for all advertising on this show."
+        },
+        "house_ads_first": {
+          "type": "boolean",
+          "description": "If true, house/owned-project ads precede any paid sponsor placement."
+        },
+        "formats": {
+          "type": "array",
+          "description": "Available advertising formats.",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "description"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "production_rules": {
+          "type": "array",
+          "description": "Mandatory production and disclosure rules for all ads.",
+          "items": { "type": "string" }
+        },
+        "sponsor_intake_requirements": {
+          "type": "array",
+          "description": "Fields every sponsor brief must contain before creative work begins.",
+          "items": { "type": "string" }
+        }
+      }
+    },
+
+    "asset_requirements": {
+      "type": "array",
+      "description": "Assets that must be produced for every episode.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["asset", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "asset": { "type": "string" },
+          "description": { "type": "string" },
+          "optional": { "type": "boolean" }
+        }
+      }
+    },
+
+    "voice": {
+      "type": "object",
+      "description": "Outreach and editorial voice persona references for this show.",
+      "required": ["show_persona"],
+      "additionalProperties": false,
+      "properties": {
+        "show_persona": {
+          "type": "string",
+          "description": "Brief statement of the show's voice personality as it appears in all outreach and editorial copy."
+        },
+        "tone_words": {
+          "type": "array",
+          "description": "Keywords that characterize the show's tone.",
+          "items": { "type": "string" }
+        },
+        "outreach_voice_ref": {
+          "type": "string",
+          "description": "Reference to an outreach-voice file or template set."
+        },
+        "prohibited_tones": {
+          "type": "array",
+          "description": "Tones and postures explicitly banned from outreach and editorial copy.",
+          "items": { "type": "string" }
+        }
+      }
+    },
+
+    "relationship_rules": {
+      "type": "object",
+      "description": "Relationship class governance and social-cost routing doctrine for this show.",
+      "required": ["classes_honored"],
+      "additionalProperties": false,
+      "properties": {
+        "classes_honored": {
+          "type": "array",
+          "description": "Relationship classes recognized by this show (must match the global graph's class vocabulary).",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "protected_relationship_rule": {
+          "type": "string",
+          "description": "Policy governing contacts in the highest-trust class."
+        },
+        "routing_principle": {
+          "type": "string",
+          "description": "Decision rule for choosing contact routes (e.g. 'least socially expensive credible route')."
+        },
+        "auto_outreach_block": {
+          "type": "boolean",
+          "description": "If true, the system never sends outreach from personal accounts without explicit human approval."
+        },
+        "mass_outreach_ban": {
+          "type": "boolean",
+          "description": "If true, mass or bulk outreach is prohibited regardless of channel."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+system: speech-score-engine
+claimed_by: [chatgpt_audit, local_scan, github_scan]
+repo: organvm/speech-score-engine
+verified: true
+verified_how: >
+  gh repo view organvm/speech-score-engine (PRIVATE, pushedAt 2026-07-01). Local checkout
+  confirmed at ~/Code/speech-score-engine; scan notes it is live at speech-score-engine.pages.dev.
+  Related precursor organvm/sign-signal--voice-synth (PRIVATE) also verified.
+disposition: preserve-rnd
+capability: >
+  Temporal speech + dialogue diagnostics: phrase-event ontology, timing, speaker
+  differentiation, pacing/overlap/interruption diagnostics, rhythm/monotony analysis.
+  Executable scaffold — design-rich, implementation-early.
+seam:
+  consumes: [transcript.ready]
+  emits: [segment.identified]
+  interface: >
+    Later, opt-in R&D dependency — host/guest turn-duration + overlap diagnostics and
+    ad-sketch timing. NOT wired into HOSPES v0.
+first_integration_step: >
+  Record it in spec/ as a deferred creative-intelligence dependency; do not build against it
+  in v0.
+caveats: >
+  Do NOT block launch on it. Preserve as advanced R&D. sign-signal--voice-synth is its
+  conceptual precursor — preserve the source corpus, redirect new work to speech-score-engine.

@@ -1,0 +1,21 @@
+version: 1
+tenant_id: hospes
+show_id: flagship
+label: Flagship Show
+enabled: true
+default: true
+display_order: 10
+modes:
+  guest_interaction: operator_packet
+  outbound: draft_only
+roles: [network_operator, relationship_owner, producer, editorial_owner, editor]
+dna_ref: dna/flagship.show.yaml
+voice_ref: config/voices/flagship.yaml
+template_ref: config/templates/flagship.yaml
+brand_ref: config/brands/flagship.yaml
+pilot_policy_ref: config/pilot_policies/flagship.yaml
+provider_precedence:
+  calendar: [google_calendar, ics, manual]
+  research: [brave, serpapi, searxng, manual_citations]
+  analytics: [youtube_analytics, spotify_creator_csv, megaphone_chartable_import]
+  distribution: [rss, youtube_metadata, clip_queue, manual_external_receipt]

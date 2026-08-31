@@ -1,0 +1,95 @@
+version: 1.0.0
+principle: compose through adapters; preserve source repositories and provenance
+runtime:
+  profiles: [local, tunnel, hosted, hybrid]
+  registry: config/runtime.yaml
+  show_registry: config/shows/
+  credential_policy: credential references only; values stay in the credential wall
+provider_adapters:
+  calendar: [manual, ics, google_calendar]
+  tour_intelligence: [manual_import, approved_rss, songkick]
+  analytics: [spotify_creator_csv, youtube_analytics, megaphone_chartable_import, custom_csv_http]
+  research: [manual_citations, brave, serpapi, searxng]
+  distribution: [manual_external_receipt, rss, youtube_metadata, clip_queue]
+  asset_amplifier: [content_engine_asset_amplifier]
+  mail_drafting: [universal_mail_draft]
+  status_rule: enabled providers remain visible as configured, blocked, unconfigured, or unavailable
+services:
+  mail:
+    source: organvm/universal-mail--automation
+    adapter: '@conversation-os/integrations/mail'
+    owns:
+    - inbound_thread_ingestion
+    - mail_classification
+    - draft_approval
+    - delivery_evidence
+  media_archive:
+    source: organvm/media-ark
+    adapter: '@conversation-os/integrations/media-ark'
+    owns:
+    - canonical_asset_identity
+    - hashes
+    - sidecars
+    - dedupe
+    - archive_verification
+  content_yield:
+    source: organvm/content-engine--asset-amplifier
+    adapter: '@conversation-os/integrations/asset-amplifier'
+    owns:
+    - fragment_generation
+    - content_scoring
+    - variant_generation
+    - yield_analytics
+  distribution:
+    source: organvm/social-automation
+    adapter: '@conversation-os/integrations/distribution'
+    owns:
+    - dispatch
+    - retry
+    - delivery_receipt
+    - channel_analytics
+packages:
+  network_graph:
+    sources:
+    - organvm/application-pipeline/scripts/crm.py
+    - organvm/application-pipeline/scripts/network_graph.py
+    target: '@conversation-os/network-graph'
+  contact_service:
+    sources:
+    - organvm/public-record-data-scrapper/server/services/ContactsService.ts
+    - organvm/public-record-data-scrapper/database/migrations/005_contacts.sql
+    target: '@conversation-os/contact-service'
+  voice:
+    sources:
+    - organvm/vox--architectura-gubernatio
+    - organvm/vox--publica
+    - organvm/collective-persona-operations
+    target: '@conversation-os/voice'
+  scheduling:
+    sources:
+    - organvm/mirror-mirror/src/components/Booking.tsx
+    - organvm/mirror-mirror/src/lib/reminderScheduler.ts
+    - organvm/mirror-mirror/src/components/CalendarSync.tsx
+    target: '@conversation-os/scheduling'
+    rewrite_required: true
+  transcript:
+    sources:
+    - organvm/salon-archive
+    - organvm/session-meta
+    - organvm/linguistic-atomization-framework
+    target: '@conversation-os/transcript'
+  clip_ledger:
+    sources:
+    - organvm/materia-collider
+    target: '@conversation-os/clip-ledger'
+  editorial:
+    sources:
+    - organvm/editorial-standards
+    - organvm/praxis-perpetua
+    - organvm/object-lessons
+    - organvm/the-actual-news
+    target: '@conversation-os/editorial'
+  approvals:
+    sources:
+    - organvm/agentic-titan
+    target: '@conversation-os/approvals'

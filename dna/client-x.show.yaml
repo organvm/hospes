@@ -1,0 +1,61 @@
+show:
+  id: client-x
+  title: "Client: Podcast X"
+  status: onboarding
+  primary_format: Client-owned interview format pending operator configuration.
+  recording_cities: []
+  cadence: unconfigured
+audience_promise: Every episode must satisfy the client-approved editorial brief before release.
+format_engine:
+  engine_label: Client-defined
+  fixed:
+    - name: The Claim
+      description: Establish the client-approved premise and guest relevance.
+      output: A bounded client-owned episode brief.
+    - name: The Stress Test
+      description: Pressure-test the approved claim inside the client's editorial policy.
+      output: A recorded challenge segment with client-owned evidence notes.
+    - name: The Artifact
+      description: Close on one concrete client-approved artifact from the conversation.
+      output: One named artifact with a client-owned custody receipt.
+  rotating:
+    - name: Receipts
+      description: Verify one claim live against client-approved sources only.
+      output: A short verification beat with citations in the episode brief.
+  selection_rubric:
+    - Select rotating segments only from the client-approved editorial brief.
+host_functions:
+  client_host:
+    function: Client-owned host seat
+    required_work:
+      - Approve the episode premise and guest relationship use.
+    prohibited_work:
+      - Operate private HOSPES custody or provider credentials.
+editorial_exclusions:
+  - No unapproved claims, relationships, correspondence, or private source material.
+visual_rule:
+  doctrine: Use only client-approved visual assets and production rules.
+audio_rule:
+  doctrine: Capture isolated speech and a redundant safety recording.
+release_strategy:
+  bank_before_launch: 0
+  launch_drop: 1
+  default_cadence: unconfigured
+  initial_goal: Complete a private configuration and one consented pilot.
+ad_rules:
+  philosophy: No sponsor inventory exists until the client approves a claims policy.
+  formats:
+    - name: disabled
+      description: Paid placement is unavailable during onboarding.
+asset_requirements:
+  - asset: private_master
+    description: Encrypted client-owned master with checksum receipt.
+voice:
+  show_persona: Client-defined, specific, and free of unverified praise.
+  outreach_voice_ref: config/voices/client-x.yaml
+relationship_rules:
+  classes_honored: [C0, C1, C2, C3, C4, C5]
+  protected_relationship_rule: C4 and C5 remain blocked until the relationship owner approves exact use.
+  routing_principle: Use the least socially expensive verified route.
+  auto_outreach_block: true
+  mass_outreach_ban: true

@@ -1,0 +1,27 @@
+version: 1
+max_cost_minor: 500
+max_results: 5
+requires_human_review: true
+requires_counterargument: true
+allowed_sources:
+  - https://www.youtube.com/
+  - https://en.wikipedia.org/
+  - https://www.songkick.com/
+  - https://techcrunch.com/
+providers:
+  - manual_citations
+  - brave
+  - serpapi
+  - searxng
+  - allowlisted_crawler
+provider_costs_minor:
+  manual_citations: 0
+  brave: 5
+  serpapi: 25
+  searxng: 1
+  allowlisted_crawler: 2
+provider_settings:
+  searxng:
+    endpoint: https://searxng.internal/search
+  allowlisted_crawler:
+    endpoint: https://crawler.internal/document

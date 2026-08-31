@@ -1,0 +1,9 @@
+show:
+  id: default
+  title: Installed HOSPES Fixture
+  status: active
+  primary_format: audio
+  recording_cities: [Los Angeles]
+format_engine:
+  fixed: [The Claim, The Stress Test, The Artifact]
+  rotating: [Receipts, Object Lesson]

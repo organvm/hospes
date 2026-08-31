@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hospes.organvm/spec/delivery_receipt.schema.json",
+  "title": "DeliveryReceipt",
+  "description": "One immutable delivery attempt against one distribution job. Every attempt - succeeded or failed - appends exactly one receipt at attempt n+1; receipts are never updated or deleted, so a retry is always distinguishable from a first attempt. The receipt is foreign-keyed to the human authorization receipt for this subject and the publish action, so an attempt can never borrow another job's authorization.",
+  "type": "object",
+  "required": [
+    "id",
+    "tenant_id",
+    "show_id",
+    "distribution_id",
+    "authorization_receipt_id",
+    "authorization_action",
+    "provider",
+    "attempt",
+    "result",
+    "delivery_mode",
+    "external_reference",
+    "payload_checksum",
+    "started_at",
+    "completed_at"
+  ],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "tenant_id": {"type": "string", "minLength": 1},
+    "show_id": {"type": "string", "minLength": 1},
+    "distribution_id": {"type": "string", "minLength": 1},
+    "authorization_receipt_id": {"type": "string", "minLength": 1},
+    "authorization_action": {"type": "string", "const": "publish"},
+    "provider": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The distribution adapter that produced this evidence, or 'unconfigured' when no adapter resolved."
+    },
+    "attempt": {"type": "integer", "minimum": 1, "description": "Attempt ordinal; unique per tenant, show, distribution, and provider."},
+    "result": {"type": "string", "enum": ["delivered", "failed"]},
+    "delivery_mode": {
+      "type": "string",
+      "enum": ["manual_receipt", "provider_connected"],
+      "description": "How the delivery was evidenced. manual_receipt means a human published elsewhere and recorded the external identifier; provider_connected requires a live adapter with an authenticated smoke receipt."
+    },
+    "external_reference": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_:.\\-/]{1,199}$",
+      "description": "The platform identifier for a delivered attempt, or the opaque failure-evidence reference for a failed one."
+    },
+    "payload_checksum": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "SHA-256 over the package that was authorized."},
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "created_at": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}

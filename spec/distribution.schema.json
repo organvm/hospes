@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hospes.organvm/spec/distribution.schema.json",
+  "title": "DistributionJob",
+  "description": "One publication package for one episode on one platform. HOSPES never publishes: the job carries the prepared package, the human authorization receipt that permits a publication, and the external identifier of a publication a human already performed. The metadata is one of three validated families - rss, video, or clip - selected by the platform.",
+  "type": "object",
+  "required": ["platform", "episode_id", "status", "metadata", "idempotency_key"],
+  "properties": {
+    "distribution_id": {"type": "string", "description": "Stable identity of this publication job."},
+    "platform": {"type": "string", "enum": ["rss", "youtube", "tiktok", "reels", "shorts", "clip_queue"]},
+    "family": {
+      "type": "string",
+      "enum": ["rss", "video", "clip"],
+      "description": "Package family the platform carries. rss->rss, youtube->video, every short-form platform and clip_queue->clip."
+    },
+    "episode_id": {"type": "string", "minLength": 1},
+    "target_platform": {
+      "type": ["string", "null"],
+      "enum": ["tiktok", "reels", "shorts", null],
+      "description": "Short-form destination for a clip package; null for an episode-level job."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "blocked", "authorized", "scheduled", "published", "failed"],
+      "description": "blocked means an uncleared rights item or an unfilled committed sponsor slot denies publication; failed records a delivery attempt that did not succeed and stays retryable."
+    },
+    "metadata": {
+      "description": "The validated package. Only the fields of the platform's family are accepted; anything else is refused at the write boundary.",
+      "oneOf": [
+        {"$ref": "#/$defs/rss_package"},
+        {"$ref": "#/$defs/video_package"},
+        {"$ref": "#/$defs/clip_package"}
+      ]
+    },
+    "package_checksum": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 over the canonical package, carried into every delivery receipt as payload_checksum."
+    },
+    "authorization_receipt_ref": {
+      "type": ["string", "null"],
+      "description": "Identity of the authorization_receipts row that permits publishing this job. Required before schedule, publication, or failure."
+    },
+    "scheduled_at": {"type": ["string", "null"], "format": "date-time", "description": "Future moment the authorized publication is planned for."},
+    "published_at": {"type": ["string", "null"], "format": "date-time"},
+    "external_id": {"type": ["string", "null"], "description": "Deprecated alias of external_id_ref, retained for older readers."},
+    "external_id_ref": {
+      "type": ["string", "null"],
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_:.\\-/]{1,199}$",
+      "description": "The platform's identifier for the published artifact. Immutable once recorded."
+    },
+    "attempt_count": {"type": "integer", "minimum": 0, "description": "Delivery attempts recorded so far; every attempt has its own delivery receipt."},
+    "last_attempt_at": {"type": ["string", "null"], "format": "date-time"},
+    "last_error_ref": {
+      "type": ["string", "null"],
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_:.\\-/]{1,199}$",
+      "description": "Opaque custody reference to the evidence for the most recent failed attempt."
+    },
+    "recorded_by": {"type": ["string", "null"]},
+    "recorded_by_role": {"type": ["string", "null"]},
+    "scheduled_by": {"type": ["string", "null"]},
+    "scheduled_by_role": {"type": ["string", "null"]},
+    "correlation_id": {"type": ["string", "null"]},
+    "idempotency_key": {"type": "string", "minLength": 1, "description": "Re-drafting under the same key returns the existing job instead of a second one."},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "chapters": {
+      "type": "array",
+      "maxItems": 100,
+      "description": "Ordered chapter marks. Starts are distinct and ascending.",
+      "items": {
+        "type": "object",
+        "required": ["start_seconds", "title"],
+        "additionalProperties": false,
+        "properties": {
+          "start_seconds": {"type": "integer", "minimum": 0, "maximum": 86400},
+          "title": {"type": "string", "minLength": 1, "maxLength": 120}
+        }
+      }
+    },
+    "reference": {
+      "type": "string",
+      "description": "A public https URL or an opaque custody reference. Contact-like values are refused.",
+      "pattern": "^(?:https://[^\\s]{3,1900}|[A-Za-z0-9][A-Za-z0-9_:.\\-/]{1,199})$"
+    },
+    "rss_package": {
+      "type": "object",
+      "required": ["title"],
+      "additionalProperties": false,
+      "description": "Podcast RSS item. Only the title is required to draft; description, audio_url, and duration are reported as outstanding until present.",
+      "properties": {
+        "title": {"type": "string", "minLength": 1, "maxLength": 160},
+        "description": {"type": "string", "minLength": 1, "maxLength": 5000},
+        "audio_url": {"$ref": "#/$defs/reference"},
+        "duration": {"type": "string", "pattern": "^\\d{2,3}:[0-5]\\d:[0-5]\\d$"},
+        "chapters": {"$ref": "#/$defs/chapters"},
+        "guid": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_:.\\-/]{1,199}$"}
+      }
+    },
+    "video_package": {
+      "type": "object",
+      "required": ["title"],
+      "additionalProperties": false,
+      "description": "YouTube metadata. Tags are distinct, bounded, and stay inside the platform's character budget.",
+      "properties": {
+        "title": {"type": "string", "minLength": 1, "maxLength": 160},
+        "description": {"type": "string", "minLength": 1, "maxLength": 5000},
+        "tags": {
+          "type": "array",
+          "maxItems": 30,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9 _-]{0,29}$"}
+        },
+        "chapters": {"$ref": "#/$defs/chapters"},
+        "playlist": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9 _:./-]{0,95}$"},
+        "thumbnail_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "clip_package": {
+      "type": "object",
+      "required": ["start_seconds", "end_seconds", "target_platform", "caption_ref"],
+      "additionalProperties": false,
+      "description": "One short-form clip window on the episode timeline. The caption stays an opaque custody reference to its external owner.",
+      "properties": {
+        "start_seconds": {"type": "integer", "minimum": 0, "maximum": 86400},
+        "end_seconds": {"type": "integer", "minimum": 1, "maximum": 86400},
+        "target_platform": {"type": "string", "enum": ["tiktok", "reels", "shorts"]},
+        "caption_ref": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_:.\\-/]{1,199}$"},
+        "hashtags": {
+          "type": "array",
+          "maxItems": 30,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^#[A-Za-z0-9_]{1,60}$"}
+        }
+      }
+    }
+  }
+}

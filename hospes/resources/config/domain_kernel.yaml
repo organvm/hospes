@@ -1,0 +1,629 @@
+version: 1.0.0
+working_name: conversation-operations-system
+release_target: 1.0.0
+configuration_invariant: Compatible runtime, interaction, distribution, and provider modes are additive and configurable; they are never presented as mutually exclusive product choices.
+central_aggregate: AppearanceOpportunity
+tenancy:
+  hierarchy:
+  - Network
+  - Show
+  - Workspace
+  invariants:
+  - Every record belongs to a tenant boundary.
+  - A network-level relationship is not automatically usable by every show.
+  - Protected relationships require explicit owner approval before outreach.
+  - Customer contact data is never pooled or sold.
+multi_show_scope:
+  version: 1
+  active_authority: show_registry
+  partnership_identity: [tenant_id, show_id, template_key]
+  scoped_aggregates: [Partnership, PartnershipItem, PartnershipAuditEvent, PilotCandidateSlot, PilotPolicy, PilotRun, CandidateAssignment, AssignmentEvent, PlanProjection, PilotDecision]
+  invariants:
+  - Operator session, URL, request header, path records, and payload records must resolve to one active tenant show; any mismatch returns 403.
+  - A missing tenant record returns 404 only after tenant custody is checked independently of show custody.
+  - A partnership template may be imported independently into multiple shows and remains idempotent within each tenant and show.
+  - Missing CLI show scope may be inferred only when the tenant has exactly one active registered show.
+  - Ambiguous migrated legacy partnerships remain visible to the audited atomic assignment workflow until explicit show custody is assigned across every dependent partnership and Pilot row.
+entities:
+- Tenant
+- Network
+- Show
+- Host
+- Person
+- Organization
+- ContactRoute
+- ContactRoster
+- Relationship
+- RelationshipEdge
+- AppearanceOpportunity
+- Episode
+- Studio
+- AvailabilityWindow
+- Booking
+- Touchpoint
+- Commitment
+- ConsentRecord
+- GuestCareProfile
+- ResearchClaim
+- EvidenceObject
+- Segment
+- Artifact
+- MediaAsset
+- TranscriptSegment
+- ContentUnit
+- DistributionJob
+- SponsorCampaign
+- ApprovalRequest
+- AuditEvent
+- OperationalReceipt
+- Partnership
+- PartnershipItem
+- PartnershipAuditEvent
+- PartnershipItemRevision
+- PartnershipTemplateImport
+- PartnershipResourceLink
+- PartnershipReview
+- PilotCandidateSlot
+- PilotPolicy
+- PilotRun
+- CandidateAssignment
+- AssignmentEvent
+- PlanProjection
+- PilotDecision
+- RuntimeMetadata
+- PacketSource
+- PacketClaim
+- ShowRegistry
+- GuestContactRoute
+- InformalTouchpointReceipt
+- RelationshipGraphEdge
+- GuestHistory
+- GuestContactDirective
+- SponsorInventory
+- SponsorSlot
+- SponsorClaim
+- SponsorshipReceipt
+- Clearance
+- Notification
+- NotificationDelivery
+- DistributionJob
+- DistributionPackage
+- DistributionReceipt
+- AnalyticsMetric
+- PortalToken
+- PortalIntake
+- ResearchJob
+- ResearchCitation
+- AuthorizationReceipt
+- ProviderReceipt
+- TenantEncryptionKey
+- IdentityMapping
+- Assignment
+- BackgroundJob
+- DeliveryReceipt
+- PortalSession
+- PrivateFieldValue
+- ArtifactObject
+relationship_classes:
+  C0: no_connection
+  C1: public_adjacency
+  C2: prior_professional_interaction
+  C3: recurring_colleague
+  C4: friend
+  C5: close_friend_mentor_or_sensitive
+hard_rules:
+- No automatic messages from a host's personal account.
+- No C4/C5 outreach without explicit relationship-owner approval.
+- C4/C5 correspondence drafts are never rendered or persisted by HOSPES.
+- No invented familiarity, praise, consumption, or mutual connection.
+- No contact-route use without source provenance and verification timestamp.
+- Candidate contact rosters admit raw values only at the private import boundary; each name, email, phone, and note is encrypted independently before persistence.
+- Public opportunity and contact-route contracts expose opaque private-field references only; decrypted roster values are transient and restricted to host, producer, editorial-owner, or relationship-owner sessions.
+- Contact roster routes marked opted_out are terminal, and invitation prefill selects only verified, permitted, usable routes without sending or persisting the private value in a draft.
+- Informal touchpoints derive their initiator from the authenticated operator, encrypt notes with full tenant/show/record AAD, and never advance opportunity or Pilot state.
+- Sponsor contact details and deal terms are never stored: a sponsor record carries only opaque custody references to their external owner.
+- One episode ad slot is sellable to exactly one sponsor, and recognized revenue counts sold assignments only; a reserved slot earns nothing.
+- Recording a sale is bookkeeping about a human decision made outside HOSPES; no sponsorship route invoices, signs, or commits the show.
+- A sponsor claim is unapproved until an editorial or relationship owner approves it for external use, and every claim carries a public source and a verification date.
+- A committed slot left unsold, and a sold sponsor's unapproved claim, are publication blockers on the same predicate that enforces rights clearance; both rules are per-show configuration, not code.
+- Cross-season guest memory keys on one opaque tenant/show-scoped guest identity; season, episode, disposition, and date are operational metadata while note plaintext stays in encrypted custody or an external owner.
+- A do-not-contact directive is the live authority and only a relationship owner may set or lift it; absent a directive the append-only guest-history marker still blocks, and a blocked guest is refused at import, draft preview, draft persistence, and outreach receipts alike.
+- Team notifications are addressed to a team role, carry bounded non-private titles and opaque entity references only, and may be marked read solely by the addressed role.
+- A lifecycle transition emits at most one notification and one queue assignment per entity and role; replay is idempotent, and a show absent from the active show registry emits neither.
+- Notification email and webhook output is a checksummed preview of critical notifications only. HOSPES never delivers it: an external delivery requires a permitting show outbound mode, a runtime whose draft-only notification default is disabled, a human authorization receipt bound to that exact preview, and an immutable delivery receipt.
+- No raw home-address inference or scraping.
+- No contractual, financial, editorial-removal, or reputational commitment without
+  human approval.
+- Every outbound action writes an AuditEvent.
+- Every external thread has a real human owner.
+- Every new record carries tenant_id and show_id; network visibility never grants cross-show access.
+- Guest portal access is disabled by default and, when enabled, is isolated from the operator surface.
+- Draft, manual-receipt, and provider-connected distribution modes coexist; outbound execution requires a human authorization receipt.
+- Provider selection is registry- and precedence-driven; unavailable providers remain visible as unconfigured or unavailable.
+- Research output requires citations, a bounded cost, human review, and a lock receipt before downstream use.
+- Analytics is a read organ: every stored metric names the provider receipt that authorized its read, scheduled analytics jobs are restricted to the read operation, and a provider without a declared export or a provisioned credential wall stays visibly unconfigured or blocked instead of being substituted.
+- Research providers are priced before they are called; a job whose projected cost exceeds its ceiling never reaches the provider.
+- Research citations come only from the configured source allowlist, and a refused source is recorded as a risk flag rather than silently dropped.
+- Every research retrieval writes a provider receipt naming the source, endpoint, cost, and how many results were cited or refused.
+- Reviewed research is frozen against its own content checksum; a brief mutated after review can be neither reviewed nor locked.
+- Only producer and editorial-owner sessions start, annotate, review, or lock bounded research.
+- Tenant-wide identity mappings are unique per provider subject; show-scoped mappings never grant authority outside their composite tenant/show boundary.
+- Live SQLite connections hold a shared custody lock, and additive shadow migrations require the exclusive form before an atomic database swap.
+- Delivery receipts bind the exact distribution subject and publish action to one attributable authorization receipt.
+- Background jobs are tenant/show scoped, leased, retry-bounded, timeout-bounded, cost-bounded, and idempotent; scheduled jobs never send or publish.
+- Tenant data-encryption keys are AES-256-GCM, versioned, and wrapped by a credential-wall master key that is never persisted.
+- Private field ciphertext authenticates tenant, show, table, record, field, category, and key version; cross-scope replay fails closed.
+- Contact, correspondence, consent, financial, private-relationship, research, and artifact metadata live only in encrypted tenant custody or an external private owner; public surfaces expose opaque references.
+- Local and S3-compatible artifact stores receive client-side ciphertext and verify both encrypted-object and plaintext checksums before returning content.
+- RECORDING_READY requires booking, consent, verified brief, technical preflight,
+  and declared preflight-package receipts.
+- A technical rehearsal is never recorded as a completed guest pilot.
+- Partnership agreements and deals are stored only as bounded operating summaries
+  plus opaque references to their canonical external owners.
+- Normal partnership item writes cannot assign superseded; only the revision-checked
+  supersession operation can.
+- Pilot candidate slots reject C4/C5 before any slot mutation or audit write.
+- Ineligible lifecycle states cannot enter or satisfy the active pilot slate.
+- Host review receipts require a process-bound relationship-owner session.
+- Every advertised reply classification leaves active outreach in an explicit lifecycle
+  state; representative and information requests pause for human handling, while an
+  explicit later request moves to REVISIT_LATER.
+- Pilot schedules are derived from evidence, deadline slack, production dependencies,
+  relationship exposure, route and owner independence, replies, and fallback value.
+- Pilot planning and decisions can schedule or draft, but no route sends correspondence.
+- Every Pilot decision is revision-checked and append-only; assignment state changes retain
+  attributable history and never fabricate a decline from silence.
+- Multiple concurrent asks require independent routes and owners plus an explicit
+  relationship-owner decision, and must remain inside the policy exposure budget.
+- Draft preview is limited to approved pre-outreach states. Copy and outreach receipts
+  require persisted human-reviewed metadata; correspondence bodies remain external.
+- Pilot completion is fourteen explicit gates. Recording readiness is gates 1-10,
+  guest recording authority is gates 1-11, and completion is all fourteen.
+- Synthetic runtime stores carry a tenant-scoped engine.synthetic_demo marker and
+  are never accepted as canonical Pilot authority.
+- Live domain writes use the production UTC clock and UUID4 identities. Synthetic
+  fixture construction alone may install a scoped frozen clock and purpose-ordinal
+  UUID5 identities.
+- A synthetic generation is one marker-v2/build-receipt-v2 transaction containing
+  the review specimen, completed specimen, and redacted receipt. Mixed generations
+  are invalid. Its generation id is derived from generated_at plus receipt_version,
+  and every recorded SHA-256 checksum is lowercase hexadecimal.
+- Synthetic bundle replacement holds an exclusive private lease, stages on the
+  destination filesystem, fsyncs every journal phase, and either commits or restores
+  the prior three-artifact generation.
+- Every synthetic database must pass regular-path, no-symlink, no-sidecar, migration
+  ledger, SQLite integrity, and foreign-key validation before installation or use.
+- The review specimen permits lifecycle-valid human writes. The completed specimen
+  remains receipt-checksum-bound and is opened with SQLite query_only in addition
+  to the HTTP write guard.
+- Synthetic operator mode rejects raw /v1 exposure and marked/unmarked runtime-mode
+  mismatches before a mutable SQLite connection is opened.
+- Browser identity is process-owned in local mode or derived from an origin-validated Cloudflare
+  Access JWT whose subject maps to an internal tenant/show role. Browser actor, role, and tenant
+  headers are stripped or ignored, and every browser mutation requires identity-bound CSRF proof.
+- Completed browser mode exposes no write, copy, or export surface. Restricted host
+  sessions do not request Pilot plans. Only the relationship owner may authorize
+  multi-activation, pause, promotion, or fallback.
+- >-
+  Public synthetic access has exactly two gates: exact Cloudflare account/tunnel/
+  One-time-PIN custody, then exact application/policy/DNS/ingress readback.
+  A schema-bound redacted Access receipt v1 must prove both gates without identities,
+  hostnames, URLs, credentials, or resource identifiers.
+- Local start/stop holds a lifecycle lock, gives child processes whitelisted
+  environments, scrubs setup secrets, records PID plus process-start identity in an
+  atomic process ledger v1, proves operator ports and live connector readiness, bounds
+  TERM/KILL cleanup, exits nonzero after any failed-start cleanup, and never deletes
+  remote configuration.
+- PacketSource documents are versioned synthetic-only inputs generated from the
+  tracked manifest into an explicitly selected demo output directory.
+- PacketSource export rejects protected candidates, forbidden private fields,
+  private text in any rendered string, and factual host or episode assertions
+  that lack an approved cited PacketClaim.
+appearance_states:
+- DISCOVERED
+- RESEARCHING
+- QUALIFIED
+- EDITORIAL_REVIEW
+- APPROVED
+- CONTACT_ROUTE_IDENTIFIED
+- OUTREACH_DRAFTED
+- OUTREACH_APPROVED
+- OUTREACH_SENT
+- FOLLOW_UP_DUE
+- INTERESTED
+- SCHEDULING
+- BOOKED
+- INTAKE_PENDING
+- RELEASE_PENDING
+- PREP_IN_PROGRESS
+- RECORDING_READY
+- RECORDED
+- TRANSCRIPT_READY
+- CONTENT_IN_REVIEW
+- PUBLICATION_PENDING
+- PUBLISHED
+- RELATIONSHIP_NURTURE
+- REVISIT_LATER
+- DECLINED
+- DO_NOT_CONTACT
+- PROTECTED_RELATIONSHIP
+- LEGAL_REVIEW
+- NEEDS_HUMAN
+- CANCELLED
+events:
+- person.created
+- relationship.edge_created
+- relationship.protected
+- appearance.candidate_created
+- appearance.qualified
+- appearance.approved
+- contact_route.verified
+- contact_roster.imported
+- guest_history.recorded
+- guest.do_not_contact_set
+- guest.contact_permitted
+- outreach.draft_ready
+- outreach.approved
+- outreach.sent
+- reply.received
+- reply.classified
+- followup.due
+- booking.proposed
+- booking.confirmed
+- booking.rescheduled
+- consent.signed
+- guest_intake.completed
+- episode.thesis_locked
+- research.claim_verified
+- research.job_started
+- research.brief_ready
+- research.brief_reviewed
+- research.brief_locked
+- recording.ready
+- recording.completed
+- media.ingested
+- transcript.ready
+- segment.identified
+- commitment.created
+- commitment.completed
+- content_unit.generated
+- content_unit.approved
+- distribution.dispatched
+- distribution.delivered
+- episode.published
+- correction.appended
+- relationship.followup_due
+- partnership.created
+- partnership.updated
+- partnership.item_created
+- partnership.item_updated
+- partnership.item_revised
+- partnership.item_superseded
+- partnership.resource_linked
+- partnership.review_recorded
+- pilot.candidate_selected
+- pilot.policy_imported
+- pilot.run_started
+- pilot.decision_recorded
+- pilot.response_window_elapsed
+- pilot.assignment_state_changed
+- sponsorship.inventory_declared
+- sponsorship.slot_assigned
+- sponsorship.slot_released
+- sponsor.registered
+- sponsor.status_changed
+- sponsor.claim_recorded
+- sponsor.claim_approved
+- sponsor.claim_approval_withdrawn
+- distribution.drafted
+- distribution.scheduled
+- distribution.authorized
+- distribution.published
+- distribution.failed
+- distribution.clip_queued
+packet_source_contract:
+  version: 1
+  pilot_ids:
+  - pilot-a
+  - pilot-b
+  - pilot-c
+  required_fields:
+  - pilot_id
+  - guest_name
+  - city
+  - studio
+  - recording_window
+  - relationship_class
+  - host_bio
+  - episode_thesis
+  - invitation_note
+  - asset_items
+  - claims
+  claim_fields:
+  - claim
+  - source_url
+  - verified_date
+  - approved_for_external_use
+  invariants:
+  - The document declares version 1 and contains exactly the three allowed pilot ids.
+  - C4 and C5 sources cannot be exported; an explicit protected marker must be a
+    boolean, and true sources cannot be exported.
+  - Every claim is cited, verification-dated, and explicitly approved for external use.
+  - Host biography and episode thesis text must equal an approved cited claim.
+  - Private fields and correspondence-, signature-, agreement-, private-key-, email-,
+    or phone-like rendered text are rejected before rendering.
+receipt_contract:
+  allowed_types:
+  - outreach.sent
+  - reply.classified
+  - booking.confirmed
+  - consent.signed
+  - recording.ready
+  - recording.completed
+  - media.ingested
+  required_identity:
+  - actor_id
+  - actor_role
+  - tenant_id
+  - occurred_at
+  - opaque_external_reference
+  prohibitions:
+  - No receipt endpoint sends, delivers, books, signs, records, ingests, or publishes.
+  - No raw correspondence or signed document may appear in a receipt.
+  detail_schemas:
+    outreach.sent: []
+    reply.classified:
+    - classification
+    booking.confirmed:
+    - studio_ref
+    - producer_ref
+    - recording_time
+    consent.signed:
+    - private_pilot
+    - clip_scope
+    recording.ready:
+    - preflight_ref
+    - asset_package_id
+    recording.completed:
+    - session_kind
+    media.ingested:
+    - master_ref
+    - checksum_ref
+sponsor_inventory_contract:
+  version: 1
+  slot_types: [pre, mid, post]
+  assignment_states: [available, reserved, sold]
+  sponsor_states: [active, paused, ended]
+  private_fields: [contact_ref, terms_ref]
+  export_columns: [Episode, Sponsor, Slot, Rate, Date]
+  configurable_rules:
+    - block_publication_on_unfilled_committed_slots
+    - require_approved_claims_before_publication
+  configuration_precedence: [config/shows/<show>.yaml, config/runtime.yaml]
+  invariants:
+  - Declared inventory is a first-class row, so an unsold slot is representable and sold versus available never has to be inferred.
+  - One episode slot is held by at most one sponsor, and withdrawing a held slot is a conflict rather than a silent erasure of a sale.
+  - Money is stored as integer minor units with an ISO 4217 currency, and only sold assignments are recognized as revenue.
+  - Sponsor contact and terms remain opaque custody references; a raw contact-like value is rejected at the write boundary.
+  - Claims are cited, verification-dated, and unapproved by default; only an editorial or relationship owner may approve or withdraw external use.
+  - Every inventory, assignment, release, and claim decision writes an attributable sponsorship receipt whose actor and role come from the authenticated operator.
+  - The accounting export emits exactly the five declared columns and neutralizes spreadsheet-formula prefixes.
+  - Publication blockers compose with rights clearance in one predicate; a show that sells no committed inventory turns the committed-slot rule off in its own configuration.
+guest_crm_contract:
+  version: 1
+  identity: [tenant_id, show_id, guest_id]
+  memory_fields: [season, episode, disposition, date, notes]
+  dispositions: [APPROVED, DECLINED, SOFT_DECLINE, HARD_DECLINE, NO_RESPONSE, REVISIT_LATER, PROTECTED, DO_NOT_CONTACT, RECORDED, PUBLISHED, CANCELLED]
+  directive_roles: [relationship_owner]
+  enforcement_points: [candidate_import, draft_preview, correspondence_draft, outreach_receipt, guest_suggestions, relationship_nurture]
+  badge_format: "Previously: {season}{episode} — {disposition} ({date})"
+  invariants:
+  - One opaque guest identity spans every season of one show; an import row may declare it and otherwise inherits the opaque source key.
+  - A terminal decision on an opportunity that declares its season and episode appends exactly one idempotent memory entry attributed to the deciding operator.
+  - The guest_directives row is the live do-not-contact authority; with no directive the append-only guest_history marker still blocks, so a legacy block is never silently lifted.
+  - Only a relationship owner may set or lift a directive, from the approval card or a relationship-owner import row.
+  - A blocked guest cannot be re-imported, drafted, previewed, or given an outreach receipt, and is withheld from suggestions and nurture cadence.
+  - Directive-derived entries stay in the timeline but never become the approval-card badge, which reports the last real season interaction.
+touchpoint_contract:
+  kind: informal_touchpoint
+  channels: [text, email, ig, in-person, phone, hallway]
+  private_fields: [notes]
+  filter_fields: [guest_id, opportunity_id, partnership_id, channel, initiator, from_at, to_at]
+  invariants:
+  - Initiator id and role come only from the authenticated operator session.
+  - Notes are AES-256-GCM ciphertext at rest and plaintext exists only in an authorized no-store response.
+  - Recording a touchpoint appends attributable audit evidence without changing any workflow state.
+clearance_contract:
+  version: 1
+  kind: rights_clearance
+  types: [music, clip, IP, footage, guest_likeness]
+  statuses: [pending, cleared, denied]
+  publishable_status: cleared
+  blocking_statuses: [pending, denied]
+  custody_modes: [sealed, external_reference]
+  private_fields: [rights_holder, license_terms]
+  decision_roles: [producer, editorial_owner, relationship_owner]
+  filter_fields: [episode_id, status, clearance_type, due_before, blocking_only]
+  receipt_events: [clearance.recorded, clearance.cleared, clearance.denied, clearance.reopened]
+  report_format: csv
+  invariants:
+  - Every clearance, receipt, badge, report row, and API read is constrained to one tenant and show.
+  - Rights holder and licence terms are AES-256-GCM ciphertext behind private-field references whenever a tenant field vault is configured; without one the operator must supply an opaque external custody reference and the record says so through custody_mode rather than storing a private literal.
+  - Every status decision requires an opaque evidence reference and appends an immutable clearance receipt naming the deciding operator, the previous status, and the new one.
+  - Publication is denied for every status other than cleared — pending and denied alike — at draft, authorization, and mark-published.
+  - Recorder and decider identity and role come only from the authenticated operator session.
+  - The CSV clearance report carries opaque references only, never decrypted rights holder or licence text, and neutralizes spreadsheet-formula prefixes.
+notification_contract:
+  version: 1
+  team_roles: [host, network_operator, producer, editorial_owner, relationship_owner, editor]
+  assigning_roles: [producer, editorial_owner, relationship_owner, network_operator]
+  notification_types: [draft_ready, brief_ready, clips_needed, booking_confirmed, assignment_assigned]
+  assignment_types: [draft_review, brief_review, clip_production, schedule_prep]
+  assignment_statuses: [open, in_progress, done, cancelled]
+  severities: [normal, critical]
+  delivery_channels: [email, webhook]
+  delivery_statuses: [preview, authorized, delivered]
+  delivery_authorization_action: notification.delivery
+  draft_only_feature: notifications_are_draft_only
+  transitions:
+    appearance.approved:
+      recipient_role: producer
+      notification_type: draft_ready
+      assignment_type: draft_review
+      severity: normal
+    brief.ready:
+      recipient_role: host
+      notification_type: brief_ready
+      assignment_type: brief_review
+      severity: normal
+    booking.confirmed:
+      recipient_role: producer
+      notification_type: booking_confirmed
+      assignment_type: schedule_prep
+      severity: normal
+    recording.completed:
+      recipient_role: editor
+      notification_type: clips_needed
+      assignment_type: clip_production
+      severity: critical
+  invariants:
+  - Every notification and assignment carries tenant and show scope, and the show must be
+    an active row in the show registry before either is written.
+  - A notification title is bounded operational prose; contact-, correspondence-, and
+    agreement-like text is rejected, and a display subject that looks private degrades to a
+    neutral subject rather than rejecting the lifecycle transition.
+  - Transition emission joins the caller's transaction and is keyed by trigger, entity, and
+    recipient role, so a replayed or rejected transition leaves no orphan bell item.
+  - Only the addressed role may mark a notification read; mark-all clears that role alone.
+  - Only the assigned role or a network operator may complete an assignment, and completion
+    records the closing actor.
+  - My Queue orders assignments by due date with null due dates last and marks overdue open
+    work; it never advances an opportunity, Pilot, or distribution state.
+  - The HTTP surface exposes previews, authorization, and receipts; it has no send route,
+    and every delivery preview is checksummed and idempotent per key.
+distribution_contract:
+  version: 1
+  kind: publishing_pipeline
+  platforms: [rss, youtube, tiktok, reels, shorts, clip_queue]
+  package_families: [rss, video, clip]
+  statuses: [draft, blocked, authorized, scheduled, published, failed]
+  deliverable_statuses: [authorized, scheduled, failed]
+  delivery_modes: [manual_receipt, provider_connected]
+  publish_roles: [editorial_owner, relationship_owner]
+  write_roles: [producer, editorial_owner, relationship_owner]
+  adapter_precedence: [rss, youtube_metadata, clip_queue, manual_external_receipt]
+  receipt_events:
+    - distribution.drafted
+    - distribution.scheduled
+    - distribution.authorized
+    - distribution.published
+    - distribution.failed
+    - distribution.clip_queued
+  webhook_events: [distribution.scheduled, distribution.published, distribution.failed]
+  webhook_payload_schema: spec/distribution.schema.json
+  filter_fields: [episode_id, platform_name, status, limit]
+  invariants:
+  - HOSPES never publishes; a publication is recorded from a manual receipt after a human published elsewhere, and every delivery names its delivery_mode.
+  - Every package is one of three validated families, and a field outside the platform's family is refused at the write boundary rather than stored as an opaque blob.
+  - Only the fields that make an artifact identifiable are required to draft; the rest are reported as outstanding completeness so a half-prepared package is visible instead of hidden.
+  - Publication is denied unless the rights gate and the sponsor gate are both green at authorization, at scheduling, and again at mark-published, because a clearance can be reopened after authorization.
+  - Scheduling requires the human authorization receipt first; a future timestamp is the same gate later, never a weaker one.
+  - Every delivery attempt, succeeded or failed, appends one immutable delivery receipt at attempt n+1, foreign-keyed to the authorization receipt for that subject and the publish action.
+  - A published external identifier is immutable; re-recording the same reference is idempotent and a different one is a conflict.
+  - Audio, thumbnail, caption, and failure references are public https URLs or opaque custody references, never contact-like values.
+  - An auto-publish webhook stays visibly unconfigured until a show opts into provider_connected outbound mode and a live adapter carries an authenticated smoke receipt.
+relationship_map_contract:
+  version: 1
+  sources: [database, manual, archive]
+  export_formats: [mermaid, graphviz, json, csv]
+  relationship_classes: [C0, C1, C2, C3, C4, C5]
+  edge_types: [worked_with, knows, represented_by, introduced_by, appeared_with]
+  legacy_read_state: legacy_unspecified
+  invariants:
+  - Every source, alias, edge, target, and API read is constrained to one tenant and show.
+  - Public archive records contribute only a public guest label, taxonomy-derived class, and bounded opaque provenance reference; private contact-like labels and future appearances are rejected.
+  - Private aliases require an opaque private-* id and custody reference; exports always replace their label with Private relationship.
+  - Mermaid and Graphviz use generated node ids, CSV uses a fixed column set, and JSON projects only schema-declared fields.
+  - Traversal is bidirectional while exports preserve each relationship's declared semantic direction.
+  - Reachable C2 and C3 alumni are highlighted through deterministic shortest paths without changing workflow state.
+  - Archive repeats are C3 recurring colleagues, high-confidence single appearances are C2 prior professional interactions, and weaker single appearances remain C1 public adjacency.
+  - CSV labels neutralize spreadsheet-formula prefixes and target_candidate is true when either declared endpoint is a target.
+  - New writes and version 2 configuration accept only canonical edge types; legacy database rows and version 1 configuration project as legacy_unspecified rather than making the map unavailable or inventing a relationship meaning.
+analytics_contract:
+  version: 1
+  providers: [spotify_creator_csv, youtube_analytics, megaphone_chartable_import, custom_csv_http]
+  counter_metrics: [downloads, streams, top_clip_views]
+  ratio_metrics: [retention_pct, avg_consumption]
+  entry_points: [operator_csv_import, bounded_provider_fetch, scheduled_read_job]
+  scheduled_job_type: analytics.fetch
+  provider_states: [imported, unconfigured, unavailable, blocked]
+  default_trend_window: 12
+  invariants:
+  - Every persisted metric validates against spec/analytics.schema.json and carries the source_receipt_ref of the provider receipt that authorized the read.
+  - A fetch writes its provider receipts before importing anything, so a blocked or unconfigured provider leaves an attributable receipt and no metrics.
+  - Scheduled analytics work is enqueued as analytics.fetch with execution_kind scheduled and operation read; no analytics path sends, publishes, or mutates a provider.
+  - Metric values keep their provider spelling and type verbatim; numeric coercion happens only in the trend projection, where counters are summed and ratios averaged across the providers that reported an episode.
+  - Analytics reads are tenant/show scoped, answered with Cache-Control no-store, and never echo a credential reference.
+  - Reporting CSV neutralizes spreadsheet-formula prefixes on every non-numeric cell.
+research_contract:
+  version: 1
+  job_type: research.provider_search
+  authorized_roles:
+  - producer
+  - editorial_owner
+  providers:
+  - manual_citations
+  - brave
+  - serpapi
+  - searxng
+  - allowlisted_crawler
+  statuses:
+  - queued
+  - researching
+  - ready_for_review
+  - reviewed
+  - rejected
+  - locked
+  - failed
+  brief_sections:
+  - candidate_claims
+  - citations
+  - counterarguments
+  - evidence
+  - segment_candidates
+  - risk_flags
+  source_policy:
+    scheme: https
+    allowlist: config/research.yaml allowed_sources
+    refuse_credentials_in_url: true
+    refuse_explicit_port: true
+    refuse_ip_literal_host: true
+    refuse_loopback_host: true
+  cost_policy:
+    ceiling_source: config/research.yaml max_cost_minor
+    priced_before_call: true
+    per_provider: config/research.yaml provider_costs_minor
+  review_policy:
+    requires_citation: true
+    requires_counterargument: true
+    requires_verified_claim_for_retrieval: true
+    lock_requires_review: true
+    content_checksum: sha256
+network_dashboard_contract:
+  version: 1
+  role: network_operator
+  scope: tenant
+  pipeline_milestones: [APPROVED, BOOKED, PUBLISHED]
+  velocity_window_days: 28
+  report_formats: [html, json, pdf]
+  receipt_table: network_report_receipts
+  receipt_event: network.health_report_exported
+  invariants:
+  - The network portfolio, its per-show drilldown, and its health report admit the network_operator role alone; holding a per-show role inside the tenant does not widen a read to the portfolio.
+  - Scope is the authenticated identity's tenant and is never widened by a path segment or a payload; the drilldown resolves its show through that tenant's active show registry and answers 404 for anything else.
+  - Pipeline counts read the canonical ordinals in spec/states.json, so a candidate counts toward a milestone once it has reached or passed it and a branch state is reported as off-ladder rather than folded into the funnel.
+  - Sponsor revenue comes from the sponsor organ's revenue report rather than a second money calculation, so the portfolio and the Revenue view cannot disagree about a number.
+  - Every rendered health report appends an attributable network_report_receipts row carrying the actor, role, format, and SHA-256 checksum of the exact document handed over before the body is returned.
+  - Report HTML escapes every operator-supplied value, including show labels and guest names, and references no external asset.
+  - PDF rendering requires the declared optional pdf extra and reports the missing extra rather than returning a partial document.
+  - The portfolio writes no show state; it is a projection over rows the per-show views already own.

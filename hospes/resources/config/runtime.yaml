@@ -1,0 +1,167 @@
+version: 1
+runtime:
+  active_profile: local
+  profiles:
+    local:
+      enabled: true
+      storage: sqlite_filevault
+      authentication: local_operator_token
+      custody: encrypted_local_exports
+      description: Local private operator runtime with FileVault-backed SQLite.
+    tunnel:
+      enabled: true
+      storage: sqlite_filevault
+      authentication: cloudflare_access_plus_origin_jwt
+      custody: encrypted_local_exports
+      description: Loopback operator runtime exposed only through an on-demand Access tunnel.
+    hosted:
+      enabled: true
+      storage: postgresql_encrypted_object_store
+      authentication: cloudflare_access_plus_origin_jwt
+      custody: encrypted_object_store_with_backups
+      description: Stateless hosted runtime behind Cloudflare Access.
+    hybrid:
+      enabled: true
+      storage: hosted_primary_encrypted_local_restore
+      authentication: cloudflare_access_plus_origin_jwt
+      custody: dual_copy_restore_gate
+      description: Hosted primary with encrypted local export and declared fallback order.
+  storage:
+    local_path: out/hospes.sqlite3
+    hosted_database_ref: credential://hospes/hosted-postgresql
+    object_store_ref: credential://hospes/encrypted-object-store
+    backup_policy: daily_and_before_migration
+  authentication:
+    local_identity: process_bound
+    access_application_ref: credential://hospes/cloudflare-access-application
+    access_team_domain_ref: credential://hospes/cloudflare-access-team-domain
+    origin_jwt_audience_ref: credential://hospes/cloudflare-access-audience
+    csrf_signing_key_ref: credential://hospes/csrf-signing-key
+    assertion_header: Cf-Access-Jwt-Assertion
+    cookie_fallback: CF_Authorization
+    identity_mapping: database_subject_hash
+    csrf: double_submit_hmac
+    deny_by_default: true
+  jobs:
+    queue: postgresql_leased_with_sqlite_local
+    internal_trigger_credential_ref: credential://hospes/internal-job-trigger
+    policy_version: jobs-v1
+    scheduled_operations: [read]
+    scheduled_namespaces: [analytics, research]
+    default_lease_seconds: 60
+    max_timeout_seconds: 3600
+    max_attempts: 10
+    max_cost_limit_minor: 2500
+    scheduled_outbound: false
+  artifact_custody:
+    private_records: aes_256_gcm_tenant_envelope
+    public_artifacts: opaque_receipt_references_only
+    master_key_credential_ref: credential://hospes/master-key
+    local_root: out/private-artifacts
+    object_encryption: client_side_before_upload
+    aad_scope: tenant_show_table_record_field_key_version
+    sensitive_categories:
+      - contact
+      - correspondence
+      - consent
+      - financial
+      - private_relationship
+      - research
+      - artifact_metadata
+    outbound_requires_authorization_receipt: true
+  providers:
+    calendar:
+      - name: manual
+        enabled: true
+        mode: manual
+      - name: ics
+        enabled: true
+        mode: local
+      - name: google_calendar
+        enabled: true
+        mode: live
+        credential_ref: credential://hospes/google-calendar
+    tour_intelligence:
+      - name: manual_import
+        enabled: true
+        mode: manual
+      - name: approved_rss
+        enabled: true
+        mode: local
+      - name: songkick
+        enabled: true
+        mode: live
+        credential_ref: credential://hospes/songkick
+    analytics:
+      - name: spotify_creator_csv
+        enabled: true
+        mode: local
+      - name: youtube_analytics
+        enabled: true
+        mode: live
+        credential_ref: credential://hospes/youtube-analytics
+      - name: megaphone_chartable_import
+        enabled: true
+        mode: local
+      - name: custom_csv_http
+        enabled: true
+        mode: live
+        credential_ref: credential://hospes/custom-analytics
+    research:
+      - name: manual_citations
+        enabled: true
+        mode: manual
+      - name: brave
+        enabled: true
+        mode: live
+        credential_ref: credential://hospes/brave
+      - name: serpapi
+        enabled: true
+        mode: live
+        credential_ref: credential://hospes/serpapi
+      - name: searxng
+        enabled: true
+        mode: live
+      - name: allowlisted_crawler
+        enabled: true
+        mode: local
+    distribution:
+      - name: manual_external_receipt
+        enabled: true
+        mode: manual
+      - name: rss
+        enabled: true
+        mode: local
+      - name: youtube_metadata
+        enabled: true
+        mode: live
+        credential_ref: credential://hospes/youtube-publish
+      - name: clip_queue
+        enabled: true
+        mode: local
+    asset_amplifier:
+      - name: content_engine_asset_amplifier
+        enabled: true
+        mode: live
+        credential_ref: credential://hospes/asset-amplifier
+    mail_drafting:
+      - name: universal_mail_draft
+        enabled: true
+        mode: local
+  failover_order:
+    calendar: [google_calendar, ics, manual]
+    tour_intelligence: [songkick, approved_rss, manual_import]
+    analytics: [youtube_analytics, spotify_creator_csv, megaphone_chartable_import, custom_csv_http]
+    research: [brave, serpapi, searxng, allowlisted_crawler, manual_citations]
+    distribution: [rss, youtube_metadata, clip_queue, manual_external_receipt]
+  sponsor_inventory:
+    currency: USD
+    slot_types: [pre, mid, post]
+    block_publication_on_unfilled_committed_slots: true
+    require_approved_claims_before_publication: true
+  feature_defaults:
+    guest_interaction: operator_packet
+    outbound_mode: draft_only
+    research_requires_review: true
+    notifications_are_draft_only: true
+    publish_requires_authorization_receipt: true

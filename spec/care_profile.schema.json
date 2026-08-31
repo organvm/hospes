@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/care_profile.schema.json",
+  "title": "GuestCareProfile",
+  "description": "A permissioned care profile for a guest. All fields are guest-provided or obtained through explicit consent (see consent_type 'care_profile_storage' in consent.schema.json). This record drives hospitality logistics: correct pronunciation, dietary setup, accessible venue, gift within employer policy, donation alternative when a gift is restricted. It is NEVER inferred from public sources or derived by scraping. Any field may be absent — absence means 'not provided', not 'not applicable'.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["care_profile_id", "person_id"],
+  "properties": {
+    "care_profile_id": {
+      "type": "string",
+      "description": "Stable UUID for this care profile record."
+    },
+    "person_id": {
+      "type": "string",
+      "description": "The Person this profile belongs to."
+    },
+    "name_pronunciation": {
+      "type": "string",
+      "description": "IPA or plain phonetic guide to pronouncing the guest's name correctly. Used verbatim in host prep packets."
+    },
+    "pronouns": {
+      "type": "string",
+      "description": "Stated pronouns (e.g. she/her, they/them, he/him). Volunteer information only — never inferred."
+    },
+    "dietary_restrictions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Dietary restrictions or preferences (e.g. vegan, kosher, nut allergy). Drives catering and hospitality setup."
+    },
+    "allergies": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Known allergies (food, environmental, material). Distinct from dietary preferences — an allergy is a safety requirement."
+    },
+    "accessibility_needs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Accessibility requirements for the recording venue (e.g. step-free access, hearing loop, elevator required, reserved parking)."
+    },
+    "preferred_beverage": {
+      "type": "string",
+      "description": "Guest's preferred beverage for in-studio hospitality. Has this ready on arrival."
+    },
+    "travel_preferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "airline_preference": { "type": "string" },
+        "seat_preference": { "type": "string" },
+        "hotel_preference": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "description": "Travel and accommodation preferences, used only when the show is covering travel costs with explicit approval."
+    },
+    "gift_restrictions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Gift categories the guest cannot accept (e.g. alcohol, luxury goods). Used to select compliant thank-you options."
+    },
+    "employer_gift_policy": {
+      "type": "string",
+      "description": "Guest's stated employer gift-acceptance policy, if provided (e.g. 'gifts must not exceed $25', 'no gifts accepted — donate instead'). The system always respects this when selecting thank-you options."
+    },
+    "topics_off_limits": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Topics the guest has explicitly asked to exclude from the conversation. These become hard editorial constraints in the episode thesis and host brief."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-form hospitality or care notes from intake or pre-interview. Not published or shared externally."
+    },
+    "consent_reference": {
+      "type": ["string", "null"],
+      "description": "consent_id of the ConsentRecord that authorizes storage of this care profile (consent_type 'care_profile_storage'). Null if the record is incomplete pending consent."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

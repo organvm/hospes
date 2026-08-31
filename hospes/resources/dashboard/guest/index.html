@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>HOSPES — Guest intake</title>
+<link rel="icon" href="/guest/brand/favicon.ico">
+<link rel="stylesheet" href="/guest/brand.css">
+<link rel="stylesheet" href="/guest/styles.css">
+</head>
+<body>
+<main>
+  <span class="brand-mark" role="img" aria-label="HOSPES"></span>
+  <h1>HOSPES guest intake</h1>
+  <p class="lede">Three short steps: what you need on the day, what you agree to, and three dates that suit you. There is no account and no password — the one-time link you opened is the whole sign-in, and it closes as soon as you submit.</p>
+  <p id="status" role="status" aria-live="polite">Checking your one-time link…</p>
+
+  <form id="intake" hidden novalidate>
+    <section class="step" aria-labelledby="care-heading">
+      <h2 id="care-heading">1 · What you need on the day</h2>
+      <p class="fine">Every field is optional. Blank means “not provided”, never “not applicable”, and nothing here is inferred for you.</p>
+      <label for="name-pronunciation">How to say your name</label>
+      <input id="name-pronunciation" name="name_pronunciation" type="text" autocomplete="off" placeholder="ah-REE pah-dah-VAH-no">
+      <label for="pronouns">Pronouns</label>
+      <input id="pronouns" name="pronouns" type="text" autocomplete="off" placeholder="she/her · they/them · he/him">
+      <label for="dietary-restrictions">Dietary needs</label>
+      <textarea id="dietary-restrictions" name="dietary_restrictions" rows="3" placeholder="One per line — vegan, kosher, no dairy"></textarea>
+      <label for="allergies">Allergies</label>
+      <textarea id="allergies" name="allergies" rows="3" placeholder="One per line — an allergy is a safety requirement, not a preference"></textarea>
+      <label for="accessibility-needs">Accessibility needs</label>
+      <textarea id="accessibility-needs" name="accessibility_needs" rows="3" placeholder="One per line — step-free access, hearing loop, reserved parking"></textarea>
+      <label for="topics-off-limits">Topics that are off limits</label>
+      <textarea id="topics-off-limits" name="topics_off_limits" rows="3" placeholder="One per line — these become hard editorial constraints, not suggestions"></textarea>
+      <label for="preferred-beverage">Preferred drink in the studio</label>
+      <input id="preferred-beverage" name="preferred_beverage" type="text" autocomplete="off" placeholder="Black coffee, still water, nothing">
+      <label for="notes">Anything else we should know</label>
+      <textarea id="notes" name="notes" rows="4" placeholder="Hospitality or care notes. Not published, not shared outside the production."></textarea>
+    </section>
+
+    <section class="step" aria-labelledby="consent-heading">
+      <h2 id="consent-heading">2 · What you agree to</h2>
+      <ul id="consent-clauses" class="clauses"></ul>
+      <label class="clickwrap" for="consent-accept">
+        <input id="consent-accept" name="consent_accept" type="checkbox">
+        <span>I have read the points above and I agree to them.</span>
+      </label>
+      <p class="fine">You are never asked to promote the show, and you may withdraw any of this by replying to the producer who sent you this link.</p>
+    </section>
+
+    <section class="step" aria-labelledby="dates-heading">
+      <h2 id="dates-heading">3 · Three preferred dates</h2>
+      <p id="dates-hint" class="fine"></p>
+      <div id="date-choices" class="date-choices"></div>
+    </section>
+
+    <button id="submit" type="submit">Submit securely</button>
+  </form>
+
+  <section id="done" class="done" hidden aria-labelledby="done-heading">
+    <h2 id="done-heading">Intake received</h2>
+    <p class="fine">Your link is now closed. These receipts were recorded for the production:</p>
+    <ul id="receipts" class="receipts"></ul>
+  </section>
+</main>
+<script src="/guest/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/contact_route.schema.json",
+  "title": "ContactRoute",
+  "description": "A specific, sourced, and verified path by which a message may be delivered to a Person. A contact route requires source provenance and a verification timestamp before it may be used. No contact route may be used without a known origin — no inferred or scraped private addresses.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contact_route_id", "person_id", "route_type", "source_ref"],
+  "properties": {
+    "contact_route_id": {
+      "type": "string",
+      "description": "Stable UUID for this route."
+    },
+    "person_id": {
+      "type": "string",
+      "description": "The Person this route reaches."
+    },
+    "route_type": {
+      "type": "string",
+      "enum": ["email_direct", "email_assistant", "email_publicist", "email_manager", "email_label", "email_agency", "email_team", "social_dm", "phone", "postal", "platform_booking_form", "referral"],
+      "description": "Channel classification. Determines which automation tier is allowed to use this route."
+    },
+    "contact_person_ref": {
+      "type": ["string", "null"],
+      "pattern": "^private-field://",
+      "description": "Opaque encrypted-field reference for the intermediary name."
+    },
+    "contact_person_role": {
+      "type": ["string", "null"],
+      "description": "Role of the intermediary (e.g. publicist, manager, EA)."
+    },
+    "organization": {
+      "type": ["string", "null"],
+      "description": "Organization the contact person represents (e.g. agency name)."
+    },
+    "address_ref": {
+      "type": ["string", "null"],
+      "pattern": "^private-field://",
+      "description": "Opaque encrypted-field reference for the contact address. Raw email and phone values never appear in this public contract."
+    },
+    "source_ref": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{1,31}://",
+      "description": "Opaque provenance reference. Required — no sourceless routes."
+    },
+    "verified_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "When this route was last verified as active. Null = unverified, may not be used for automated outreach."
+    },
+    "preferred": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is the preferred route for this person in the current booking context."
+    },
+    "permission_status": {
+      "type": "string",
+      "enum": ["permitted", "pending_verification", "requires_human_approval", "do_not_use", "opted_out"],
+      "description": "Current permission state of this route. opted_out is terminal and cannot be overridden."
+    },
+    "notes_ref": {
+      "type": ["string", "null"],
+      "pattern": "^private-field://",
+      "description": "Opaque encrypted-field reference for private route notes."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

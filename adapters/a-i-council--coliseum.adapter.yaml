@@ -1,0 +1,28 @@
+system: a-i-council--coliseum
+claimed_by: [local_scan]
+repo: organvm/a-i-council--coliseum
+verified: true
+verified_how: >
+  gh repo view organvm/a-i-council--coliseum (PUBLIC, pushedAt 2026-07-10), described as
+  "Decentralized live-streaming platform where AI agents debate with viewer crypto
+  participation" (live chat, voting, Three.js). The repo EXISTS.
+disposition: fold-archive
+capability: >
+  A live-streaming platform (live chat, voting, crypto participation, Three.js). The SCAN
+  labeled this the operator's "streaming app." The AUDIT instead identified the capture/studio
+  role as multi-camera--livestream--framework — a genuine discrepancy between the two sources.
+seam:
+  consumes: []
+  emits: []
+  interface: >
+    No HOSPES v0 seam. The capture/production role belongs to
+    multi-camera--livestream--framework; coliseum's crypto/agent-debate concern is out of
+    scope for a podcast guest-ops desk.
+first_integration_step: >
+  Record the discrepancy (do not wire it in). If a live-audience salon surface is ever wanted,
+  revisit coliseum then; for now capture = multi-camera--livestream--framework.
+caveats: >
+  HONEST DISCREPANCY (per task): the scan suggested coliseum is "the streaming app," but the
+  audit's streaming/capture role is multi-camera--livestream--framework. Both repos exist;
+  they are different things. Its crypto/viewer-participation framing is NOT the podcast
+  capture path. Folded/parked, not deleted. See the reconciliation table.

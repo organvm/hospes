@@ -1,0 +1,23 @@
+system: content-engine--asset-amplifier
+claimed_by: [chatgpt_audit, github_scan]
+repo: organvm/content-engine--asset-amplifier
+verified: true
+verified_how: gh repo view organvm/content-engine--asset-amplifier (PUBLIC, pushedAt 2026-07-10).
+disposition: retain-service
+capability: >
+  The "content cannibalizer" (operator's term): one hero master → clip/still extraction,
+  semantic-center finding, caption + platform-variant generation, resizing, approval states,
+  scheduled release, and content-yield analytics. Distinct services for ingest, fragment,
+  scoring, generation, scheduling, platform adaptation, and audience intelligence.
+seam:
+  consumes: [media.ingested, segment.identified]
+  emits: [content_unit.generated, content_unit.approved]
+  interface: >
+    Service adapter over its ingest surface — HOSPES hands off an approved master + segment
+    plan, receives platform-variant content units for human clip approval.
+first_integration_step: >
+  Define the master→amplifier handoff contract in spec/, gating variant emission behind a
+  HOSPES human clip-approval step.
+caveats: >
+  It begins AFTER a master exists — it must not become the guest CRM, archive, editorial
+  system, or workflow authority. Yield engine, not the whole system.

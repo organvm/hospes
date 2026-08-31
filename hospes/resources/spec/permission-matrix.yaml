@@ -1,0 +1,254 @@
+---
+# HOSPES Permission Matrix
+# Version: 0.2.0
+# Source: transcript §7 "Approval and autonomy policy" + domain_kernel.yaml
+#
+# This matrix governs what automated agents may do without human approval,
+# what requires explicit human authorization, and what is permanently off-limits.
+#
+# SYSTEM NEVER SENDS CORRESPONDENCE AUTONOMOUSLY.
+# "Drafts" are generated for human review; "Sends" are always human actions.
+# Every outbound action writes an AuditEvent. Every external thread has a
+# real human owner.
+
+tiers:
+  automatic:
+    description: >
+      The system may do this without human approval in the current session,
+      provided the underlying data and consent records are in order.
+    actions:
+      - research_public_information
+      - create_or_update_internal_records
+      - detect_duplicates
+      - propose_guest_candidates
+      - draft_correspondence           # drafts only — human sends
+      - create_gmail_drafts            # surfaces in host inbox for review
+      - classify_routine_replies
+      - suggest_scheduling_options
+      - generate_intake_forms
+      - prepare_research_briefs
+      - record_promises_as_commitments
+      - draft_thank_you_notes          # drafts only — human sends
+      - suggest_gifts_below_threshold
+      - schedule_internal_tasks
+      - update_pipeline_states
+      - record_opaque_external_receipts  # evidence only; never performs the external action
+      - record_partnership_operating_summaries  # bounded metadata + opaque owner refs only
+      - flag_overdue_work
+      - generate_content_units         # from approved episodes only
+
+  trusted_later:
+    description: >
+      Reserved for future non-correspondence capabilities. No trusted-later action is
+      armed in the private local pilot; correspondence remains human-sent at every tier.
+    actions: []
+
+  human_approval_required:
+    description: >
+      A human must explicitly review and approve before the system takes this action.
+      The system may draft or prepare; it may not execute.
+    actions:
+      - first_outreach_to_any_guest         # always — no exceptions
+      - outreach_to_high_profile_or_sensitive_guest
+      - warm_introduction_requests          # asking a mutual to make an intro
+      - any_financial_commitment            # fees, travel, accommodations, reimbursements
+      - contractual_language_of_any_kind
+      - recording_cancellation              # especially show-initiated
+      - topic_disputes                      # any guest complaint about planned content
+      - editing_or_removal_promises
+      - embargoes
+      - custom_gifts_above_threshold        # threshold defined in show config
+      - government_official_minor_litigation_medical  # any contact involving these
+      - reply_classified_as_ambiguous       # AMBIGUOUS, REQUIRES_HUMAN intents
+      - any_unusual_request                 # catch-all for edge cases
+
+  never_delegated:
+    description: >
+      These actions are permanently off-limits for any automated system,
+      regardless of trust level or configuration. Violating these rules is
+      a system defect, not a policy exception.
+    actions:
+      - request_guest_promotion        # BLOCKED AT EVERY TIER — no automatic requirement to promote;
+                                       # see design rule: guests appear because the episode is worth
+                                       # their time, not because they owe the show a promotional
+                                       # obligation. Any system action that requests, incentivizes,
+                                       # or pressures promotion is a defect.
+      - signing_contracts
+      - inventing_a_relationship            # no fabricated mutual connections
+      - claiming_consumption_not_verified   # no "I loved your book" without evidence
+      - sending_money_without_authorization
+      - scraping_private_addresses
+      - ignoring_opt_outs                   # DO_NOT_CONTACT is terminal
+      - impersonating_nonexistent_person    # no fake employee personas
+      - publishing_private_guest_information
+      - making_editorial_promises_show_cannot_guarantee
+      - pooling_or_selling_contact_data
+      - using_contact_route_without_source_provenance
+      - storing_correspondence_bodies_or_signed_releases
+      - marking_technical_rehearsal_as_guest_pilot
+      - sending_or_delivering_correspondence  # HOSPES drafts and records receipts; humans send
+
+# Team seats. Every internal permission in HOSPES is granted to one of these
+# roles, never to a person. `scope` is the widest thing the seat may read:
+# `show` seats are bounded by the show their session is scoped to; the
+# `network` seat is the only one that reads across the shows of one tenant, and
+# it is still bounded by that tenant. No seat reads across tenants.
+team_roles:
+  host:
+    scope: show
+    description: >
+      The person in the chair. Reads the pipeline, revenue, and clearances for
+      the show; decides candidates. Holds roughly ten operational minutes a
+      week, so the surface concentrates on decisions only the host can make.
+    reads: [pipeline, revenue, clearances, analytics, guest_history]
+    decides: [candidate_approval]
+
+  network_operator:
+    scope: network
+    description: >
+      Runs a portfolio of shows rather than one show. This is the only seat
+      that reads across shows: the network portfolio (pipeline health, booking
+      velocity, sponsor revenue, guest overlap), the per-show drilldown, and
+      the exported network health report. Scope is the authenticated tenant —
+      never a path or a payload — and holding a show seat elsewhere in the
+      network does not widen a read to the portfolio. The seat is read-only
+      over show state: it books nothing, decides no candidate, and sends
+      nothing.
+    reads: [network_portfolio, network_show_drilldown, network_health_report, revenue, clearances]
+    decides: []
+    exports: [network_health_report]
+    receipts: network_report_receipts
+
+  producer:
+    scope: show
+    description: >
+      Runs the show week: research, drafts, evidence, sponsor inventory, and
+      the production gates. Drafts correspondence; never sends it.
+    reads: [pipeline, revenue, clearances, analytics, contacts, touchpoints]
+    decides: [evidence, sponsor_inventory]
+
+  editorial_owner:
+    scope: show
+    description: >
+      Owns editorial judgment: candidate approval, sponsor-claim approval, and
+      the publication gates that rights and sponsor commitments enforce.
+    reads: [pipeline, revenue, clearances, analytics, contacts, touchpoints]
+    decides: [candidate_approval, sponsor_claim_approval, clearances]
+
+  relationship_owner:
+    scope: show
+    description: >
+      Owns the relationships themselves. The only seat that may protect a C4/C5
+      figure, set or lift do-not-contact, and start a pilot run.
+    reads: [pipeline, revenue, clearances, analytics, contacts, touchpoints, guest_history]
+    decides: [candidate_approval, protection, do_not_contact, pilot_runs]
+
+  editor:
+    scope: show
+    description: >
+      Post-production. Receives clip and asset work through the queue and never
+      gains a lifecycle write permission.
+    reads: [assignments, notifications]
+    decides: []
+
+relationship_classes:
+  C0:
+    label: no_connection
+    description: >
+      No prior connection between the host and the guest candidate.
+    default_route: publicist_manager_or_professional_email
+    automation_tier: automatic     # system may draft; human sends
+    outreach_voice: producer_led   # the producer is the correspondent, not the host
+    host_effort: none
+    auto_send_permitted: false
+    notes: >
+      All C0 outreach is producer-led. The host's name appears in the correspondence
+      as context ("produced by / co-hosted by"), but the host does not send the message.
+
+  C1:
+    label: public_adjacency
+    description: >
+      The host and guest have shared a public stage, publication, or community
+      (appeared in the same festival, contributed to the same publication, etc.)
+      but have not had a direct personal interaction.
+    default_route: producer_led_with_verifiable_context_only
+    automation_tier: automatic     # system may draft; human sends
+    outreach_voice: producer_led
+    host_effort: none
+    auto_send_permitted: false
+    notes: >
+      The correspondence may mention the shared public context, but ONLY if it is
+      verifiable. No invented familiarity.
+
+  C2:
+    label: prior_professional_interaction
+    description: >
+      The host and guest have had a real prior professional interaction
+      (met at an event, collaborated on a project, had a public conversation).
+    default_route: producer_led_outreach_with_optional_host_note
+    automation_tier: automatic     # system drafts both producer message and optional host note
+    outreach_voice: producer_led
+    host_effort: review_only       # host may add a personal note; not required
+    auto_send_permitted: false
+    notes: >
+      The host note must be genuine. The system drafts a suggested note based on
+      the recorded interaction history; the host edits or discards it.
+
+  C3:
+    label: recurring_colleague
+    description: >
+      The host and guest have a recurring professional relationship — they know
+      each other and would recognize each other's name in an inbox.
+    default_route: producer_outreach_followed_by_brief_host_confirmation
+    automation_tier: automatic     # drafts producer message + brief host confirmation note
+    outreach_voice: producer_led_with_host_confirmation
+    host_effort: note_only         # host sends a short personal confirmation after producer outreach
+    auto_send_permitted: false
+    notes: >
+      The producer sends first; the host follows up briefly to signal personal buy-in.
+      The system drafts both messages. The host sends both. Neither is automated.
+
+  C4:
+    label: friend
+    description: >
+      The host considers this person a friend. The relationship is personal,
+      not merely professional. Using this relationship for booking has
+      meaningful social cost.
+    default_route: host_decides_explicitly
+    automation_tier: human_approval_required
+    outreach_voice: host_personal
+    host_effort: direct_contact_required
+    auto_send_permitted: false
+    protected: true
+    notes: >
+      No automated sending under any circumstances. The system may prepare research
+      and suggest language. Host explicitly decides whether to reach out and how.
+      The system does not follow up unless Host instructs it to.
+
+  C5:
+    label: close_friend_mentor_or_sensitive
+    description: >
+      Close friends, mentors, family, or anyone whose relationship with the host
+      is sensitive, high-stakes, or deeply personal. Contact through this
+      relationship carries the highest social cost and the highest risk of harm
+      if mishandled.
+    default_route: fully_manual_protected_relationship
+    automation_tier: never_delegated
+    outreach_voice: host_personal_only
+    host_effort: direct_contact_required
+    auto_send_permitted: false
+    protected: true
+    automation_permitted: false    # system may not even draft without explicit instruction
+    notes: >
+      Fully manual. The system may hold a record, but it may not generate correspondence,
+      send follow-ups, or enter private messages without Host's explicit one-at-a-time
+      direction. The relationship_owner must mark any use of this edge as an AuditEvent.
+
+rules:
+  - "C4 and C5 relationships block all automated outreach. The system may prepare research and suggest language only if explicitly instructed by the relationship_owner."
+  - "No contact route may be used without a verified source provenance and a valid permission_status of 'permitted'."
+  - "The system NEVER sends email or messages autonomously, regardless of relationship class or trust tier. Sending is always a human action."
+  - "A reply classified as AMBIGUOUS or REQUIRES_HUMAN immediately triggers a human escalation and suspends further automation on that thread."
+  - "do_not_contact on a Person record or DO_NOT_CONTACT state on an AppearanceOpportunity is terminal. No automation or human outreach may override it."
+  - "Every automated action that touches guest data writes an AuditEvent. The audit trail is append-only."
+  - "Host operational budget is approximately 10 minutes per week. The system is designed to protect that budget — it concentrates host attention on decisions only the host can make."

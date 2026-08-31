@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/commitment.schema.json",
+  "title": "Commitment",
+  "description": "A specific promise or obligation arising from correspondence or conversation, tracked so it is never forgotten. Commitments may be made by the show team (to the guest) or detected in guest correspondence. Financial, contractual, and editorial-removal commitments require human approval before they are confirmed.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["commitment_id", "opportunity_id", "description", "promised_by", "owed_to", "status"],
+  "properties": {
+    "commitment_id": {
+      "type": "string",
+      "description": "Stable UUID for this commitment."
+    },
+    "opportunity_id": {
+      "type": "string",
+      "description": "The AppearanceOpportunity this commitment belongs to."
+    },
+    "description": {
+      "type": "string",
+      "description": "Plain-English description of the promise (e.g. 'Send guest a copy of episode before release', 'Provide travel reimbursement up to $300')."
+    },
+    "promised_by": {
+      "type": "string",
+      "description": "person_id or role of who made this commitment."
+    },
+    "owed_to": {
+      "type": "string",
+      "description": "person_id or role of who this commitment is owed to."
+    },
+    "owner": {
+      "type": ["string", "null"],
+      "description": "person_id of the team member responsible for fulfilling this commitment."
+    },
+    "deadline": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "When this commitment must be fulfilled."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "in_progress", "completed", "cancelled", "requires_human_approval", "overdue"],
+      "description": "Current status of this commitment."
+    },
+    "commitment_type": {
+      "type": "string",
+      "enum": ["logistical", "editorial", "financial", "contractual", "gift", "follow_up", "information", "other"],
+      "description": "Category of commitment. Financial, contractual, and editorial commitments require human approval."
+    },
+    "requires_human_approval": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether a human must explicitly approve before this commitment can be acted upon. Always true for financial, contractual, and editorial-removal commitments."
+    },
+    "evidence": {
+      "type": ["string", "null"],
+      "description": "Reference to the touchpoint_id or message where this commitment was made."
+    },
+    "completed_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

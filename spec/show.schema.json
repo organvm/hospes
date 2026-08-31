@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/show.schema.json",
+  "title": "Show",
+  "description": "A named podcast show within the HOSPES multi-tenant system. Each Show has its own DNA (segment structure, visual grammar, editorial voice, studio defaults) declared as configuration. The Show is the tenancy boundary for AppearanceOpportunities, Episodes, and Studios. A network-level Relationship is not automatically usable by every Show — Show-level access requires explicit configuration.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["show_id", "name", "network_id"],
+  "properties": {
+    "show_id": {
+      "type": "string",
+      "description": "Stable UUID or slug for this show."
+    },
+    "name": {
+      "type": "string",
+      "description": "Public name of the show."
+    },
+    "network_id": {
+      "type": "string",
+      "description": "The Network or tenant this show belongs to."
+    },
+    "show_type": {
+      "type": "string",
+      "enum": ["flagship", "field_show", "interview", "panel", "narrative", "hybrid", "other"],
+      "description": "Show format classification. 'field_show' activates the Place→Object→Intervention→Artifact segment logic."
+    },
+    "hosts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "person_ids of the show's hosts."
+    },
+    "dna_config_path": {
+      "type": ["string", "null"],
+      "description": "Path or reference to the Show DNA configuration file (show_dna.yaml or equivalent). Defines segment deck, visual grammar, editorial voice."
+    },
+    "default_studio_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Ordered list of studio_ids representing this show's default recording locations by priority."
+    },
+    "default_episode_length_minutes": {
+      "type": ["integer", "null"],
+      "description": "Target episode duration in minutes."
+    },
+    "release_cadence": {
+      "type": ["string", "null"],
+      "description": "Publication cadence (e.g. 'weekly', 'bi-weekly', 'monthly', 'sporadic')."
+    },
+    "rss_feed_url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "Public RSS feed URL. Used for archive ingestion and guest-graph seeding."
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "launch_date": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

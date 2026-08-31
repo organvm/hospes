@@ -1,0 +1,156 @@
+/* Guest portal components.
+ *
+ * Loaded after /guest/brand.css, which owns the per-show custom properties and
+ * the base page frame. This sheet owns only the intake, consent, and date-pick
+ * components, and it is deliberately mobile-first: the portal is opened on a
+ * phone from a link someone was handed, so the touch-target and textarea floors
+ * below are unconditional rather than hidden behind a narrow-viewport query.
+ */
+
+.lede {
+  color: var(--brand-accent);
+  font-size: 14px;
+  margin: 0 0 16px;
+}
+
+.fine {
+  color: #b7b1a8;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0 0 12px;
+}
+
+.step {
+  border: 1px solid var(--brand-accent);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  padding: 16px;
+}
+
+.step h2 {
+  font-size: 15px;
+  letter-spacing: .04em;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  margin: 0 0 6px;
+}
+
+/* A phone is the expected surface, so every control clears a 44px touch target
+ * and every free-text box opens tall enough to write more than one line in. */
+input,
+select,
+textarea,
+button {
+  box-sizing: border-box;
+  min-height: 44px;
+  width: 100%;
+}
+
+input,
+select,
+textarea {
+  background: #00000040;
+  border: 1px solid var(--brand-accent);
+  border-radius: 8px;
+  color: inherit;
+  font: inherit;
+  margin: 0 0 14px;
+  padding: 10px;
+}
+
+textarea {
+  line-height: 1.5;
+  min-height: 132px;
+  resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #8d877e;
+}
+
+:focus-visible {
+  outline: 3px solid var(--brand-accent);
+  outline-offset: 2px;
+}
+
+.clauses {
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0 0 14px;
+  padding-left: 20px;
+}
+
+.clauses li {
+  margin-bottom: 8px;
+}
+
+/* The click-wrap is the one control that must not stretch: it is a checkbox
+ * beside its sentence, not a field. It still clears a 44px touch target — a
+ * consent tick is the last thing that should need a precise tap. */
+.clickwrap {
+  align-items: center;
+  display: flex;
+  font-size: 14px;
+  gap: 12px;
+  margin: 0 0 12px;
+  min-height: 44px;
+}
+
+.clickwrap input {
+  accent-color: var(--brand-primary);
+  flex: none;
+  height: 44px;
+  margin: 0;
+  min-width: 44px;
+  width: 44px;
+}
+
+.date-choices label {
+  margin-top: 4px;
+}
+
+button {
+  background: var(--brand-primary);
+  border: 1px solid var(--brand-primary);
+  border-radius: 8px;
+  color: #111;
+  font: inherit;
+  font-weight: 700;
+  min-width: 44px;
+  padding: 12px 16px;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: .55;
+}
+
+#status {
+  border-left: 3px solid var(--brand-accent);
+  margin: 0 0 18px;
+  padding-left: 10px;
+}
+
+#status.error {
+  border-left-color: #e87a6a;
+  color: #e87a6a;
+}
+
+.done {
+  border: 1px solid var(--brand-primary);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.receipts {
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+  padding-left: 20px;
+}

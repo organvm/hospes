@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hospes.organvm/spec/network-map.schema.json",
+  "title": "HOSPES scoped relationship map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tenant_id",
+    "show_id",
+    "root",
+    "depth",
+    "nodes",
+    "edges",
+    "target_paths",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "tenant_id": {"type": "string", "minLength": 2, "maxLength": 200},
+    "show_id": {"type": "string", "minLength": 2, "maxLength": 200},
+    "root": {"$ref": "#/$defs/guestId"},
+    "depth": {"type": "integer", "minimum": 0, "maximum": 5},
+    "nodes": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/node"}
+    },
+    "edges": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/edge"}
+    },
+    "target_paths": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/targetPath"}
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node_count", "edge_count", "reachable_target_count", "source_counts"],
+      "properties": {
+        "node_count": {"type": "integer", "minimum": 1},
+        "edge_count": {"type": "integer", "minimum": 0},
+        "reachable_target_count": {"type": "integer", "minimum": 0},
+        "source_counts": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 0}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "guestId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]{1,79}$"
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "visibility",
+        "distance",
+        "relationship_class",
+        "target_candidate",
+        "on_target_path"
+      ],
+      "properties": {
+        "id": {"$ref": "#/$defs/guestId"},
+        "label": {"type": "string", "minLength": 1, "maxLength": 120},
+        "visibility": {"enum": ["public", "private"]},
+        "distance": {"type": "integer", "minimum": 0, "maximum": 5},
+        "relationship_class": {
+          "type": ["string", "null"],
+          "enum": ["C0", "C1", "C2", "C3", "C4", "C5", null]
+        },
+        "target_candidate": {"type": "boolean"},
+        "on_target_path": {"type": "boolean"}
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "tenant_id",
+        "show_id",
+        "source_guest_id",
+        "target_guest_id",
+        "source_label",
+        "target_label",
+        "edge_type",
+        "relationship_class",
+        "relationship_strength",
+        "provenance_ref",
+        "source_kind",
+        "distance",
+        "on_target_path"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^edge-[0-9a-f]{20}$"},
+        "tenant_id": {"type": "string"},
+        "show_id": {"type": "string"},
+        "source_guest_id": {"$ref": "#/$defs/guestId"},
+        "target_guest_id": {"$ref": "#/$defs/guestId"},
+        "source_label": {"type": "string", "minLength": 1, "maxLength": 120},
+        "target_label": {"type": "string", "minLength": 1, "maxLength": 120},
+        "edge_type": {
+          "enum": ["worked_with", "knows", "represented_by", "introduced_by", "appeared_with", "legacy_unspecified"]
+        },
+        "relationship_class": {"enum": ["C0", "C1", "C2", "C3", "C4", "C5"]},
+        "relationship_strength": {
+          "enum": [
+            "no_connection",
+            "public_adjacency",
+            "prior_professional_interaction",
+            "recurring_colleague",
+            "friend",
+            "close_friend_mentor_or_sensitive"
+          ]
+        },
+        "provenance_ref": {"type": "string", "minLength": 2, "maxLength": 200},
+        "source_kind": {"enum": ["database", "manual", "archive"]},
+        "distance": {"type": "integer", "minimum": 1, "maximum": 5},
+        "on_target_path": {"type": "boolean"}
+      }
+    },
+    "targetPath": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_id", "target_label", "node_ids", "edge_ids"],
+      "properties": {
+        "target_id": {"$ref": "#/$defs/guestId"},
+        "target_label": {"type": "string", "minLength": 1, "maxLength": 120},
+        "node_ids": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/guestId"}},
+        "edge_ids": {"type": "array", "items": {"type": "string", "pattern": "^edge-[0-9a-f]{20}$"}}
+      }
+    }
+  }
+}

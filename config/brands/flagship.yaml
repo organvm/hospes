@@ -1,0 +1,10 @@
+version: 1
+show_id: flagship
+show_name: HOSPES Flagship
+logo_path: config/brand-assets/flagship-logo.svg
+favicon_path: config/brand-assets/flagship-favicon.svg
+primary_color: "#c77842"
+secondary_color: "#17221f"
+accent_color: "#e4c48a"
+font_family: ui-sans-serif, system-ui, sans-serif
+custom_domain: null

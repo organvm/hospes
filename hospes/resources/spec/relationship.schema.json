@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/relationship.schema.json",
+  "title": "Relationship",
+  "description": "The standing connection between two Person records, including the relationship class (C0–C5), social capital, and protection status. A Relationship is separate from a ContactRoute (how to reach them) and from an AppearanceOpportunity (a specific invite attempt). Relationships accrue over time; opportunities come and go.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["relationship_id", "person_a_id", "person_b_id", "relationship_class"],
+  "properties": {
+    "relationship_id": {
+      "type": "string",
+      "description": "Stable UUID for this relationship edge."
+    },
+    "person_a_id": {
+      "type": "string",
+      "description": "person_id of the first party (typically the host or team member)."
+    },
+    "person_b_id": {
+      "type": "string",
+      "description": "person_id of the second party (typically the guest candidate)."
+    },
+    "relationship_class": {
+      "type": "string",
+      "enum": ["C0", "C1", "C2", "C3", "C4", "C5"],
+      "description": "Classification of closeness. C0=no connection, C1=public adjacency, C2=prior professional interaction, C3=recurring colleague, C4=friend, C5=close friend/mentor/sensitive. C4–C5 require explicit owner approval for any contact."
+    },
+    "relationship_owner_id": {
+      "type": ["string", "null"],
+      "description": "person_id of the person (host, producer) who owns and can authorize use of this relationship."
+    },
+    "protected": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, any outreach through this relationship requires explicit approval from relationship_owner_id. Always true for C4–C5."
+    },
+    "permission_to_mention_mutual": {
+      "type": "boolean",
+      "description": "Whether the outreach may reference a mutual connection by name."
+    },
+    "previous_favors_provided": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Favors, introductions, or social capital extended by person_a to person_b (tracked to avoid over-asking)."
+    },
+    "previous_favors_requested": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Asks previously made of person_b through this relationship."
+    },
+    "direct_ask_comfort": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Estimated comfort level for a direct personal ask, 1 (not comfortable) to 5 (very comfortable). Based on relationship history, not assumption."
+    },
+    "social_cost": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Estimated social cost of making an ask through this relationship. 1=negligible, 5=exhausts goodwill."
+    },
+    "reputational_sensitivity": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "description": "Flag for relationships where a mishandled contact could cause reputational harm."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Human-supplied context about this relationship. Never auto-generated."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

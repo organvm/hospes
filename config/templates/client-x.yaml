@@ -1,0 +1,6 @@
+version: 1
+show_id: client-x
+class_to_template: {C0: disabled, C1: disabled, C2: client_review, C3: client_review}
+templates:
+  disabled: "No invitation template is configured for this relationship class."
+  client_review: "Draft only: client language is pending attributable review for [VERIFIED SUBJECT]."

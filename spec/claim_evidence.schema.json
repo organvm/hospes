@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/claim_evidence.schema.json",
+  "title": "ClaimEvidence",
+  "description": "Provenance record for a personalized or flattering claim used in outreach drafts or episode briefs. Every such claim must trace to a real, verifiable source and must be explicitly approved before it can appear in external-facing material. A draft whose claims contain any unapproved or unverified entry MUST be refused by the draft engine. This schema enforces the design rule: claim → source → verified date → approved for external use.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["claim", "source_url", "verified_date", "approved_for_external_use"],
+  "properties": {
+    "claim": {
+      "type": "string",
+      "description": "The exact claim text as it will appear (or closely resemble) in the outreach draft or brief. No paraphrasing — what is written here is what must be traceable."
+    },
+    "source_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical URL of the public source that substantiates this claim. Must be a real, externally reachable source — not an internal document or a description of a conversation."
+    },
+    "verified_date": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date on which the claim was verified against the source URL."
+    },
+    "approved_for_external_use": {
+      "type": "boolean",
+      "description": "True only when a human reviewer has confirmed this claim is accurate, fair, and appropriate for use in outreach or published material. False means the claim must not appear in any external-facing text."
+    }
+  }
+}

@@ -1,0 +1,365 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HOSPES Event Vocabulary",
+  "description": "Canonical event names for the HOSPES domain. Events are emitted by state transitions and agent actions; they drive workflow triggers, audit trails, and handoffs between capability layers. All event names are dotted lower-case. The human_gates array lists actions that may NEVER be taken by automated logic — a human must initiate or explicitly approve before the event fires.",
+  "version": "0.1.0",
+  "events": [
+    {
+      "name": "person.created",
+      "description": "A new Person record was added to the system.",
+      "aggregate": "Person"
+    },
+    {
+      "name": "person.do_not_contact_set",
+      "description": "The do_not_contact flag was set on a Person. All outreach pipelines halt immediately.",
+      "aggregate": "Person"
+    },
+    {
+      "name": "relationship.edge_created",
+      "description": "A new Relationship edge between two Person records was created.",
+      "aggregate": "Relationship"
+    },
+    {
+      "name": "relationship.protected",
+      "description": "A Relationship was marked as protected (C4–C5 or manual). Requires relationship_owner approval for any outreach through this edge.",
+      "aggregate": "Relationship"
+    },
+    {
+      "name": "relationship.followup_due",
+      "description": "A relationship nurture checkpoint has become overdue — a human should review and decide the next step.",
+      "aggregate": "Relationship"
+    },
+    {
+      "name": "appearance.candidate_created",
+      "description": "A new AppearanceOpportunity was created for a Person on a Show.",
+      "aggregate": "AppearanceOpportunity",
+      "alias_of": "candidate.created"
+    },
+    {
+      "name": "appearance.researching",
+      "description": "Research phase has begun for this opportunity.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "appearance.qualified",
+      "description": "The candidate passed editorial qualification and has an episode thesis.",
+      "aggregate": "AppearanceOpportunity",
+      "alias_of": "candidate.thesis_ready"
+    },
+    {
+      "name": "appearance.editorial_review",
+      "description": "Opportunity entered the editorial review queue for host approval.",
+      "aggregate": "AppearanceOpportunity",
+      "alias_of": "candidate.awaiting_host_approval"
+    },
+    {
+      "name": "appearance.approved",
+      "description": "A human (host or designated approver) approved this opportunity for outreach.",
+      "aggregate": "AppearanceOpportunity",
+      "alias_of": "candidate.approved"
+    },
+    {
+      "name": "appearance.rejected",
+      "description": "A human rejected this opportunity. Opportunity moves to DECLINED.",
+      "aggregate": "AppearanceOpportunity",
+      "alias_of": "candidate.rejected"
+    },
+    {
+      "name": "appearance.protected_relationship_flagged",
+      "description": "This opportunity was flagged because it involves a C4–C5 relationship. Halts automated pipeline until relationship_owner grants explicit approval.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "appearance.duplicate_detected",
+      "description": "A duplicate opportunity was detected for the same Person + Show combination.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "contact_route.identified",
+      "description": "A contact route for this opportunity was identified and selected.",
+      "aggregate": "ContactRoute"
+    },
+    {
+      "name": "contact_route.verified",
+      "description": "A ContactRoute was verified as active and usable.",
+      "aggregate": "ContactRoute"
+    },
+    {
+      "name": "outreach.draft_ready",
+      "description": "The system generated a draft outreach message awaiting human review and approval.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "outreach.approved",
+      "description": "A human explicitly approved the outreach draft for sending.",
+      "aggregate": "AppearanceOpportunity",
+      "alias_of": "outreach.human_approved"
+    },
+    {
+      "name": "outreach.sent",
+      "description": "A human sent the approved outreach message. The system NEVER sends automatically — this event records the human action.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "reply.received",
+      "description": "An inbound reply was detected and logged as a Touchpoint.",
+      "aggregate": "Touchpoint"
+    },
+    {
+      "name": "reply.classified",
+      "description": "The inbox triage agent classified a reply into one of the canonical intent classes.",
+      "aggregate": "Touchpoint"
+    },
+    {
+      "name": "followup.due",
+      "description": "A scheduled follow-up deadline was reached. Triggers human review if no reply was received.",
+      "aggregate": "AppearanceOpportunity",
+      "alias_of": "guest.followup_due"
+    },
+    {
+      "name": "booking.interested",
+      "description": "The guest expressed interest in appearing. Opportunity enters INTERESTED state.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "booking.negotiating",
+      "description": "Active negotiation on fees, logistics, or topic scope is underway. Requires human handling.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "booking.proposed",
+      "description": "Specific recording dates/times were proposed to the guest.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "booking.confirmed",
+      "description": "The recording was confirmed with date, time, and studio.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "booking.rescheduled",
+      "description": "A confirmed booking was rescheduled. Prior commitment record updated.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "booking.cancelled",
+      "description": "A confirmed booking was cancelled. Requires human handling if the guest cancelled.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "studio.routed",
+      "description": "A studio was assigned to this opportunity based on city and availability.",
+      "aggregate": "Studio"
+    },
+    {
+      "name": "consent.signed",
+      "description": "A consent or release record was signed by the guest.",
+      "aggregate": "ConsentRecord"
+    },
+    {
+      "name": "guest_intake.completed",
+      "description": "The guest completed intake (care profile, logistics preferences, release form).",
+      "aggregate": "AppearanceOpportunity",
+      "alias_of": "guest.intake_complete"
+    },
+    {
+      "name": "availability.provided",
+      "description": "The guest provided their preferred recording dates through the guest portal.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "preinterview.completed",
+      "description": "The pre-interview call between producer and guest was completed.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "release.complete",
+      "description": "The guest release was fully signed and on file.",
+      "aggregate": "ConsentRecord"
+    },
+    {
+      "name": "episode.thesis_locked",
+      "description": "The episode thesis was approved by a human and locked for production.",
+      "aggregate": "Episode"
+    },
+    {
+      "name": "episode.brief_ready",
+      "description": "The producer research brief for the episode was generated and ready for host review.",
+      "aggregate": "Episode"
+    },
+    {
+      "name": "episode.rundown_approved",
+      "description": "The episode rundown/segment plan was approved by a human.",
+      "aggregate": "Episode"
+    },
+    {
+      "name": "research.claim_verified",
+      "description": "A research claim in the episode brief was verified against a source.",
+      "aggregate": "Episode"
+    },
+    {
+      "name": "recording.ready",
+      "description": "All technical and logistics checks passed; the episode is ready to record.",
+      "aggregate": "Episode",
+      "alias_of": "recording.ready"
+    },
+    {
+      "name": "recording.completed",
+      "description": "The episode recording session concluded.",
+      "aggregate": "Episode",
+      "alias_of": "recording.complete"
+    },
+    {
+      "name": "media.ingested",
+      "description": "Raw media was ingested into the canonical media store and an Asset record was created.",
+      "aggregate": "Asset"
+    },
+    {
+      "name": "transcript.ready",
+      "description": "A transcript was generated and attached to the Episode.",
+      "aggregate": "Episode"
+    },
+    {
+      "name": "segment.identified",
+      "description": "A segment was identified and timestamped within the episode recording.",
+      "aggregate": "Episode"
+    },
+    {
+      "name": "commitment.created",
+      "description": "A new Commitment record was created (from detected promise or manual entry).",
+      "aggregate": "Commitment"
+    },
+    {
+      "name": "commitment.completed",
+      "description": "A Commitment was fulfilled and marked complete.",
+      "aggregate": "Commitment"
+    },
+    {
+      "name": "commitment.overdue",
+      "description": "A Commitment deadline passed without fulfillment. Triggers human alert.",
+      "aggregate": "Commitment"
+    },
+    {
+      "name": "gift.approved",
+      "description": "A thank-you gift suggestion was approved by a human above the threshold.",
+      "aggregate": "Commitment"
+    },
+    {
+      "name": "content_unit.generated",
+      "description": "A ContentUnit was generated by the content engine from an approved Episode.",
+      "aggregate": "ContentUnit"
+    },
+    {
+      "name": "content_unit.approved",
+      "description": "A ContentUnit was approved by a human for distribution.",
+      "aggregate": "ContentUnit"
+    },
+    {
+      "name": "distribution.dispatched",
+      "description": "A ContentUnit was dispatched to its target platform.",
+      "aggregate": "ContentUnit"
+    },
+    {
+      "name": "distribution.delivered",
+      "description": "Delivery of a ContentUnit to its target platform was confirmed.",
+      "aggregate": "ContentUnit"
+    },
+    {
+      "name": "episode.published",
+      "description": "The episode was published to all distribution channels.",
+      "aggregate": "Episode"
+    },
+    {
+      "name": "correction.appended",
+      "description": "A correction was appended to a published episode. Requires human approval.",
+      "aggregate": "Episode"
+    },
+    {
+      "name": "relationship.nurture_due",
+      "description": "A post-episode relationship nurture checkpoint is due. The system may DRAFT a note; a human must send it.",
+      "aggregate": "Relationship"
+    },
+    {
+      "name": "guest.editorially_approved",
+      "description": "Alias from the transcript handoff vocabulary: a guest candidate was approved editorially.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "guest.research_completed",
+      "description": "Research for a guest candidate was completed and brief is ready.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "draft.edited",
+      "description": "A human edited an AI-generated outreach draft before approving or sending it. Feeds the human-correction metric: revisions per AI draft.",
+      "aggregate": "AppearanceOpportunity"
+    },
+    {
+      "name": "classification.overridden",
+      "description": "A human overrode the triage agent's classification label for an inbound reply. Feeds the human-correction metric: classification override rate.",
+      "aggregate": "Touchpoint"
+    }
+  ],
+  "human_gates": [
+    {
+      "gate": "first_outreach",
+      "description": "First outreach to any new guest. The system drafts; a human sends. No exceptions.",
+      "source": ["workflow.json", "transcript §7"]
+    },
+    {
+      "gate": "protected_relationship_contact",
+      "description": "Any contact through a C4–C5 relationship or a manually protected relationship edge.",
+      "source": ["workflow.json", "domain_kernel.yaml", "transcript §7"]
+    },
+    {
+      "gate": "financial_commitment",
+      "description": "Fees, travel reimbursement, accommodations, gifts above threshold, or any monetary commitment.",
+      "source": ["workflow.json", "transcript §7"]
+    },
+    {
+      "gate": "contract_or_release_exception",
+      "description": "Any contractual language, release exceptions, or legally binding action.",
+      "source": ["workflow.json", "transcript §7"]
+    },
+    {
+      "gate": "sensitive_topic_promise",
+      "description": "Any editorial promise about topics, editing, or content removal made to a guest.",
+      "source": ["workflow.json", "transcript §7"]
+    },
+    {
+      "gate": "custom_gift_above_threshold",
+      "description": "A thank-you gift above the pre-approved threshold (dollar amount set in show config).",
+      "source": ["workflow.json", "transcript §7"]
+    },
+    {
+      "gate": "ambiguous_or_negative_reply",
+      "description": "Any reply classified as AMBIGUOUS, REQUIRES_HUMAN, SOFT_DECLINE (with non-standard context), FEE_REQUEST, TOPIC_CONCERN, or HARD_DECLINE.",
+      "source": ["workflow.json", "transcript §7"]
+    },
+    {
+      "gate": "warm_introduction_request",
+      "description": "Asking a mutual contact to make a warm introduction on behalf of the show.",
+      "source": ["transcript §7"]
+    },
+    {
+      "gate": "recording_cancellation",
+      "description": "Cancelling a confirmed recording booking — especially if initiated by the show.",
+      "source": ["transcript §7"]
+    },
+    {
+      "gate": "embargo_or_editorial_removal",
+      "description": "Agreeing to an embargo period, content editing, or removal of published material.",
+      "source": ["transcript §7"]
+    },
+    {
+      "gate": "high_profile_or_reputationally_sensitive_guest",
+      "description": "Outreach to guests whose relationship_class, risk_level, or public profile requires elevated care.",
+      "source": ["transcript §7"]
+    },
+    {
+      "gate": "government_minor_litigation_medical",
+      "description": "Any contact involving government officials, minors, active litigation, or medical matters.",
+      "source": ["transcript §7"]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+version: 1
+tenant_id: hospes
+show_id: client-x
+label: "Client: Podcast X"
+enabled: true
+default: false
+display_order: 30
+modes:
+  guest_interaction: operator_packet
+  outbound: draft_only
+roles: [network_operator, relationship_owner, producer, editorial_owner, editor]
+dna_ref: dna/client-x.show.yaml
+voice_ref: config/voices/client-x.yaml
+template_ref: config/templates/client-x.yaml
+brand_ref: config/brands/client-x.yaml
+pilot_policy_ref: config/pilot_policies/client-x.yaml
+sponsor_inventory:
+  block_publication_on_unfilled_committed_slots: false
+  require_approved_claims_before_publication: true
+provider_precedence:
+  calendar: [manual, ics]
+  research: [manual_citations]
+  analytics: [spotify_creator_csv, custom_csv]
+  distribution: [manual_external_receipt]

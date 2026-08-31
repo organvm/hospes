@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hospes.organvm/spec/consent.schema.json",
+  "title": "ConsentRecord",
+  "description": "A record of explicit consent granted or withheld by a Person for a specific action or use of their information. Consent is always explicit and reversible. No automated system may act on data that lacks a valid consent record for that action type.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["consent_id", "person_id", "consent_type", "status"],
+  "properties": {
+    "consent_id": {
+      "type": "string",
+      "description": "Stable UUID for this consent record."
+    },
+    "person_id": {
+      "type": "string",
+      "description": "The Person who granted or withheld this consent."
+    },
+    "opportunity_id": {
+      "type": ["string", "null"],
+      "description": "If consent is scoped to a specific appearance opportunity, its ID. Null for blanket consent."
+    },
+    "consent_type": {
+      "type": "string",
+      "enum": [
+        "recording_release", "likeness_use", "transcript_publication",
+        "clip_use", "gift_shipping", "contact_route_use",
+        "care_profile_storage", "follow_up_contact", "newsletter",
+        "referral_to_third_party", "other"
+      ],
+      "description": "What this consent covers."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["granted", "withheld", "pending", "revoked", "expired"],
+      "description": "Current status of this consent."
+    },
+    "granted_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "When consent was granted."
+    },
+    "expires_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "When this consent expires, if time-limited."
+    },
+    "revoked_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "evidence_reference": {
+      "type": ["string", "null"],
+      "description": "Reference to the document, email, or form where consent was obtained (touchpoint_id, document URL, or signed release ID)."
+    },
+    "scope_notes": {
+      "type": ["string", "null"],
+      "description": "Any restrictions or conditions the person attached to their consent."
+    },
+    "promotion_required": {
+      "const": false,
+      "description": "Guests are NEVER required to promote the show. This field must always be false; any consent record that sets it to true fails validation. The no-promotion rule is a design invariant, not a configuration option."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

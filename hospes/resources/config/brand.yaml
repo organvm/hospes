@@ -1,0 +1,9 @@
+version: 1
+show_name: HOSPES
+logo_path: config/brand-assets/hospes-logo.svg
+favicon_path: config/brand-assets/hospes-favicon.svg
+primary_color: "#c77842"
+secondary_color: "#17221f"
+accent_color: "#e4c48a"
+font_family: ui-sans-serif, system-ui, sans-serif
+custom_domain: null

@@ -1,0 +1,32 @@
+version: 1
+principle: specificity_over_praise
+banned_phrases:
+  - i hope this email finds you well
+  - hope this email finds you well
+  - hope this finds you well
+  - huge admirers
+  - huge admirer
+  - huge fans
+  - enormous fans
+  - enormous fan
+  - incredible journey
+  - groundbreaking
+  - profoundly reshaped
+  - reshaped the landscape
+  - deeply resonate
+  - resonate with our audience
+  - biggest fan
+  - long-time fan
+  - longtime fan
+  - your amazing work
+  - your incredible work
+  - your inspiring work
+  - world-class
+  - game-changing
+  - game changer
+  - revolutionary work
+  - trailblazing
+  - visionary genius
+  - we love your work
+  - i loved your book
+  - i loved your

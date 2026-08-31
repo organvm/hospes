@@ -1,0 +1,30 @@
+system: praxis-perpetua-object-lessons
+claimed_by: [chatgpt_audit, github_scan]
+repo: organvm/praxis-perpetua (+ organvm/object-lessons)
+verified: true
+verified_how: >
+  gh repo view organvm/praxis-perpetua (PUBLIC, pushedAt 2026-07-01) and
+  organvm/object-lessons (PRIVATE, pushedAt 2026-07-10). Two paired repos covered by one
+  adapter: praxis-perpetua = process/template corpus; object-lessons = the deployed editorial
+  application whose "Object Lesson" segment methodology the audit cites.
+disposition: adapt-spec
+capability: >
+  Episode-production machinery: research briefs, exact clip logs, episode thesis, hooks,
+  thematic/dialectical structure, montages, thumbnails, chapters, shorts, publishing,
+  performance tracking, lessons-learned (praxis-perpetua); plus episode/research/object
+  schemas, a research DB, production-state tracking, collaborator submissions, and OG image
+  generation (object-lessons). Together the basis of the Episode Packet.
+seam:
+  consumes: [appearance.approved, recording.completed]
+  emits: [episode.thesis_locked, segment.identified]
+  interface: >
+    Spec adaptation into spec/ — the Episode Packet + segment-card + day-of-packet contracts,
+    with the object-driven segment as one configurable segment type.
+first_integration_step: >
+  Adapt the object-lesson episode template + praxis-perpetua production checklist into spec/
+  as the HOSPES Episode Packet contract (research brief → thesis → segments → day-of packet →
+  postmortem).
+caveats: >
+  Do not hard-code Object Lessons' specific runtime into every show — it is ONE segment type,
+  not the whole editorial layer. Do not collapse object-lessons' independent artistic identity
+  into the SaaS; adapt schema/UI patterns only.

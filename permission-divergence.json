@@ -1,0 +1,147 @@
+{
+  "_note": [
+    "Known disagreements between spec/permission-matrix.yaml and what the code enforces.",
+    "",
+    "scripts/check_permissions.py re-derives this census from live values on every run and",
+    "requires an EXACT match in both directions: a new or widened divergence reds, and so",
+    "does an entry for a divergence that has been resolved. Fixing one and removing its line",
+    "are necessarily the same change. Each divergence entry carries BOTH directions — `extra`",
+    "(code grants beyond the matrix) and `refused` (code refuses a role the matrix grants) —",
+    "so revoking a matrix-granted role without updating this file reds exactly like a new grant.",
+    "",
+    "This file records reality, not approval. Every entry is an open decision, and each has",
+    "exactly two honest resolutions: either the matrix under-declares what the product is",
+    "meant to do (widen the matrix), or the code is more permissive than the contract",
+    "(narrow the code). Nothing here should be closed by editing whichever side is easier.",
+    "",
+    "All nine divergences run the same direction — the code grants more than the contract —",
+    "and no site currently refuses a role the matrix grants. That uniformity is itself",
+    "evidence: role sets were written per-module against local need and never checked against",
+    "the declared contract, because until now nothing could check.",
+    "",
+    "unnamed_capabilities entries are `key|sorted,members` signatures, not bare keys — a",
+    "key-only baseline cannot see a still-unnamed site WIDEN its enforced role set, since the",
+    "key does not change when the set does."
+  ],
+
+  "divergences": {
+    "clearances:CLEARANCE_DECISION_ROLES": {
+      "capability": "decides:clearances",
+      "extra": ["producer", "relationship_owner"],
+      "refused": []
+    },
+    "contact_roster:AUTHORIZED_CONTACT_ROLES": {"capability": "reads:contacts", "extra": ["host"], "refused": []},
+    "distribution:READ_ROLES": {"capability": "reads:pipeline", "extra": ["network_operator"], "refused": []},
+    "guest_crm:AUTHORIZED_HISTORY_ROLES": {
+      "capability": "reads:guest_history",
+      "extra": ["editorial_owner", "producer"],
+      "refused": []
+    },
+    "notifications:TEAM_ROLES": {
+      "capability": "reads:notifications",
+      "extra": ["editorial_owner", "host", "network_operator", "producer", "relationship_owner"],
+      "refused": []
+    },
+    "pilot_service:DECISION_ROLES": {
+      "capability": "decides:pilot_runs",
+      "extra": ["editorial_owner", "producer"],
+      "refused": []
+    },
+    "sponsors:CLAIM_APPROVAL_ROLES": {
+      "capability": "decides:sponsor_claim_approval",
+      "extra": ["relationship_owner"],
+      "refused": []
+    },
+    "sponsors:WRITE_ROLES": {
+      "capability": "decides:sponsor_inventory",
+      "extra": ["editorial_owner", "relationship_owner"],
+      "refused": []
+    },
+    "touchpoints:AUTHORIZED_TOUCHPOINT_ROLES": {"capability": "reads:touchpoints", "extra": ["host"], "refused": []}
+  },
+
+  "unnamed_capabilities": [
+    "distribution:PUBLISH_ROLES|editorial_owner,relationship_owner",
+    "distribution:WRITE_ROLES|editorial_owner,producer,relationship_owner",
+    "encryption:AUTHORIZED_OPERATOR_ROLES|editorial_owner,host,network_operator,producer,relationship_owner",
+    "notifications:ASSIGNING_ROLES|editorial_owner,network_operator,producer,relationship_owner",
+    "research_agent:AUTHORIZED_RESEARCH_ROLES|editorial_owner,producer"
+  ],
+
+  "uncovered_role_sets": [
+    "demo_guide:_KNOWN_ROLES|editorial_owner,host,producer,relationship_owner",
+    "partnership_records:_require_owner_role|editorial_owner,producer,relationship_owner",
+    "partnership_records:select_pilot_candidate|editorial_owner,host,relationship_owner",
+    "partnerships:assign_legacy_show|editorial_owner,producer,relationship_owner",
+    "pilot_models:_ALLOWED_ROLES|editorial_owner,producer,relationship_owner",
+    "pilot_service:record_decision|relationship_owner",
+    "pilot_service:record_decision|relationship_owner",
+    "pilot_service:start_run|relationship_owner",
+    "service:_RECEIPT_ROLES|editorial_owner,producer",
+    "service:_RECEIPT_ROLES|editorial_owner,producer",
+    "service:_RECEIPT_ROLES|editorial_owner,producer",
+    "service:_RECEIPT_ROLES|editorial_owner,producer",
+    "service:_RECEIPT_ROLES|editorial_owner,producer",
+    "service:_RECEIPT_ROLES|editorial_owner,producer",
+    "service:_RECEIPT_ROLES|editorial_owner,producer,relationship_owner",
+    "service:_render_draft_preview|editorial_owner,producer,relationship_owner",
+    "service:attach_thesis_contact|editorial_owner,producer,relationship_owner",
+    "service:create_brief|editorial_owner,producer",
+    "service:declare_assets|editorial_owner,producer",
+    "service:record_decision|editorial_owner,host,relationship_owner",
+    "service:route_to_studio|editorial_owner,producer"
+  ],
+
+  "_review": {
+    "contact_roster:AUTHORIZED_CONTACT_ROLES": {
+      "weight": "highest",
+      "why": "The gate gates DECRYPTION of publicist/manager/agent name, email, phone and notes — it is passed as allowed_roles into the field vault (contact_roster.py:341,523) and gates reveal at api.py:463. The matrix does not grant host `contacts`. If the matrix is right, a host can decrypt third-party contact PII it was never meant to see.",
+      "resolutions": ["widen matrix: host is intended to see contacts", "narrow code: remove host from the roster gate"]
+    },
+    "touchpoints:AUTHORIZED_TOUCHPOINT_ROLES": {
+      "weight": "highest",
+      "why": "Same shape as the roster: encrypted notes on informal guest contact across text/email/ig/in-person/phone/hallway. Matrix does not grant host `touchpoints`.",
+      "resolutions": ["widen matrix", "narrow code"]
+    },
+    "guest_crm:AUTHORIZED_HISTORY_ROLES": {
+      "weight": "high",
+      "why": "Bears directly on finding H-73.9, which wants hosts admitted to guest history in the dashboard. The matrix ALREADY grants host `guest_history`; the divergence is the opposite way — the code additionally admits editorial_owner and producer, whom the matrix does not. H-73.9's client fix is therefore correct and independent of this row.",
+      "resolutions": ["widen matrix to match the working product", "narrow code"]
+    },
+    "clearances:CLEARANCE_DECISION_ROLES": {
+      "weight": "high",
+      "why": "Matrix grants decides:clearances to editorial_owner alone; the code also admits producer and relationship_owner. Rights clearance authorizes publication, so this is the widest decision gap of the eight module-level sites.",
+      "resolutions": ["widen matrix", "narrow code"]
+    },
+    "notifications:TEAM_ROLES": {
+      "weight": "high",
+      "why": "Surfaced by wiring this site's proposed capability (`reads:notifications`) into the map instead of leaving it None: the matrix already grants that capability to `editor` alone, but the code admits every team role — editorial_owner, host, network_operator, producer, and relationship_owner — to the notifications feed. This was invisible before because the site's capability field was None, which routed it into `unnamed_sites()` instead of `divergences()`, even though the matrix has named this concept since 1.0.",
+      "resolutions": ["widen matrix: notifications are meant for the whole team, not just editor", "narrow code: gate the feed to editor alone"]
+    },
+    "sponsors:WRITE_ROLES": {
+      "weight": "medium",
+      "why": "Matrix grants decides:sponsor_inventory to producer alone; the code also admits editorial_owner and relationship_owner."
+    },
+    "sponsors:CLAIM_APPROVAL_ROLES": {
+      "weight": "medium",
+      "why": "Matrix grants decides:sponsor_claim_approval to editorial_owner alone; the code also admits relationship_owner."
+    },
+    "pilot_service:DECISION_ROLES": {
+      "weight": "medium",
+      "why": "Matrix grants decides:pilot_runs to relationship_owner alone; the code also admits editorial_owner and producer."
+    },
+    "distribution:READ_ROLES": {
+      "weight": "low",
+      "why": "A network operator can read the distribution pipeline; the matrix scopes that role to network-level reads and does not list `pipeline`. Most likely genuine matrix under-declaration."
+    },
+    "_unnamed": {
+      "why": "Five enforcement points have no matrix vocabulary at all, so the contract cannot govern them even in principle. Each already carries its proposed name as `capability` in hospes/permissions.py (not None) so that adding the name to the matrix activates divergence checking automatically, without a second synchronized code edit — that is exactly what happened to notifications:TEAM_ROLES above, which is why this list is five entries, not six."
+    },
+    "_uncovered": {
+      "why": "39 role sets exist in hospes/*.py; the import-based census can only see the 18 bound to a module-level name that ENFORCEMENT_SITES maps. The other 21 are written inline at a call site, or live inside a table (service._RECEIPT_ROLES maps seven receipt types to seven role sets), and were therefore invisible to the first cut of this gate — which reported '18 enforcement points' as though that were the surface.",
+      "why_it_matters": "A completeness gate that under-reports is worse than no gate: it retires the question with a green tick. This list makes the gap declared and frozen rather than silent, and the signature carries members, so a site already known to be uncovered still reds if it WIDENS.",
+      "shape_of_the_fix": "Each entry leaves by being covered, not by being deleted. Inline sets promote to a module-level constant and gain an ENFORCEMENT_SITES row; the _RECEIPT_ROLES table needs a per-receipt capability vocabulary the matrix does not have yet. demo_guide:_KNOWN_ROLES is the one that may legitimately stay — it validates demo personas and enforces nothing — but it is listed rather than special-cased, because an exemption nobody can see is the same defect one level up.",
+      "notable": "partnership_records:_require_owner_role is an eighth role helper the plan's survey missed entirely — it has a different name from the other seven and gates on an inline literal, so neither a grep for _require_role nor an import-based census finds it."
+    }
+  }
+}

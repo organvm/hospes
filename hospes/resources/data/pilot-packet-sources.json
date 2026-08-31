@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "pilots": {
+    "pilot-a": {
+      "pilot_id": "pilot-a",
+      "guest_name": "[SYNTHETIC] Bixby Mortarboard",
+      "city": "Los Angeles",
+      "studio": "Synthetic Los Angeles conversation room",
+      "recording_window": "Synthetic window A — operator confirmation required",
+      "relationship_class": "C2",
+      "host_bio": "The synthetic hosts use one instinctive lens and one structural lens to test a bounded fictional claim.",
+      "episode_thesis": "A fictional workflow can expose decision boundaries without borrowing real authority.",
+      "invitation_note": "This fictional invitation exists only to demonstrate human review and is not addressed or sent.",
+      "asset_items": [
+        "Synthetic edited-master checklist",
+        "Synthetic transcript and description",
+        "Synthetic guest delivery package"
+      ],
+      "claims": [
+        {
+          "claim": "The synthetic hosts use one instinctive lens and one structural lens to test a bounded fictional claim.",
+          "source_url": "fixture://evidence/synthetic-host-format",
+          "verified_date": "2026-08-09",
+          "approved_for_external_use": true
+        },
+        {
+          "claim": "A fictional workflow can expose decision boundaries without borrowing real authority.",
+          "source_url": "fixture://evidence/bixby-boundary-map",
+          "verified_date": "2026-08-09",
+          "approved_for_external_use": true
+        }
+      ]
+    },
+    "pilot-b": {
+      "pilot_id": "pilot-b",
+      "guest_name": "[SYNTHETIC] Mildred Punchclock",
+      "city": "New York City",
+      "studio": "Synthetic New York conversation room",
+      "recording_window": "Synthetic window B — operator confirmation required",
+      "relationship_class": "C2",
+      "host_bio": "The synthetic hosts use one instinctive lens and one structural lens to test a bounded fictional claim.",
+      "episode_thesis": "A resettable specimen can make human gates observable without performing external work.",
+      "invitation_note": "This fictional invitation exists only to demonstrate human review and is not addressed or sent.",
+      "asset_items": [
+        "Synthetic edited-master checklist",
+        "Synthetic transcript and description",
+        "Synthetic guest delivery package"
+      ],
+      "claims": [
+        {
+          "claim": "The synthetic hosts use one instinctive lens and one structural lens to test a bounded fictional claim.",
+          "source_url": "fixture://evidence/synthetic-host-format",
+          "verified_date": "2026-08-09",
+          "approved_for_external_use": true
+        },
+        {
+          "claim": "A resettable specimen can make human gates observable without performing external work.",
+          "source_url": "fixture://evidence/mildred-review-clock",
+          "verified_date": "2026-08-09",
+          "approved_for_external_use": true
+        }
+      ]
+    },
+    "pilot-c": {
+      "pilot_id": "pilot-c",
+      "guest_name": "[SYNTHETIC] Rufus Quibble",
+      "city": "Austin",
+      "studio": "Synthetic Austin conversation room",
+      "recording_window": "Synthetic window C — operator confirmation required",
+      "relationship_class": "C3",
+      "host_bio": "The synthetic hosts use one instinctive lens and one structural lens to test a bounded fictional claim.",
+      "episode_thesis": "A planner is trustworthy only when every recommendation remains a revision-checked human choice.",
+      "invitation_note": "This fictional invitation exists only to demonstrate human review and is not addressed or sent.",
+      "asset_items": [
+        "Synthetic edited-master checklist",
+        "Synthetic transcript and description",
+        "Synthetic guest delivery package"
+      ],
+      "claims": [
+        {
+          "claim": "The synthetic hosts use one instinctive lens and one structural lens to test a bounded fictional claim.",
+          "source_url": "fixture://evidence/synthetic-host-format",
+          "verified_date": "2026-08-09",
+          "approved_for_external_use": true
+        },
+        {
+          "claim": "A planner is trustworthy only when every recommendation remains a revision-checked human choice.",
+          "source_url": "fixture://evidence/rufus-planner-ledger",
+          "verified_date": "2026-08-09",
+          "approved_for_external_use": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,24 @@
+system: salon-archive
+claimed_by: [chatgpt_audit, github_scan]
+repo: organvm/salon-archive
+verified: true
+verified_how: gh repo view organvm/salon-archive (PUBLIC, pushedAt 2026-06-25).
+disposition: adapt-spec
+capability: >
+  A conversation-as-institutional-memory archive: session metadata, participants + consent,
+  facilitators, topic taxonomy, transcript segments, materials, outputs/artifacts,
+  cross-references, participant/topic indices, and a capture→draft→review→structure→archive
+  transcription pipeline with speaker-attributed, time-coded exports.
+seam:
+  consumes: [recording.completed, transcript.ready]
+  emits: [segment.identified, transcript.ready]
+  interface: >
+    Domain-spec adaptation into spec/ — Episode/Recording, Host/Guest/Producer,
+    Artifact/Commitment/Clip, research-packet Materials, editorial-graph topics. Read as the
+    Conversation Archive schema, not a running service.
+first_integration_step: >
+  Adapt its session/participant/consent/transcript-segment schema into HOSPES spec/ as the
+  Conversation Archive + Episode Knowledge Graph contracts.
+caveats: >
+  Do not assume all participant contributions are public — carry consent + off-record rules
+  through. Adapt the model; do not import any private historical corpus.

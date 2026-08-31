@@ -1,0 +1,70 @@
+version: 1
+partnership:
+  key: synthetic_studio
+  label: Synthetic Studio Partnership
+  purpose: Demonstrate that one cockpit contract can operate a second tenant without code changes.
+  status: active
+items:
+  - item_key: engine.shared_cockpit
+    category: engine
+    title: Shared cockpit engine
+    summary: The same migrations, API, and interface load this synthetic partnership.
+    owner: System
+    state: done
+  - item_key: plan.synthetic_session
+    category: plan
+    title: Synthetic private session
+    summary: Run a non-public fixture session with no real guest or contact data.
+    owner: Producer
+    state: planned
+  - item_key: role.synthetic_owner
+    category: role
+    title: Synthetic relationship owner
+    summary: Owns relationship decisions for the fixture tenant.
+    owner: Fixture owner
+    state: agreed
+  - item_key: agreement.human_actions
+    category: agreement
+    title: Human actions stay external
+    summary: Sending, scheduling, signing, recording, and publishing remain external human actions.
+    owner: Partners
+    state: agreed
+    external_reference: doctrine://synthetic/human-actions
+  - item_key: deal.synthetic_terms
+    category: deal
+    title: Synthetic terms owner
+    summary: Fixture economics remain in a separate canonical owner.
+    owner: Partners
+    state: unknown
+    external_reference: registry://synthetic/economics
+  - item_key: obligation.fixture_review
+    category: obligation
+    title: Review fixture state
+    summary: Verify the second tenant remains isolated from every other partnership.
+    owner: Producer
+    state: current
+  - item_key: decision.fixture_only
+    category: decision
+    title: Keep the demonstration synthetic
+    summary: No real people, routes, correspondence, or media enter this fixture.
+    owner: Partners
+    state: current
+  - item_key: receipt.fixture_owner
+    category: receipt
+    title: Fixture evidence owner
+    summary: Opaque evidence points to the synthetic verification ledger.
+    owner: System
+    state: current
+    external_reference: test://synthetic/verification
+  - item_key: risk.cross_tenant
+    category: risk
+    title: Cross-tenant disclosure
+    summary: API and cockpit reads must remain tenant-scoped.
+    owner: System
+    state: current
+  - item_key: unknown.future_scope
+    category: unknown
+    title: Future fixture scope
+    summary: Hosted multi-user behavior remains intentionally unspecified.
+    owner: Partners
+    state: unknown

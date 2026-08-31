@@ -1,0 +1,22 @@
+system: kerygma-pipeline
+claimed_by: [chatgpt_audit, github_scan]
+repo: organvm/kerygma-pipeline
+verified: true
+verified_how: gh repo view organvm/kerygma-pipeline (PUBLIC, pushedAt 2026-07-02).
+disposition: fold-archive
+capability: >
+  Distribution orchestration placeholder (ORGAN VII): poll → template → render → quality
+  check → dispatch → analytics. Thin/placeholder pattern rather than an active distribution
+  center.
+seam:
+  consumes: [content_unit.approved]
+  emits: [distribution.dispatched]
+  interface: >
+    None as a live service — its unique event vocabulary and orchestration shape are folded
+    into the HOSPES distribution seam (which delegates delivery to social-automation).
+first_integration_step: >
+  Harvest any unique orchestration-stage vocabulary into spec/ for the HOSPES publish
+  pipeline, then redirect distribution to social-automation.
+caveats: >
+  Fold/archive as precursor — preserve and redirect, never delete. Do not maintain a
+  competing active distribution center; social-automation owns dispatch.

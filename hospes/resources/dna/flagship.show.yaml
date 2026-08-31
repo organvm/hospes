@@ -1,0 +1,341 @@
+# HOSPES — Flagship Show DNA
+# "Claim → Stress Test → Artifact" conversation show
+# Hosts: Host Mannis + Producer Padavano
+# Note: working name in the design transcript was "conversation-operations-system"; HOSPES is the product name.
+# This file is the authoritative Show DNA for the flagship studio show.
+# All fields satisfy show.schema.json.
+
+show:
+  id: flagship
+  title: "[SHOW_TITLE]"
+  status: private pilot
+  primary_format: >
+    Video-native conversation that remains structurally complete as audio.
+    The room is the set. Production technology is hidden.
+  recording_cities:
+    - Los Angeles
+    - New York City
+    - Austin
+  cadence: weekly after launch
+
+audience_promise: >
+  Every guest enters with a consequential belief, project, problem, or contradiction.
+  The hosts expose the tension, stress-test it, and leave with a new artifact rather
+  than a recycled biography or promotional interview.
+
+format_engine:
+  engine_label: "Claim → Stress Test → Artifact"
+  fixed:
+    - name: The Claim
+      description: >
+        The guest states one consequential proposition: something they believe, something their
+        field gets wrong, or a decision they would defend.
+      output: >
+        The episode thesis, title language, and the first major clip.
+    - name: The Stress Test
+      description: >
+        The hosts test the claim through contradiction, counterexample, comedy, research,
+        or a designed scenario. Host split: Host applies instinct and friction; Producer applies
+        structure, evidence, and synthesis.
+      output: >
+        Conflict, surprise, and the strongest conversational clips.
+    - name: The Artifact
+      description: >
+        The guest and hosts produce something that did not exist before the recording:
+        a rule, prediction, ranking, plan, diagram, short text, question, design, or commitment.
+      output: >
+        A visual object for the episode, a social asset, and a reason the conversation mattered.
+  rotating:
+    - name: Receipts
+      description: >
+        Present a verified quotation, old clip, abandoned project, contradictory statement,
+        or public prediction. Ask whether it still holds.
+    - name: Object Lesson
+      description: >
+        The guest brings or selects an object that reveals how they work, think, remember, or fail.
+    - name: Explain It to Host
+      description: >
+        A complex idea must survive plain language and skepticism. Host is not framed as
+        uninformed; he is the compression test.
+    - name: Build the Worst Version
+      description: >
+        Design the most destructive, absurd, or corrupted version of the guest's industry,
+        idea, or product. Then identify which elements already exist.
+    - name: Future Headline
+      description: >
+        The guest writes a plausible headline from five years in the future and explains
+        the causal chain.
+    - name: Opposite Chair
+      description: >
+        The guest must defend the strongest version of the position opposite their own.
+    - name: The Unfinished Thing
+      description: >
+        Revisit a project, belief, relationship, or ambition the guest has not resolved.
+    - name: The Question for the Next Guest
+      description: >
+        The guest leaves one question for a future participant and may name the kind of
+        person — not necessarily a friend — who should answer it.
+  selection_rubric:
+    - exposes a real tension
+    - changes the emotional or intellectual mode
+    - can produce a discrete clip
+    - gives the guest something interesting to do
+    - does not humiliate or ambush the guest
+    - remains understandable in audio-only form
+
+host_functions:
+  ari:
+    function: >
+      instinct, friction, comedy, skepticism, pace, social ease
+    contrast_note: >
+      Host is instinct and friction. He challenges the guest through direct reaction and
+      social intelligence, not preparation. His role in the Stress Test is to apply
+      pressure from felt experience and comedy, not from research or argument structure.
+    operational_budget: approximately 10 minutes per week
+    required_work:
+      - approve or protect guest relationships via the approval interface
+      - record occasional personal notes on candidates or past guests
+      - prepare enough to challenge the guest substantively in the Stress Test
+      - show up and perform
+    prohibited_work:
+      - routine inbox management
+      - calendar negotiation
+      - manual follow-up tracking
+      - composing outreach correspondence
+      - building or managing the guest pipeline
+  anthony:
+    function: >
+      research, conceptual architecture, strange connections, synthesis, designed experiments
+    contrast_note: >
+      Producer is architecture and synthesis. He constructs the editorial thesis, frames
+      the Stress Test as a designed experiment, and ensures the Artifact lands as something
+      genuinely new. His complement to Host's instinct is structured curiosity.
+    required_work:
+      - own the editorial thesis for each episode
+      - approve the final episode segment structure
+      - operate or supervise the OS and its outputs
+      - conduct or supervise the field show under its own profile
+    prohibited_work:
+      - routine guest inbox management (handled by the Producer Outreach Desk)
+      - calendar negotiation (handled by the Studio Router)
+      - manual follow-up tracking (handled by the Relationship Steward)
+      - composing repetitive outreach correspondence
+
+editorial_exclusions:
+  - unstructured biography dump
+  - guest selected only for follower count
+  - generic promotional interview
+  - fake familiarity or parasocial performance
+  - mass outreach from personal accounts
+  - asking guests to rescue or promote the show
+  - visible microphones, boom arms, shock mounts, or headphone clutter in the final frame
+  - desk separating hosts and guest
+  - large neon show logo in frame
+  - generic RGB wash
+  - symmetrical creator-studio composition
+  - generic neon-logo podcast set
+  - advertising that is merely a bored script read
+  - inventing personal use or results for a sponsor
+  - forcing guests into ad reads without prior consent
+
+visual_rule:
+  doctrine: >
+    The room should read as a real conversational environment. Production technology is hidden.
+    The graphic layer may be unusual, kinetic, or uncanny, but the physical room remains restrained.
+    The principle is a private lounge conversation — not a set that copies another show's décor.
+  non_negotiables:
+    - no visible microphones, boom arms, shock mounts, or headphone clutter
+    - no desk separating hosts and guest
+    - no large neon show logo
+    - no generic RGB wash
+    - no symmetrical creator-studio composition by default
+    - no studio renovation or permanent build before the format proves itself
+  camera_grammar:
+    - role: environmental master
+      description: >
+        Establishes bodies, room, and spatial relation of all participants.
+        Placed to reveal the room, not flatten it.
+      optional: false
+    - role: Host single
+      description: >
+        Medium or medium-close. Preserves enough environment to avoid a broadcast look.
+      optional: false
+    - role: guest single
+      description: >
+        Matched in visual weight to the Host single — not necessarily perfect symmetry.
+      optional: false
+    - role: artifact/object angle
+      description: >
+        Overhead or detail camera. Used only when the episode produces or examines something physical.
+      optional: true
+  light_and_palette:
+    face_light: soft, dimensional
+    background: darker with selective depth
+    neutral_palette:
+      - charcoal
+      - bone
+      - wood
+      - aged metal
+      - restrained textile
+    graphic_layer_rule: >
+      The physical room is calm; the graphic layer may become strange.
+      One changing signal color or graphic texture per episode.
+  graphic_language:
+    lower_thirds: kinetic type rather than persistent lower thirds
+    segment_titles: appear briefly and then disappear
+    thumbnail_rule: describes the episode tension, not merely lists the guest's name
+    episode_glyph: episode-specific glyph, diagram, or artifact derived from the conversation
+  evolution_path:
+    - version: v0
+      label: Proof
+      description: >
+        Furniture repositioning, hidden audio, controlled lighting, segment deck,
+        and unified graphics.
+    - version: v1
+      label: Recognition
+      description: >
+        Custom artifact table, repeated sculptural object, replicated lighting
+        package in all three cities.
+    - version: v2
+      label: Dedicated environment
+      description: >
+        Transformable room whose light, projection, and objects change by episode
+        while preserving the same visual grammar.
+
+audio_rule:
+  doctrine: >
+    Hidden audio must be more redundant, not less rigorous. No visible microphone
+    means every concealment must carry a safety chain.
+  required_tracks:
+    - concealed lavalier on every participant (isolated per speaker)
+    - overhead or out-of-frame directional microphone as safety
+    - room tone for every setup
+  safety_requirements:
+    - wardrobe and rustle check before the guest enters
+    - isolated tracks for each speaker
+    - overhead or out-of-frame directional microphone as a safety track alongside every lavalier setup
+  sync_protocol: >
+    Synchronization slate at the start of each setup; re-slate after any interruption.
+
+release_strategy:
+  bank_before_launch: 6
+  launch_drop: 3
+  default_cadence: weekly after launch
+  initial_goal: >
+    Prove a repeatable format and demonstrate returning audience — not maximize guest fame
+    or follower count.
+  pilot_phase:
+    count: 3
+    purpose: >
+      Private pilots to stress-test the format and the OS before committing to the banking phase.
+      No public release during pilots.
+
+ad_rules:
+  philosophy: >
+    Advertising is a designed interstitial, not dead air read from a sheet.
+    Every ad concept must be truthful, disclosed, and entertaining.
+  house_ads_first: true
+  formats:
+    - name: Product on Trial
+      description: >
+        Host cross-examines the product; Producer constructs an absurdly overqualified defense.
+        The final answer states the actual utility plainly.
+    - name: Worst Possible Spokesperson
+      description: >
+        One host deliberately embodies the person least qualified to sell the product;
+        the other corrects the failure.
+    - name: Impossible Demonstration
+      description: >
+        A miniature visual scenario exaggerates the problem the product addresses,
+        followed by a factual landing.
+    - name: The Overbuilt Explanation
+      description: >
+        Producer creates an elaborate intellectual theory of the product.
+        Host reduces it to the simple reason someone would use it.
+    - name: Thirty-Second Film
+      description: >
+        A self-contained micro-scene, separately shot and inserted as a clearly labeled
+        commercial break.
+    - name: Recurring Sponsored Mechanic
+      description: >
+        A sponsor funds an existing repeatable segment. Editorial control, disclosure,
+        and guest consent remain explicit.
+  production_rules:
+    - label sponsorship clearly
+    - do not invent personal use or results
+    - do not force guests into ads without prior consent
+    - record premium ads separately from the interview
+    - batch-shoot multiple variations in one session
+    - preserve one clean, direct version when a sponsor needs low-risk copy
+    - begin with house ads for the studio network, newsletter, or other owned projects
+      to prove the format before pitching it externally
+  sponsor_intake_requirements:
+    - product truth
+    - actual host experience (if any)
+    - required factual claims
+    - prohibited claims
+    - legal language
+    - one clear call to action
+    - visual permissions
+    - tone boundaries
+    - approval deadline
+
+asset_requirements:
+  - asset: episode thesis
+    description: One-sentence statement of the central claim and the tension it creates.
+  - asset: segment rundown
+    description: Ordered segment plan with notes on clip boundary markers.
+  - asset: primary clip
+    description: The strongest 90-second or less clip from The Claim or The Stress Test.
+  - asset: artifact asset
+    description: Visual or text form of the artifact produced in the episode.
+  - asset: thumbnail concepts
+    description: Two or three thumbnail options that describe the episode tension.
+  - asset: title options
+    description: Three title variants derived from The Claim language.
+  - asset: chapter markers
+    description: Edit markers and chapter timestamps for the full episode.
+  - asset: transcript
+    description: Full episode transcript with speaker labels.
+  - asset: description
+    description: Platform description for distribution.
+  - asset: guest delivery package
+    description: Clips, stills, and assets packaged for the guest's own use.
+
+voice:
+  show_persona: >
+    Confident, curious, substantive. The show respects the guest's intelligence and the
+    audience's time. It is not reverential, not fawning, not performing excitement.
+    It is interested in the thing, not the person's fame.
+  tone_words:
+    - direct
+    - curious
+    - dry
+    - substantive
+    - unexpected
+  outreach_voice_ref: hospes/outreach_templates.yaml
+  prohibited_tones:
+    - pathetic
+    - fan-letter
+    - transactional
+    - flattery as strategy
+    - mass-outreach blast
+
+relationship_rules:
+  classes_honored:
+    - C0  # personal inner circle — protected, never contacted through the OS
+    - C1  # direct creative collaborators
+    - C2  # warm professional network
+    - C3  # known-of, not known
+    - C4  # cold professional targets with a credible route
+    - C5  # fully cold contacts
+  protected_relationship_rule: >
+    C0 contacts (personal inner circle) are flagged as protected. The OS will not
+    generate outreach toward them without an explicit human-placed note releasing the contact.
+    Host may mark any contact as protected regardless of class.
+  routing_principle: >
+    Always route via the least socially expensive credible path. If a C2 or C1 connection
+    exists, prefer it over a cold approach regardless of speed. Never manufacture warmth;
+    document the real relationship history.
+  auto_outreach_block: true
+  mass_outreach_ban: true
