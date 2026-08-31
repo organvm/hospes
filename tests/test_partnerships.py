@@ -21,7 +21,7 @@ def import_ari(conn, tenant: str = "private_pilot") -> partnerships.PartnershipI
         conn,
         TEMPLATE,
         tenant_id=tenant,
-        actor_id="anthony_operator",
+        actor_id="example_operator",
         actor_role="producer",
         show_id="private_pilot",
     )
@@ -34,7 +34,7 @@ def test_template_builds_complete_command_center_and_is_idempotent(tmp_path: Pat
     center = partnerships.command_center(conn, first.partnership_id, "private_pilot")
 
     assert first.created == center["summary"]["total"] == 22
-    assert center["partnership"]["label"] == "Ari + Anthony"
+    assert center["partnership"]["label"] == "Host + Producer"
     assert center["summary"]["unknown"] == 4
     assert center["categories"]["engine"][0]["title"]
     assert center["categories"]["deal"][0]["external_reference"].startswith("registry://")
@@ -71,7 +71,7 @@ def test_changed_template_conflicts_without_overwriting_live_state(tmp_path: Pat
             conn,
             changed_path,
             tenant_id="private_pilot",
-            actor_id="anthony_operator",
+            actor_id="example_operator",
             actor_role="producer",
             show_id="private_pilot",
         )
@@ -119,7 +119,7 @@ def test_live_item_upsert_records_audit_and_requires_external_deal_owner(tmp_pat
         imported.partnership_id,
         payload,
         tenant_id="private_pilot",
-        actor_id="anthony_operator",
+        actor_id="example_operator",
         actor_role="producer",
     )
     assert created["state"] == "agreed"
@@ -171,7 +171,7 @@ def test_revision_checked_updates_and_supersession_keep_append_only_history(
         imported.partnership_id,
         first_input,
         tenant_id="private_pilot",
-        actor_id="anthony_operator",
+        actor_id="example_operator",
         actor_role="producer",
     )
     revised_input = partnerships.PartnershipItemInput.from_dict(
@@ -188,7 +188,7 @@ def test_revision_checked_updates_and_supersession_keep_append_only_history(
         revised_input,
         expected_revision=1,
         tenant_id="private_pilot",
-        actor_id="anthony_operator",
+        actor_id="example_operator",
         actor_role="producer",
     )
     assert revised["revision"] == 2
@@ -200,7 +200,7 @@ def test_revision_checked_updates_and_supersession_keep_append_only_history(
             revised_input,
             expected_revision=1,
             tenant_id="private_pilot",
-            actor_id="anthony_operator",
+            actor_id="example_operator",
             actor_role="producer",
         )
     assert stale.value.status_code == 409
@@ -219,7 +219,7 @@ def test_revision_checked_updates_and_supersession_keep_append_only_history(
             }
         ),
         tenant_id="private_pilot",
-        actor_id="anthony_operator",
+        actor_id="example_operator",
         actor_role="producer",
     )
     superseded = partnerships.supersede_item(
@@ -229,7 +229,7 @@ def test_revision_checked_updates_and_supersession_keep_append_only_history(
         expected_revision=2,
         successor_item_id=successor["id"],
         tenant_id="private_pilot",
-        actor_id="anthony_operator",
+        actor_id="example_operator",
         actor_role="producer",
     )
     assert superseded["state"] == "superseded"
@@ -280,7 +280,7 @@ def test_resources_reviews_candidate_slate_and_second_template_are_reusable(
         imported.partnership_id,
         {"resource_type": "issue", "resource_reference": "github://organvm/hospes/issues/9", "label": "Pilot owner"},
         tenant_id="private_pilot",
-        actor_id="anthony_operator",
+        actor_id="example_operator",
         actor_role="producer",
     )
     assert linked["resource_type"] == "issue"
@@ -309,7 +309,7 @@ def test_resources_reviews_candidate_slate_and_second_template_are_reusable(
             {
                 "id": opportunity_id,
                 "tenant_id": "private_pilot",
-                "network_id": "ari_network",
+                "network_id": "example_network",
                 "show_id": "private_pilot",
                 "guest_name": f"Synthetic Guest {slot}",
                 "why_guest": "A synthetic candidate proves the reusable slate contract.",
@@ -614,7 +614,7 @@ def test_ari_review_requires_relationship_owner_without_writes(tmp_path: Path) -
                 "occurred_at": (datetime.now(UTC) - timedelta(minutes=1)).isoformat(),
             },
             tenant_id="private_pilot",
-            actor_id="anthony_operator",
+            actor_id="example_operator",
             actor_role="producer",
         )
 
@@ -650,7 +650,7 @@ def test_protected_classes_cannot_mutate_the_pilot_slate_or_audit(tmp_path: Path
             {
                 "id": opportunity_id,
                 "tenant_id": "private_pilot",
-                "network_id": "ari_network",
+                "network_id": "example_network",
                 "show_id": "private_pilot",
                 "guest_name": f"Synthetic {candidate_class} Guest",
                 "why_guest": "The synthetic guest proves the pre-mutation relationship guard.",
@@ -722,7 +722,7 @@ def test_ineligible_status_cannot_mutate_or_satisfy_the_pilot_slate(tmp_path: Pa
             {
                 "id": opportunity_id,
                 "tenant_id": "private_pilot",
-                "network_id": "ari_network",
+                "network_id": "example_network",
                 "show_id": "private_pilot",
                 "guest_name": f"Synthetic Slate Guest {slot}",
                 "why_guest": "The synthetic guest proves the lifecycle slate boundary.",
@@ -839,7 +839,7 @@ def test_import_partnership_cli(tmp_path: Path, capsys) -> None:
         "--show",
         "private_pilot",
         "--actor",
-        "anthony_operator",
+        "example_operator",
     ]
     assert main(argv) == 0
     first = json.loads(capsys.readouterr().out)
@@ -863,7 +863,7 @@ def test_import_partnership_cli_infers_only_one_active_show(tmp_path: Path, caps
     conn.close()
     argv = [
         "import-partnership", str(TEMPLATE), "--db", str(database),
-        "--tenant", "private_pilot", "--actor", "anthony_operator",
+        "--tenant", "private_pilot", "--actor", "example_operator",
     ]
     assert main(argv) == 0
     capsys.readouterr()
@@ -890,7 +890,7 @@ def test_import_partnership_cli_requires_show_when_active_scope_is_ambiguous(
     conn.close()
     assert main([
         "import-partnership", str(TEMPLATE), "--db", str(database),
-        "--tenant", "private_pilot", "--actor", "anthony_operator",
+        "--tenant", "private_pilot", "--actor", "example_operator",
     ]) == 2
     assert "--show is required" in capsys.readouterr().err
 
@@ -916,7 +916,7 @@ def test_import_partnership_cli_rejects_an_inactive_explicit_show(
     assert main([
         "import-partnership", str(TEMPLATE), "--db", str(database),
         "--tenant", "private_pilot", "--show", "field",
-        "--actor", "anthony_operator",
+        "--actor", "example_operator",
     ]) == 2
     assert "active show" in capsys.readouterr().err
 
@@ -951,7 +951,7 @@ def test_assign_legacy_show_updates_partnership_dependents_atomically(tmp_path: 
         imported.partnership_id,
         tenant_id="private_pilot",
         show_id="field",
-        actor_id="anthony_operator",
+        actor_id="example_operator",
         actor_role="producer",
     )
     conn.commit()
@@ -997,7 +997,7 @@ def test_assign_legacy_show_rejects_foreign_candidate_slots_atomically(
         {
             "id": opportunity_id,
             "tenant_id": "private_pilot",
-            "network_id": "ari_network",
+            "network_id": "example_network",
             "show_id": "private_pilot",
             "guest_name": "Foreign slot guest",
             "why_guest": "This fixture proves slot custody cannot be rewritten.",
@@ -1034,7 +1034,7 @@ def test_assign_legacy_show_rejects_foreign_candidate_slots_atomically(
             imported.partnership_id,
             tenant_id="private_pilot",
             show_id="field",
-            actor_id="anthony_operator",
+            actor_id="example_operator",
             actor_role="producer",
         )
     assert caught.value.status_code == 409

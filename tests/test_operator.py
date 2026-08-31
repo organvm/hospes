@@ -32,7 +32,7 @@ def operator_app(database: Path) -> Any:
 def opportunity_payload() -> dict[str, str]:
     return {
         "tenant_id": "hospes",
-        "network_id": "ari_network",
+        "network_id": "example_network",
         "show_id": "flagship",
         "guest_name": "Synthetic Operator Guest",
         "why_guest": "The synthetic guest demonstrates the live operator boundary.",
@@ -126,7 +126,7 @@ def test_dashboard_login_uses_httponly_session_and_api_proxy(tmp_path: Path) -> 
 
         partnership_list = client.get("/operator/api/partnerships", headers=csrf_headers)
         assert partnership_list.status_code == 200
-        assert partnership_list.json()[0]["label"] == "Ari + Anthony"
+        assert partnership_list.json()[0]["label"] == "Host + Producer"
         center = client.get(
             f"/operator/api/partnerships/{imported.partnership_id}/command-center",
             headers=csrf_headers,

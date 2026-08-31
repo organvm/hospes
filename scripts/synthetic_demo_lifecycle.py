@@ -89,6 +89,14 @@ def process_start_identity(pid: int) -> str:
     except OSError as exc:
         raise LedgerError("process is not running") from exc
     proc_stat = Path(f"/proc/{pid}/stat")
+    # Some container runtimes expose the current process through `/proc/self`
+    # while hiding its namespace-local numeric PID from `/proc/<pid>`. Preserve
+    # start-time binding for the current process instead of falling through to
+    # `ps`, which observes the host namespace and cannot resolve that PID.
+    if pid == os.getpid() and not proc_stat.is_file():
+        self_stat = Path("/proc/self/stat")
+        if self_stat.is_file():
+            proc_stat = self_stat
     if proc_stat.is_file():
         fields = proc_stat.read_text(encoding="utf-8").split()
         if len(fields) < 22:

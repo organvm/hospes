@@ -104,7 +104,7 @@ export HOSPES_DB="$HOME/Library/Application Support/HOSPES/private_pilot/hospes.
 IFS= read -r -s -p "Operator token: " HOSPES_OPERATOR_TOKEN; printf '\n'
 export HOSPES_OPERATOR_TOKEN
 python3 -m hospes operator --db "$HOSPES_DB" \
-  --actor anthony_operator --role producer --tenant private_pilot
+  --actor example_operator --role producer --tenant private_pilot
 unset HOSPES_OPERATOR_TOKEN
 ```
 
@@ -197,8 +197,8 @@ Private candidates enter through an external CSV that is never copied into Git:
 
 ```bash
 python3 -m hospes import-candidates /private/path/candidates.csv \
-  --tenant private_pilot --network ari_network --show flagship_private_pilot \
-  --actor anthony_operator --role producer
+  --tenant private_pilot --network example_network --show flagship_private_pilot \
+  --actor example_operator --role producer
 ```
 
 The optional `contact_roster` CSV column is a private JSON object with
@@ -234,8 +234,8 @@ without discovering or enabling a contact route:
 ```bash
 python3 -m hospes suggest-guests --min-gap-years 2 --max-social-cost 3 \
   | python3 -m hospes import-candidates - \
-      --tenant private_pilot --network ari_network --show flagship_private_pilot \
-      --actor anthony_operator --role producer
+      --tenant private_pilot --network example_network --show flagship_private_pilot \
+      --actor example_operator --role producer
 ```
 
 The imported route remains explicitly unverified and unusable until a human
@@ -362,7 +362,7 @@ Seed the reusable Partnership Command Center before the first Ari review:
 
 ```bash
 python3 -m hospes import-partnership config/partnerships/example-private-pilot.yaml \
-  --tenant private_pilot --actor anthony_operator --role producer
+  --tenant private_pilot --actor example_operator --role producer
 ```
 
 After the schema-v7 custody checkpoint, import the immutable Pilot 1 policy using the internal
@@ -371,7 +371,7 @@ partnership id returned by that command:
 ```bash
 python3 -m hospes import-pilot-policy config/pilot_policies/example-pilot-1.yaml \
   --partnership PARTNERSHIP_ID --tenant private_pilot \
-  --actor anthony_operator --role producer
+  --actor example_operator --role producer
 ```
 
 Policy imports are checksummed and idempotent. Candidate records, correspondence, calendar

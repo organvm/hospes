@@ -78,7 +78,7 @@ def prepared_run(conn, *, now: datetime | None = None) -> tuple[str, dict]:
             {
                 "id": opportunity_id,
                 "tenant_id": TENANT,
-                "network_id": "ari_network",
+                "network_id": "example_network",
                 "show_id": "private_pilot",
                 "guest_name": f"Synthetic Pilot Candidate {slot}",
                 "why_guest": "This synthetic candidate proves a context-derived Pilot schedule.",

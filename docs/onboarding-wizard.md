@@ -129,7 +129,7 @@ opaque receipt reference:
 
 ```bash
 python3 -m hospes init --root new-podcast --answers answers.json \
-  --github-authorized-by anthony_operator \
+  --github-authorized-by example_operator \
   --github-authorization-ref receipt://hospes/github-repo-create/2026-08-14
 ```
 

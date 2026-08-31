@@ -26,7 +26,6 @@ import hmac
 import json
 import re
 import secrets
-import time
 from datetime import date, datetime, timedelta, timezone
 from html import escape
 from typing import Any, Iterable, Mapping, Sequence
@@ -107,7 +106,12 @@ def _token_payload(tenant_id: str, show_id: str, guest_id: str, expires: int, no
     )
 
 
-def _decode(token: str, secret: str) -> dict[str, Any]:  # allow-secret: runtime signing material
+def _decode(
+    token: str,
+    secret: str,
+    *,
+    now: datetime | None = None,
+) -> dict[str, Any]:  # allow-secret: runtime signing material
     try:
         encoded, signature = token.split(".", 1)
         if not hmac.compare_digest(_sign(encoded, secret), signature):
@@ -121,7 +125,7 @@ def _decode(token: str, secret: str) -> dict[str, Any]:  # allow-secret: runtime
             isinstance(payload.get(key), str) and payload[key] for key in ("tenant_id", "show_id", "guest_id", "nonce")
         )
         or not isinstance(payload.get("exp"), int)
-        or payload["exp"] <= int(time.time())
+        or payload["exp"] <= int((now or generation.now()).timestamp())
     ):
         raise PortalError("portal token is expired", 401)
     return payload
@@ -303,8 +307,14 @@ def create_portal_token(
     }  # allow-secret: token is one-time runtime output
 
 
-def _token_for(conn: Any, token: str, secret: str) -> dict[str, Any]:  # allow-secret: runtime token input
-    payload = _decode(token, secret)
+def _token_for(
+    conn: Any,
+    token: str,
+    secret: str,
+    *,
+    now: datetime | None = None,
+) -> dict[str, Any]:  # allow-secret: runtime token input
+    payload = _decode(token, secret, now=now)
     digest = hashlib.sha256(token.encode()).hexdigest()
     row = store.fetch_one(
         conn,
@@ -327,8 +337,8 @@ def open_session(
     """
     if ttl_minutes < 1 or ttl_minutes > SESSION_TTL_MINUTES:
         raise PortalError(f"portal session ttl must be between 1 and {SESSION_TTL_MINUTES} minutes")
-    row = _token_for(conn, token, secret)
     moment = now or generation.now()
+    row = _token_for(conn, token, secret, now=moment)
     if store.fetch_one(conn, "SELECT id FROM portal_sessions WHERE portal_token_id = ?", (row["id"],)):
         raise PortalError("this one-time link has already been opened", 401)
     session = secrets.token_urlsafe(32)  # allow-secret: ephemeral session material
@@ -472,7 +482,7 @@ def complete_intake(
     opaque handles.  :func:`submit_intake` is the portal's own path, where the
     guest types the values and this module seals them.
     """
-    row = _token_for(conn, token, secret)
+    row = _token_for(conn, token, secret, now=now)
     return _record_intake(
         conn,
         row,

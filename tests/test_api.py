@@ -409,7 +409,7 @@ def test_partnership_command_center_api_is_live_and_reusable(tmp_path: Path) -> 
 
     listed = client.get("/v1/partnerships", headers=PRODUCER)
     assert listed.status_code == 200
-    assert listed.json()[0]["label"] == "Ari + Anthony"
+    assert listed.json()[0]["label"] == "Host + Producer"
 
     center = client.get(f"/v1/partnerships/{imported.partnership_id}/command-center", headers=PRODUCER)
     assert center.status_code == 200, center.text

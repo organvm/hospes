@@ -33,7 +33,7 @@ ANSWERS = {
     "github_repo_name": "issue-31-show",
 }
 SHOW_ID = "issue-31-show"
-AUTHORIZED_BY = "anthony_operator"
+AUTHORIZED_BY = "example_operator"
 AUTHORIZATION_REF = "receipt://hospes/github-repo-create/issue-31"
 
 

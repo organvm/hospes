@@ -32,7 +32,7 @@ class TestPartnershipRecordsAdditionalErrors:
             self.connection,
             Path("config/partnerships/example-private-pilot.yaml"),
             tenant_id="private_pilot",
-            actor_id="anthony_operator",
+            actor_id="example_operator",
             actor_role="relationship_owner",
         )
         self.connection.commit()
@@ -52,7 +52,7 @@ class TestPartnershipRecordsAdditionalErrors:
                     "label": "Test",
                 },
                 tenant_id="private_pilot",
-                actor_id="anthony_operator",
+                actor_id="example_operator",
                 actor_role="relationship_owner",
             )
         assert exc_info.value.status_code == 422
@@ -71,7 +71,7 @@ class TestPartnershipRecordsAdditionalErrors:
                     "label": "Test",
                 },
                 tenant_id="private_pilot",
-                actor_id="anthony_operator",
+                actor_id="example_operator",
                 actor_role="relationship_owner",
             )
         assert exc_info.value.status_code == 422
@@ -90,7 +90,7 @@ class TestPartnershipRecordsAdditionalErrors:
                     "label": "email@example.com",  # Private content — email-like
                 },
                 tenant_id="private_pilot",
-                actor_id="anthony_operator",
+                actor_id="example_operator",
                 actor_role="relationship_owner",
             )
         assert exc_info.value.status_code == 422
@@ -110,7 +110,7 @@ class TestPartnershipRecordsAdditionalErrors:
                     "item_id": "nonexistent-item",
                 },
                 tenant_id="private_pilot",
-                actor_id="anthony_operator",
+                actor_id="example_operator",
                 actor_role="relationship_owner",
             )
         assert exc_info.value.status_code == 404
@@ -132,7 +132,7 @@ class TestPartnershipRecordsAdditionalErrors:
                 "state": "current",
             }),
             tenant_id="private_pilot",
-            actor_id="anthony_operator",
+            actor_id="example_operator",
             actor_role="relationship_owner",
         )
         self.connection.commit()
@@ -148,7 +148,7 @@ class TestPartnershipRecordsAdditionalErrors:
                 "item_id": item["id"],
             },
             tenant_id="private_pilot",
-            actor_id="anthony_operator",
+            actor_id="example_operator",
             actor_role="relationship_owner",
         )
         self.connection.commit()
@@ -164,7 +164,7 @@ class TestPartnershipRecordsAdditionalErrors:
                 "item_id": item["id"],
             },
             tenant_id="private_pilot",
-            actor_id="anthony_operator",
+            actor_id="example_operator",
             actor_role="relationship_owner",
         )
         self.connection.commit()
@@ -188,7 +188,7 @@ class TestPartnershipRecordsAdditionalErrors:
                     "coverage_total": 10,
                 },
                 tenant_id="private_pilot",
-                actor_id="anthony_operator",
+                actor_id="example_operator",
                 actor_role="relationship_owner",
             )
         assert exc_info.value.status_code == 422
@@ -209,7 +209,7 @@ class TestPartnershipRecordsAdditionalErrors:
                     "coverage_total": 10,
                 },
                 tenant_id="private_pilot",
-                actor_id="anthony_operator",
+                actor_id="example_operator",
                 actor_role="relationship_owner",
             )
         assert exc_info.value.status_code == 422
@@ -230,7 +230,7 @@ class TestPartnershipRecordsAdditionalErrors:
                     "coverage_total": 10,
                 },
                 tenant_id="private_pilot",
-                actor_id="anthony_operator",
+                actor_id="example_operator",
                 actor_role="relationship_owner",
             )
         assert exc_info.value.status_code == 422
@@ -252,7 +252,7 @@ class TestPartnershipRecordsAdditionalErrors:
                     "external_reference": "not-opaque",
                 },
                 tenant_id="private_pilot",
-                actor_id="anthony_operator",
+                actor_id="example_operator",
                 actor_role="relationship_owner",
             )
         assert exc_info.value.status_code == 422
@@ -273,7 +273,7 @@ class TestPartnershipRecordsAdditionalErrors:
                     "coverage_total": 10,
                 },
                 tenant_id="private_pilot",
-                actor_id="anthony_operator",
+                actor_id="example_operator",
                 actor_role="relationship_owner",
             )
         assert exc_info.value.status_code == 422
@@ -294,7 +294,7 @@ class TestPartnershipRecordsAdditionalErrors:
                     "coverage_total": 10,
                 },
                 tenant_id="private_pilot",
-                actor_id="anthony_operator",
+                actor_id="example_operator",
                 actor_role="relationship_owner",
             )
         assert exc_info.value.status_code == 422
@@ -315,7 +315,7 @@ class TestPartnershipRecordsAdditionalErrors:
                     "coverage_total": 10,
                 },
                 tenant_id="private_pilot",
-                actor_id="anthony_operator",
+                actor_id="example_operator",
                 actor_role="relationship_owner",
             )
         assert exc_info.value.status_code == 422
@@ -339,7 +339,7 @@ class TestPartnershipRecordsAdditionalErrors:
                     "coverage_total": 10,
                 },
                 tenant_id="private_pilot",
-                actor_id="anthony_operator",
+                actor_id="example_operator",
                 actor_role="relationship_owner",
             )
         assert exc_info.value.status_code == 422

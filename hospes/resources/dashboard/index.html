@@ -12,6 +12,9 @@
 <body>
   <a class="skip-link" href="#workspace">Skip to cockpit</a>
   <main id="workspace">
+    <section class="notice live-notice" role="note" aria-label="Dashboard startup requirement">
+      <strong>Operator server required:</strong> this tracked HTML file is a template, not a standalone dashboard. Start the authenticated operator server and open its <code>/operator/</code> URL; opening <code>dashboard/index.html</code> directly leaves placeholder values unresolved. For the synthetic review, run <code>python3 -m hospes demo --open</code>.
+    </section>
     <header class="header-row">
       <div>
         <span class="brand-mark" role="img" aria-label="Show logo" data-guide="brand-mark"></span>

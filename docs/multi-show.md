@@ -92,7 +92,7 @@ with exactly one active show:
 ```bash
 python3 -m hospes import-partnership config/partnerships/example-private-pilot.yaml \
   --tenant private_pilot --show flagship_private_pilot \
-  --actor anthony_operator --role producer
+  --actor example_operator --role producer
 ```
 
 An ambiguous migrated partnership is assigned by one audited transaction that
@@ -101,7 +101,7 @@ updates the partnership, its records, and every dependent Pilot row:
 ```bash
 python3 -m hospes assign-partnership-show --db out/hospes.sqlite3 \
   --tenant private_pilot --partnership <opaque-id> --show flagship \
-  --actor anthony_operator --role producer
+  --actor example_operator --role producer
 ```
 
 ## Negative cross-show authorization

@@ -688,7 +688,10 @@ def test_the_link_route_is_booked_only_and_the_portal_never_transmits(
         assert client.post("/v1/opportunities/opp-booked/portal-link", headers=headers, json={}).status_code == 503
 
 
-def test_the_http_surface_carries_the_whole_guest_journey(tmp_path: Path) -> None:
+def test_the_http_surface_carries_the_whole_guest_journey(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(guest_portal.generation, "now", lambda: NOW)
     conn = _database(tmp_path)
     link = _link(conn)
     portal = guest_portal.create_app(

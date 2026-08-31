@@ -23,7 +23,7 @@ def test_pilot_one_policy_is_stable_and_contextual() -> None:
     policy = PilotPolicyInput.from_mapping(source)
     repeated = PilotPolicyInput.from_mapping(source)
 
-    assert policy.policy_key == "ari_anthony.pilot_1"
+    assert policy.policy_key == "example_partnership.pilot_1"
     assert policy.deadline_at.isoformat() == "2026-08-06T06:59:59+00:00"
     assert policy.timezone_name == "America/Los_Angeles"
     assert policy.allowed_relationship_classes == ("C2", "C3")

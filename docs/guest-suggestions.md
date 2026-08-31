@@ -19,9 +19,9 @@ into the scoped importer:
 hospes suggest-guests --min-gap-years 2 --max-social-cost 3 \
   | hospes import-candidates - \
       --tenant private_pilot \
-      --network ari_network \
+      --network example_network \
       --show flagship_private_pilot \
-      --actor anthony_operator \
+      --actor example_operator \
       --role producer
 ```
 
