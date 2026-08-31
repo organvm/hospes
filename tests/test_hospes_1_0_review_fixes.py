@@ -528,7 +528,7 @@ def test_onboarding_is_complete_and_non_destructive(tmp_path: Path) -> None:
         "config/outreach_templates.yaml",
         "config/voice.yaml",
         "config/research.yaml",
-        "data/example-pipeline.csv",
+        "data/pipeline.csv",
     ):
         assert (root / relative).is_file()
     original = (root / "data" / "pipeline.csv").read_bytes()

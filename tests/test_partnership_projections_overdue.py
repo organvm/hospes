@@ -9,7 +9,7 @@ from hospes import partnership_projections, partnerships, store
 
 
 ROOT = Path(__file__).resolve().parents[1]
-TEMPLATE = ROOT / "config" / "partnerships" / "example-partnership-private-pilot.yaml"
+TEMPLATE = ROOT / "config" / "partnerships" / "example-private-pilot.yaml"
 
 
 def test_overdue_items_detected_in_projection(tmp_path, monkeypatch) -> None:

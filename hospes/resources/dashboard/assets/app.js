@@ -207,8 +207,8 @@ function decisionLabel(decision) {
 function routeSummary(route) {
   if (!route || !Object.keys(route).length) return 'Missing';
   const suggestedLabels = {
-    ari_direct: 'Host direct',
-    anthony_warm_intro: 'Producer warm intro',
+    ari_direct: 'Ari direct',
+    anthony_warm_intro: 'Anthony warm intro',
     producer_cold: 'Producer cold',
   };
   const label = route.usable === false && suggestedLabels[route.route_type]
@@ -253,7 +253,7 @@ function renderCard(candidate) {
       <div class="pills">
         ${relationshipClass ? `<span class="pill ${protectedClass ? 'protected' : ''}">${escapeHTML(relationshipClass)}</span>` : ''}
         ${candidate.social_cost ? `<span class="pill ${Number(candidate.social_cost) <= 2 ? 'low' : ''}">Social cost: ${escapeHTML(candidate.social_cost)}/5</span>` : ''}
-        ${candidate.ari_effort ? `<span class="pill">Host effort: ${escapeHTML(candidate.ari_effort)}</span>` : ''}
+        ${candidate.ari_effort ? `<span class="pill">Ari effort: ${escapeHTML(candidate.ari_effort)}</span>` : ''}
         ${memoryPills(candidate)}
         ${portalPill(candidate)}
         ${contactPills(candidate)}

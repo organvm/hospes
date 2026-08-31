@@ -32,7 +32,7 @@ Minimalism means **few objects with purpose**, not an empty room.
 ## Camera grammar
 
 1. **Environmental master** — establishes bodies, room, and spatial relation.
-2. **Host single** — medium or medium-close, preserving enough environment to avoid a broadcast look.
+2. **Ari single** — medium or medium-close, preserving enough environment to avoid a broadcast look.
 3. **Guest single** — matched in visual weight, not necessarily perfect symmetry.
 4. **Artifact/object angle** — optional overhead or detail camera used only when the episode produces or examines something.
 

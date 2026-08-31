@@ -94,7 +94,7 @@ def test_archive_gap_cost_class_route_and_limit_filters(tmp_path: Path) -> None:
     assert [row.estimated_social_cost for row in c2] == [2, 3]
     assert c2[1].last_appearance.isoformat() == "2023-07-01"
     assert c2[1].episodes_since == 1
-    assert c2[1].suggested_route == "Producer warm intro"
+    assert c2[1].suggested_route == "Anthony warm intro"
     assert "A New Chapter" in c2[1].notes
 
     low_cost = suggest.suggest_guests(
@@ -119,7 +119,7 @@ def test_archive_gap_cost_class_route_and_limit_filters(tmp_path: Path) -> None:
         limit=10,
     )
     assert (direct[0].suggested_route, direct[0].route_type) == (
-        "Host direct",
+        "Ari direct",
         "ari_direct",
     )
     assert (cold[0].suggested_route, cold[0].route_type) == (
@@ -246,7 +246,7 @@ def test_suggestion_envelope_cannot_promote_or_mislabel_a_route(
 
     for field, value in (
         ("route_usable", "true"),
-        ("suggested_route", "Host direct"),
+        ("suggested_route", "Ari direct"),
         ("route_type", "ari_direct"),
         ("name", "Different Name"),
         ("estimated_social_cost", "5"),
@@ -385,7 +385,7 @@ def test_authenticated_api_and_dashboard_keep_tenant_show_scope(
     )
     assert canonical == packaged
     assert "['Provenance'" in canonical
-    assert "Producer warm intro" in canonical
+    assert "Anthony warm intro" in canonical
     assert "escapeHTML(value)" in canonical
 
 

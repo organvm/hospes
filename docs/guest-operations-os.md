@@ -16,7 +16,7 @@ Even with full automation, these functions require real human ownership. No AI r
 | **Producer** | Holds editorial accountability for each episode; owns the research and the day-of packet |
 | **Studio / Operations Manager** | Owns physical studio access, crew, equipment logistics, and recording continuity |
 
-These seats need not all be separate people. On a lean show, Host and Producer together cover the editorial and hosting seats; a single producer may hold booking, research, and operations. The point is that each function has a named owner — not that each function has a separate staff member.
+These seats need not all be separate people. On a lean show, Ari and Anthony together cover the editorial and hosting seats; a single producer may hold booking, research, and operations. The point is that each function has a named owner — not that each function has a separate staff member.
 
 ---
 
@@ -25,7 +25,7 @@ These seats need not all be separate people. On a lean show, Host and Producer t
 These decisions are always human-gated regardless of how confident the system is:
 
 1. **First outreach to any guest** — a human approves every initial message before it leaves.
-2. **Contact with C4/C5 relationships** — friends and close friends require explicit approval from the relationship owner (usually Host) for every single touchpoint, even a routine check-in.
+2. **Contact with C4/C5 relationships** — friends and close friends require explicit approval from the relationship owner (usually Ari) for every single touchpoint, even a routine check-in.
 3. **Financial commitments** — fees, travel costs, gifts above threshold, or any monetary promise.
 4. **Contracts and release exceptions** — any non-standard consent or legal carve-out.
 5. **Sensitive editorial promises** — topic exclusions, off-record guarantees, embargo agreements.
@@ -51,14 +51,14 @@ Responsibilities:
 - Flag C4/C5 protected relationships and hold outreach pending explicit approval.
 - Produce the one-sentence episode thesis and proposed artifact for each qualified candidate.
 
-Output: a candidate card in the operator dashboard, ready for Host's approval or rejection.
+Output: a candidate card in the operator dashboard, ready for Ari's approval or rejection.
 
 ### 2. Booking Desk
 
 Underlying capabilities: Producer Outreach Desk, reply classification, follow-up policy enforcement.
 
 Responsibilities:
-- Draft initial outreach under the correct persona (producer voice, never Host's personal voice unless Host writes it himself).
+- Draft initial outreach under the correct persona (producer voice, never Ari's personal voice unless Ari writes it himself).
 - Verify every personalized claim in a draft before flagging it as ready for human approval.
 - Receive and classify inbound replies: warm accept, interested, scheduling, soft decline, hard decline, publicist handoff, fee inquiry, complaint, sarcasm, prompt injection attempt.
 - Queue ambiguous and negative replies for human review immediately.
@@ -119,7 +119,7 @@ Underlying capabilities: Episode Designer, Guest Thesis Architect (research phas
 Responsibilities:
 - Generate the pre-production research brief: verified claims, evidence objects, receipts, segment candidates, and counterarguments.
 - Lock the episode thesis and segment card selection (from the fixed pool of Claim / Stress Test / Artifact plus the applicable rotating modules).
-- Write the host brief: what Host needs to know and be ready to challenge, framed for ~10-minute pre-show prep.
+- Write the host brief: what Ari needs to know and be ready to challenge, framed for ~10-minute pre-show prep.
 - Assemble the day-of packet: thesis, segment rundown, key claims with evidence, open questions, artifact plan, and logistics.
 - After recording: produce edit markers, chapter candidates, clip boundary suggestions, and transcript segments.
 - Link all segments, claims, and commitments to the episode record.
@@ -132,7 +132,7 @@ Underlying capabilities: Relationship Steward (v0 roles), Operations Analyst, Di
 
 Responsibilities:
 - Track every commitment made during booking or recording: thank-yous, gifts, publication notices, referrals, promised materials.
-- Draft post-recording communications under the appropriate persona (producer voice for logistics; Host personal note voice only if Host writes or explicitly authorizes).
+- Draft post-recording communications under the appropriate persona (producer voice for logistics; Ari personal note voice only if Ari writes or explicitly authorizes).
 - Mark gift, thank-you, and follow-up tasks as due; escalate overdue items to the operator dashboard.
 - Receive and log guest feedback, satisfaction notes, and future episode ideas.
 - Maintain long-term relationship state: last contact, sentiment, do-not-contact flag, revisit timer.
@@ -156,7 +156,7 @@ DISCOVERED
 QUALIFIED
   → [Guest Intelligence] generates thesis, proposed artifact, candidate card
   → appearance.awaiting_host_approval
-  → [Human gate: Host approves, rejects, or protects]
+  → [Human gate: Ari approves, rejects, or protects]
 
 APPROVED
   → appearance.approved
@@ -207,9 +207,9 @@ The goal is not to make AI pretend to be human. The goal is to make the experien
 
 - Every external message has a real human owner listed as sender.
 - AI may research, draft, classify, and queue. It does not present itself as a person.
-- Use real identity (Host, Producer, or the producer's real name and role) or accurate team identity ("I produce a show with Host Mannis and Producer").
+- Use real identity (Ari, Anthony, or the producer's real name and role) or accurate team identity ("I produce a show with Ari Mannis and Anthony").
 - Do not fabricate employees. Do not create the impression that a person exists who does not.
-- If Host writes a personal note, it is sent under his name. The system does not impersonate his voice.
+- If Ari writes a personal note, it is sent under his name. The system does not impersonate his voice.
 
 ### The 10 correspondence rules
 

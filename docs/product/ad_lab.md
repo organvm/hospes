@@ -19,7 +19,7 @@ Every sponsor brief must contain:
 ## Formats
 
 ### Product on Trial
-Host cross-examines the product; the co-host constructs an absurdly overqualified defense. The final answer states the actual utility plainly.
+Ari cross-examines the product; the co-host constructs an absurdly overqualified defense. The final answer states the actual utility plainly.
 
 ### Worst Possible Spokesperson
 One host deliberately embodies the person least qualified to sell the product; the other corrects the failure.
@@ -28,7 +28,7 @@ One host deliberately embodies the person least qualified to sell the product; t
 A miniature visual scenario exaggerates the problem the product addresses, followed by a factual landing.
 
 ### The Overbuilt Explanation
-The co-host creates an elaborate intellectual theory of the product. Host reduces it to the simple reason someone would use it.
+The co-host creates an elaborate intellectual theory of the product. Ari reduces it to the simple reason someone would use it.
 
 ### Thirty-Second Film
 A self-contained micro-scene, separately shot and inserted as a clearly labeled commercial break.

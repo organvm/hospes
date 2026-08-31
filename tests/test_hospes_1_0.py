@@ -107,7 +107,7 @@ def test_analytics_research_portal_and_network_report(tmp_path: Path):
 
 
 def test_onboarding_generates_editable_workspace(tmp_path: Path):
-    result = onboarding.init_workspace(tmp_path / "new-show", {"show_name": "Test Show", "host_names": "Host, Producer", "recording_cities": "LA, NYC", "show_format": "conversation", "primary_format": "both", "partnership_type": "co-host", "notification_email_ref": "credential://mail/operator", "github_repo_name": "test-show"})
+    result = onboarding.init_workspace(tmp_path / "new-show", {"show_name": "Test Show", "host_names": "Ari, Anthony", "recording_cities": "LA, NYC", "show_format": "conversation", "primary_format": "both", "partnership_type": "co-host", "notification_email_ref": "credential://mail/operator", "github_repo_name": "test-show"})
     assert result["show_id"] == "test-show"
     assert (tmp_path / "new-show" / "data" / "pipeline.csv").is_file()
 

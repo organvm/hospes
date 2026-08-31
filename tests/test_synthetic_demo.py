@@ -1,4 +1,4 @@
-"""Safety, lifecycle, operator, and launch tests for the synthetic Host demo."""
+"""Safety, lifecycle, operator, and launch tests for the synthetic Ari demo."""
 
 from __future__ import annotations
 

@@ -2,9 +2,9 @@
 
 **Status:** RESEARCHING  
 **Relationship class:** C2 (prior professional relationship — Unlicensed Therapy appearance)  
-**Relationship owner:** Host  
+**Relationship owner:** Ari  
 **Route:** Producer email to prior booking address  
-**City / Studio:** Los Angeles — Host's Melrose studio or equivalent LA room  
+**City / Studio:** Los Angeles — Ari's Melrose studio or equivalent LA room  
 **Social cost:** 2 / 5 — warm re-engagement, not a cold ask  
 
 ---
@@ -14,7 +14,7 @@
 A comedian who previously appeared on *Unlicensed Therapy*. Single prior episode, strong personal
 disclosure in that conversation, well-regarded in the LA stand-up scene. Has been on other
 interview-format podcasts since. Not a household name nationally; strong regional reputation and a
-loyal existing audience. Host knows this person; the ask is a natural follow-up, not a favor.
+loyal existing audience. Ari knows this person; the ask is a natural follow-up, not a favor.
 
 **Why this person:** An alumna of the prior show is the lowest-social-cost way to open a new
 format. The relationship is already established; the outreach is a re-engagement, not a pitch.
@@ -39,7 +39,7 @@ measured against it — or to revise it. That tension is the engine of the conve
 
 ## Stress Test Plan
 
-- **Host chemistry check:** Can Host and Producer co-host without one of them disappearing? Does the
+- **Host chemistry check:** Can Ari and Anthony co-host without one of them disappearing? Does the
   comedian guest create a triangle or a lecture? The stress test is whether the conversation feels
   like three people talking, not two hosts interviewing one subject.
 - **Interruption protocol:** How do both hosts handle a moment when they disagree with each other
@@ -71,7 +71,7 @@ expects it.
 
 ## City + Studio Logistics
 
-Los Angeles. Host's Melrose studio is the default. If Melrose is unavailable, a similar
+Los Angeles. Ari's Melrose studio is the default. If Melrose is unavailable, a similar
 conversation-room setup in Silver Lake or Los Feliz. No visible microphones; two redundant hidden
 audio channels. Table and chairs only — no podcast desk. Guest arrives with no brief, no topic
 list, no pre-interview.
@@ -80,7 +80,7 @@ list, no pre-interview.
 
 ## Relationship Route + Social Cost
 
-Host's producer emails the prior booking address with a direct note: "We're recording a new show,
+Ari's producer emails the prior booking address with a direct note: "We're recording a new show,
 I'd love you back, it's a different format." No publicist. No agent. No social ask. Social cost: 2.
 If no response in 14 days, one follow-up, then move to next candidate.
 

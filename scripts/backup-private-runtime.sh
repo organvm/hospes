@@ -14,9 +14,9 @@ DB_PATH="${HOSPES_DB:-}"
   echo "HOSPES_DB must name the existing absolute canonical database" >&2
   exit 2
 }
-CONTAINER_PATH="${HOSPES_BACKUP_CONTAINER:-/Volumes/Archive4T/HOSPES/private_pilot-backup.sparsebundle}"
-[[ "$CONTAINER_PATH" == /Volumes/Archive4T/* ]] || {
-  echo "HOSPES_BACKUP_CONTAINER must remain under /Volumes/Archive4T" >&2
+CONTAINER_PATH="${HOSPES_BACKUP_CONTAINER:-/Volumes/EncryptedBackups/HOSPES/production-backup.sparsebundle}"
+[[ "$CONTAINER_PATH" == /Volumes/EncryptedBackups/* ]] || {
+  echo "HOSPES_BACKUP_CONTAINER must remain under /Volumes/EncryptedBackups" >&2
   exit 2
 }
 command -v hdiutil >/dev/null

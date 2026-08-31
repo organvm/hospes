@@ -14,8 +14,8 @@ from conftest import synthetic_bearer_authenticator
 
 
 ROOT = Path(__file__).resolve().parents[1]
-TEMPLATE = ROOT / "config" / "partnerships" / "example-partnership-private-pilot.yaml"
-POLICY = ROOT / "config" / "pilot_policies" / "example-partnership-pilot-1.yaml"
+TEMPLATE = ROOT / "config" / "partnerships" / "example-private-pilot.yaml"
+POLICY = ROOT / "config" / "pilot_policies" / "example-pilot-1.yaml"
 TENANT = "private_pilot"
 OWNER = service.HumanActor("ari_owner", service.HumanRole.RELATIONSHIP_OWNER, TENANT)
 PRODUCER = service.HumanActor("producer_fixture", service.HumanRole.PRODUCER, TENANT)
@@ -78,7 +78,7 @@ def prepared_run(conn, *, now: datetime | None = None) -> tuple[str, dict]:
             {
                 "id": opportunity_id,
                 "tenant_id": TENANT,
-                "network_id": "example_network",
+                "network_id": "ari_network",
                 "show_id": "private_pilot",
                 "guest_name": f"Synthetic Pilot Candidate {slot}",
                 "why_guest": "This synthetic candidate proves a context-derived Pilot schedule.",

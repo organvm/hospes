@@ -21,7 +21,7 @@ seam:
   emits: [outreach.approved, content_unit.approved]
   interface: >
     Package @hospes/voice — every external output is generated under a DECLARED persona
-    (Host note, guest-desk, flagship show, Producer field show, sponsor, publication) and
+    (Ari note, guest-desk, flagship show, Anthony field show, sponsor, publication) and
     validated before use. Governance engine extracted; the QA surface adapted.
 first_integration_step: >
   Extract voice-profile + anti-pattern + invariant schema into spec/ as the HOSPES voice

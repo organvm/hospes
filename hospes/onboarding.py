@@ -395,10 +395,10 @@ def validate_workspace(root: str | Path) -> list[str]:
             pipeline_csv.read_text(encoding="utf-8").splitlines()[0].split(",") if pipeline_csv.stat().st_size else []
         )
         if header != pipeline.PIPELINE_HEADERS:
-            errors.append("data/example-pipeline.csv must carry the canonical candidate header")
+            errors.append("data/pipeline.csv must carry the canonical candidate header")
         result = pipeline.validate_candidates(rows)
         errors.extend(
-            f"data/example-pipeline.csv row {error.row_index} {error.field_name}: {error.message}" for error in result.errors
+            f"data/pipeline.csv row {error.row_index} {error.field_name}: {error.message}" for error in result.errors
         )
     return errors
 

@@ -2,7 +2,7 @@
 
 ## Doctrine
 
-Do not start by burning the biggest relationship Host could possibly contact. Build evidence first,
+Do not start by burning the biggest relationship Ari could possibly contact. Build evidence first,
 then produce the artifact, then book the first public run, then — and only then — activate
 selective marquee relationships. Each phase has a clear completion condition before the next begins.
 
@@ -12,7 +12,7 @@ Record three non-public pilots. Do not release them. They exist to prove the for
 generate an audience.
 
 **Pilot 1:** A professionally familiar guest who will be comfortable — someone from Ring 1 or
-Ring 2 (prior professional relationship or weak tie). No social cost to Host.
+Ring 2 (prior professional relationship or weak tie). No social cost to Ari.
 
 **Pilot 2:** A guest from one co-host's artistic, academic, literary, or technical world —
 someone who establishes that the show can range beyond comedy.

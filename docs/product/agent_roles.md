@@ -32,13 +32,13 @@ Tracks promises, thank-yous, gifts, publication notices, referrals, future episo
 ## 10. Operations Analyst
 Measures booking conversion, time-to-book, segment retention, clip conversion, returning audience, guest satisfaction, sponsor renewal, and human correction rates.
 
-## Host interface
+## Ari interface
 
-Host receives one digest rather than an inbox. Each card must support:
+Ari receives one digest rather than an inbox. Each card must support:
 
 - APPROVE
 - REJECT
 - PROTECT RELATIONSHIP
 - ADD PERSONAL NOTE
 
-Default target: fewer than ten minutes of Host operational work per week.
+Default target: fewer than ten minutes of Ari operational work per week.

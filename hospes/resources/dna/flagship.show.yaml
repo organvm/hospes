@@ -1,6 +1,6 @@
 # HOSPES — Flagship Show DNA
 # "Claim → Stress Test → Artifact" conversation show
-# Hosts: Host Mannis + Producer Padavano
+# Hosts: Ari Mannis + Anthony Padavano
 # Note: working name in the design transcript was "conversation-operations-system"; HOSPES is the product name.
 # This file is the authoritative Show DNA for the flagship studio show.
 # All fields satisfy show.schema.json.
@@ -35,7 +35,7 @@ format_engine:
     - name: The Stress Test
       description: >
         The hosts test the claim through contradiction, counterexample, comedy, research,
-        or a designed scenario. Host split: Host applies instinct and friction; Producer applies
+        or a designed scenario. Host split: Ari applies instinct and friction; Anthony applies
         structure, evidence, and synthesis.
       output: >
         Conflict, surprise, and the strongest conversational clips.
@@ -53,9 +53,9 @@ format_engine:
     - name: Object Lesson
       description: >
         The guest brings or selects an object that reveals how they work, think, remember, or fail.
-    - name: Explain It to Host
+    - name: Explain It to Ari
       description: >
-        A complex idea must survive plain language and skepticism. Host is not framed as
+        A complex idea must survive plain language and skepticism. Ari is not framed as
         uninformed; he is the compression test.
     - name: Build the Worst Version
       description: >
@@ -88,7 +88,7 @@ host_functions:
     function: >
       instinct, friction, comedy, skepticism, pace, social ease
     contrast_note: >
-      Host is instinct and friction. He challenges the guest through direct reaction and
+      Ari is instinct and friction. He challenges the guest through direct reaction and
       social intelligence, not preparation. His role in the Stress Test is to apply
       pressure from felt experience and comedy, not from research or argument structure.
     operational_budget: approximately 10 minutes per week
@@ -107,9 +107,9 @@ host_functions:
     function: >
       research, conceptual architecture, strange connections, synthesis, designed experiments
     contrast_note: >
-      Producer is architecture and synthesis. He constructs the editorial thesis, frames
+      Anthony is architecture and synthesis. He constructs the editorial thesis, frames
       the Stress Test as a designed experiment, and ensures the Artifact lands as something
-      genuinely new. His complement to Host's instinct is structured curiosity.
+      genuinely new. His complement to Ari's instinct is structured curiosity.
     required_work:
       - own the editorial thesis for each episode
       - approve the final episode segment structure
@@ -156,13 +156,13 @@ visual_rule:
         Establishes bodies, room, and spatial relation of all participants.
         Placed to reveal the room, not flatten it.
       optional: false
-    - role: Host single
+    - role: Ari single
       description: >
         Medium or medium-close. Preserves enough environment to avoid a broadcast look.
       optional: false
     - role: guest single
       description: >
-        Matched in visual weight to the Host single — not necessarily perfect symmetry.
+        Matched in visual weight to the Ari single — not necessarily perfect symmetry.
       optional: false
     - role: artifact/object angle
       description: >
@@ -238,7 +238,7 @@ ad_rules:
   formats:
     - name: Product on Trial
       description: >
-        Host cross-examines the product; Producer constructs an absurdly overqualified defense.
+        Ari cross-examines the product; Anthony constructs an absurdly overqualified defense.
         The final answer states the actual utility plainly.
     - name: Worst Possible Spokesperson
       description: >
@@ -250,8 +250,8 @@ ad_rules:
         followed by a factual landing.
     - name: The Overbuilt Explanation
       description: >
-        Producer creates an elaborate intellectual theory of the product.
-        Host reduces it to the simple reason someone would use it.
+        Anthony creates an elaborate intellectual theory of the product.
+        Ari reduces it to the simple reason someone would use it.
     - name: Thirty-Second Film
       description: >
         A self-contained micro-scene, separately shot and inserted as a clearly labeled
@@ -332,7 +332,7 @@ relationship_rules:
   protected_relationship_rule: >
     C0 contacts (personal inner circle) are flagged as protected. The OS will not
     generate outreach toward them without an explicit human-placed note releasing the contact.
-    Host may mark any contact as protected regardless of class.
+    Ari may mark any contact as protected regardless of class.
   routing_principle: >
     Always route via the least socially expensive credible path. If a C2 or C1 connection
     exists, prefer it over a cold approach regardless of speed. Never manufacture warmth;

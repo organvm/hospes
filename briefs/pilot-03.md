@@ -2,11 +2,11 @@
 
 **Status:** RESEARCHING  
 **Relationship class:** C1 (second-degree connection; weak tie via shared comedy/tech/music scene)  
-**Relationship owner:** Host  
+**Relationship owner:** Ari  
 **Route:** Publicist — formal inquiry via the guest's representation  
 **City / Studio:** Austin — TBD conversation-room venue; touring-guest window preferred  
 **Social cost:** 3 / 5 — formal publicist outreach on a show that does not yet have public numbers  
-**Host effort:** NOTE (a personal note from Host to attach to the publicist inquiry)  
+**Ari effort:** NOTE (a personal note from Ari to attach to the publicist inquiry)  
 
 ---
 
@@ -71,7 +71,7 @@ Club Random-style visual grammar does not compromise the audio record.
 
 **Claim / Stress Test / Artifact** (fixed) +  
 **Rotating:** *The Translation* — midway through the conversation, the guest is asked to explain
-the most technical or esoteric aspect of their secondary field to Host and Producer in terms that
+the most technical or esoteric aspect of their secondary field to Ari and Anthony in terms that
 a twelve-year-old could follow. The explanation is not interrupted or corrected. The hosts
 respond only with questions, not observations. The segment tests whether the format can generate
 genuine teaching moments without becoming educational content.
@@ -91,8 +91,8 @@ environment is less controlled.
 
 ## Relationship Route + Social Cost
 
-Host's producer sends a formal inquiry to the guest's publicist. The inquiry is one page: who the
-show is, who the hosts are, what the format is, and a personal note from Host. No media kit, no
+Ari's producer sends a formal inquiry to the guest's publicist. The inquiry is one page: who the
+show is, who the hosts are, what the format is, and a personal note from Ari. No media kit, no
 listener numbers, no pitch deck. Social cost: 3 — this is a real ask on a new show, and the
 publicist will evaluate it against the guest's existing commitments. If the publicist declines,
 that is also a data point: what would make the ask easier to accept? That question feeds the
@@ -104,7 +104,7 @@ next iteration of the outreach template.
 
 **Hidden audio capture and room-read quality.** The show's visual grammar requires that
 microphones are never visible in the frame. This pilot is the first test of that constraint
-in an uncontrolled environment — not Host's Melrose studio, not a familiar NYC room, but a
+in an uncontrolled environment — not Ari's Melrose studio, not a familiar NYC room, but a
 touring venue in Austin. By the end of this recording the team will have a concrete answer
 to the question: can the hidden-audio approach produce a usable record in a room we don't
 control? If yes, the format is portable. If no, the technical constraint needs to change

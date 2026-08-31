@@ -1,5 +1,5 @@
 # HOSPES — Field Show DNA
-# Producer's location show: "Place → Object → Intervention → Artifact"
+# Anthony's location show: "Place → Object → Intervention → Artifact"
 # A separate show identity — distinct from the flagship in format, visual grammar,
 # cadence, and voice — running on the same OS backend.
 # All fields satisfy show.schema.json.
@@ -79,7 +79,7 @@ host_functions:
     function: >
       observation, designed intervention, architectural curiosity, synthesis, documentary instinct
     contrast_note: >
-      Producer operates solo in the field. The role is host, producer, and editor-in-chief
+      Anthony operates solo in the field. The role is host, producer, and editor-in-chief
       simultaneously. His function is to notice what the environment reveals, ask the
       guest to act inside their own space, and produce the Artifact without any studio infrastructure.
     operational_budget: self-directed — no weekly cadence constraint

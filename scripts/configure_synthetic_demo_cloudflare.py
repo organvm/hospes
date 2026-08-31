@@ -607,7 +607,7 @@ def main(argv: list[str] | None = None) -> int:
         if not EMAIL.fullmatch(owner_email) or not EMAIL.fullmatch(ari_email):
             raise ConfigurationError("both demo identities must be exact email addresses")
         if owner_email == ari_email:
-            raise ConfigurationError("owner and Host identities must be distinct")
+            raise ConfigurationError("owner and Ari identities must be distinct")
         if not TUNNEL_ID.fullmatch(tunnel_id):
             raise ConfigurationError("HOSPES_DEMO_TUNNEL_ID must be a tunnel UUID")
         if not OPAQUE_ID.fullmatch(account_id) or not OPAQUE_ID.fullmatch(zone_id):

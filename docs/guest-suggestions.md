@@ -19,9 +19,9 @@ into the scoped importer:
 hospes suggest-guests --min-gap-years 2 --max-social-cost 3 \
   | hospes import-candidates - \
       --tenant private_pilot \
-      --network example_network \
+      --network ari_network \
       --show flagship_private_pilot \
-      --actor example_operator \
+      --actor anthony_operator \
       --role producer
 ```
 
@@ -59,7 +59,7 @@ For reproducible review, `--as-of YYYY-MM-DD` fixes the archive cutoff and must
 not be later than the current UTC date. Social cost is bounded from 1–5: C2
 alumni are cost 3 during the first four completed gap years and cost 2
 afterward, so more recent appearances are intentionally ranked as higher cost.
-Route labels are `Host direct` for C1, `Producer warm intro` for C2, and
+Route labels are `Ari direct` for C1, `Anthony warm intro` for C2, and
 `Producer cold` for C3.
 
 Errors and validation details go only to stderr and contain no rejected value.

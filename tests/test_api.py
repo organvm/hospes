@@ -394,7 +394,7 @@ def test_filtered_approval_queue_is_live_and_tenant_scoped(tmp_path: Path) -> No
 def test_partnership_command_center_api_is_live_and_reusable(tmp_path: Path) -> None:
     database = tmp_path / "partnership.sqlite3"
     conn = store.connect(database)
-    template = Path(__file__).resolve().parents[1] / "config" / "partnerships" / "example-partnership-private-pilot.yaml"
+    template = Path(__file__).resolve().parents[1] / "config" / "partnerships" / "example-private-pilot.yaml"
     imported = partnerships.import_template(
         conn,
         template,
@@ -409,7 +409,7 @@ def test_partnership_command_center_api_is_live_and_reusable(tmp_path: Path) -> 
 
     listed = client.get("/v1/partnerships", headers=PRODUCER)
     assert listed.status_code == 200
-    assert listed.json()[0]["label"] == "Host + Producer"
+    assert listed.json()[0]["label"] == "Ari + Anthony"
 
     center = client.get(f"/v1/partnerships/{imported.partnership_id}/command-center", headers=PRODUCER)
     assert center.status_code == 200, center.text

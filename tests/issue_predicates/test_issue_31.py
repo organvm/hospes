@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 ANSWERS = {
     "show_name": "Issue 31 Show",
-    "host_names": "Host, Producer",
+    "host_names": "Ari, Anthony",
     "recording_cities": "LA, NYC, Austin",
     "show_format": "conversation",
     "primary_format": "both",
@@ -33,7 +33,7 @@ ANSWERS = {
     "github_repo_name": "issue-31-show",
 }
 SHOW_ID = "issue-31-show"
-AUTHORIZED_BY = "example_operator"
+AUTHORIZED_BY = "anthony_operator"
 AUTHORIZATION_REF = "receipt://hospes/github-repo-create/issue-31"
 
 
@@ -227,7 +227,7 @@ def test_wizard_produces_complete_editable_configuration(tmp_path: Path) -> None
         "config/analytics.yaml",
         "config/notifications.yaml",
         "config/runtime.yaml",
-        "data/example-pipeline.csv",
+        "data/pipeline.csv",
     ):
         assert (root / relative).is_file(), relative
         assert relative in result["generated"]
@@ -237,7 +237,7 @@ def test_wizard_produces_complete_editable_configuration(tmp_path: Path) -> None
     assert show_dna.title == ANSWERS["show_name"]
     assert show_dna.recording_cities == ["LA", "NYC", "Austin"]
     document = yaml.safe_load((root / "dna" / f"{SHOW_ID}.show.yaml").read_text(encoding="utf-8"))
-    assert document["show"]["hosts"] == ["Host", "Producer"]
+    assert document["show"]["hosts"] == ["Ari", "Anthony"]
     assert document["show"]["primary_format"] == "both"
     assert document["show"]["partnership_type"] == "co-host"
     assert document["format"] == "conversation"

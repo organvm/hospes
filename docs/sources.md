@@ -31,14 +31,14 @@ including low-signal image thumbnails — so nothing cited is lost.
 - <https://www.edisonresearch.com/wp-content/uploads/2026/06/Podcast-Consumer-2026_Final-for-download.pdf> — cited under *Internal AI capabilities*
 - <https://www.iab.com/guidelines/creative-best-practices-in-podcasting/> — cited under *Sponsored Mechanic*
 
-## Host Mannis public footprint
+## Ari Mannis public footprint
 
 - <https://www.facebook.com/AreYouFreeBusy/> — cited under *Response:*
 - <https://arimannis.com/> — cited under *Response:*
 - <https://www.instagram.com/arimannis/?hl=en> — cited under *Response:*
 - <https://www.youtube.com/arimannis> — cited under *Response:*
 - <https://www.linkedin.com/in/arimannis> — cited under *Response:*
-- <https://www.laughfactory.com/comedians/bio/HostMannis> — cited under *Response:*
+- <https://www.laughfactory.com/comedians/bio/AriMannis> — cited under *Response:*
 - <https://voyagela.com/interview/meet-ari-mannis-ari-mannis-west-hollywood/> — cited under *Response:*
 - <https://www.facebook.com/arimannis/> — cited under *Response:*
 - <https://www.reddit.com/r/Killtony/wiki/ari_mannis/> — cited under *Response:*
@@ -60,7 +60,7 @@ including low-signal image thumbnails — so nothing cited is lost.
 
 - <https://brandfetch.com/arimannis.com> — cited under *Response:*
 - <https://www.gettyimages.com/photos/ari-mannis> — cited under *Response:*
-- <https://en.wikipedia.org/wiki/Host_Matti> — cited under *Response:*
+- <https://en.wikipedia.org/wiki/Ari_Matti> — cited under *Response:*
 - <https://images.openai.com/static-rsc-4/TP5j0I7UxQYdyZih_jy_yy_1uhyK0VDdV7EPzt4-fE9i6Xuk7BHIOeI0QsGCpGYD_ssMVl4jU3eiz8eY8aBmLNE7Texg7ghjsqmTgbqNqMVFXZ7ZB__PeRbJhp0-Ome5XItXiAuX-bqHEvniqwyDJ3MSQK9OtbLaMVFHE3nWJoM?purpose=inline> — cited under *Response:*
 - <https://en.wikipedia.org/wiki/Video> — cited under *Response:*
 - <https://tse2.mm.bing.net/th/id/OIP.g3WcCUWu5M_hkXv8KI-i0wHaGT?r=0&pid=Api> — cited under *Response:*

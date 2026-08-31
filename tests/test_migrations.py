@@ -206,8 +206,8 @@ def test_v4_partnership_rows_gain_history_without_count_or_audit_loss(
         (
             "partnership-v4",
             "private_pilot",
-            "example_partnership",
-            "Host + Producer",
+            "ari_anthony",
+            "Ari + Anthony",
             "A bounded private pilot partnership.",
             "active",
             timestamp,

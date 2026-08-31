@@ -164,7 +164,7 @@ hard_rules:
   supersession operation can.
 - Pilot candidate slots reject C4/C5 before any slot mutation or audit write.
 - Ineligible lifecycle states cannot enter or satisfy the active pilot slate.
-- Host review receipts require a process-bound relationship-owner session.
+- Ari review receipts require a process-bound relationship-owner session.
 - Every advertised reply classification leaves active outreach in an explicit lifecycle
   state; representative and information requests pause for human handling, while an
   explicit later request moves to REVISIT_LATER.

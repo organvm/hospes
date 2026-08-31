@@ -5,7 +5,7 @@ use when":
 
 1. candidates can be entered into the pipeline;
 2. each candidate has an episode thesis and contact route;
-3. Host can approve, reject, protect, or add a personal note;
+3. Ari can approve, reject, protect, or add a personal note;
 4. approved candidates generate correspondence drafts;
 5. accepted guests are routed to LA, NYC, or Austin;
 6. the producer receives a research and segment brief;

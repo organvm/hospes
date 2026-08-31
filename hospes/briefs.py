@@ -24,7 +24,7 @@ from .paths import BRIEFS_DIR
 ROTATING_SEGMENTS = [
     "Receipts",
     "Object Lesson",
-    "Explain It to Host",
+    "Explain It to Ari",
     "Build the Worst Version",
     "Future Headline",
     "Opposite Chair",
@@ -113,7 +113,7 @@ def generate_brief(candidate: Dict[str, str], *, briefs_dir: Optional[Path] = No
     lines.append("")
     lines.append(f"### The Stress Test")
     lines.append(f"- Designed pressure on the claim: counterexample, comedy, research, or a scenario.")
-    lines.append(f"- Host applies instinct/friction; Producer applies structure/synthesis.")
+    lines.append(f"- Ari applies instinct/friction; Anthony applies structure/synthesis.")
     lines.append("")
     lines.append(f"### The Artifact")
     lines.append(f"- **Artifact to produce:** {artifact}")

@@ -28,8 +28,8 @@ SUGGESTION_FORMAT = "hospes-suggestions-v1"
 DEFAULT_ARCHIVE = DATA_DIR / "unlicensed-therapy" / "archive.json"
 RELATIONSHIP_CLASSES = frozenset({"C1", "C2", "C3"})
 ROUTE_LABELS = {
-    "C1": "Host direct",
-    "C2": "Producer warm intro",
+    "C1": "Ari direct",
+    "C2": "Anthony warm intro",
     "C3": "Producer cold",
 }
 ROUTE_TYPES = {

@@ -35,7 +35,7 @@
     "ownership": {
       "type": "string",
       "enum": ["host_owned", "venue_rental", "partner_facility", "remote", "field"],
-      "description": "Whether the show owns, rents, or uses this space. 'field' = Producer's portable field-show setup."
+      "description": "Whether the show owns, rents, or uses this space. 'field' = Anthony's portable field-show setup."
     },
     "address_public": {
       "type": ["string", "null"],

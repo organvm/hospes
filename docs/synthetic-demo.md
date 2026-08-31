@@ -1,4 +1,4 @@
-# Host synthetic demonstration
+# Ari synthetic demonstration
 
 This demonstration is a resettable, non-authoritative specimen. It never opens,
 copies, migrates, or replaces the canonical Pilot database. Every displayed
@@ -73,7 +73,7 @@ role, and tenant identity are server-owned.
 Cloudflare Access must exist before the tunnel starts. Access is the
 identity-aware first gate; the HOSPES token remains the independent second
 gate. The setup uses two exact-hostname self-hosted applications and one allow
-policy per application containing only the owner and Host's exact external email
+policy per application containing only the owner and Ari's exact external email
 identities. Users who do not match a policy are denied by default. See
 [self-hosted Access applications](https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/),
 [Access policies](https://developers.cloudflare.com/cloudflare-one/access-controls/policies/),
@@ -136,7 +136,7 @@ rejects reused PIDs, and retains remote configuration.
 2. Approve Bixby Mortarboard, Mildred Punchclock, and Rufus Quibble.
 3. Protect Tallulah Sidecar and reject Professor Crumbweather.
 4. Assign the approved figures to primary and backup slots.
-5. Record the bounded synthetic Host review.
+5. Record the bounded synthetic Ari review.
 6. Start the run after the first four gates are green.
 7. Inspect assignments, alternatives, timing, constraints, rationale, and risk;
    explicitly approve the ranked activation. Nothing is sent.

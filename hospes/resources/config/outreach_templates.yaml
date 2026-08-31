@@ -6,11 +6,11 @@ class_to_template:
   C3: prior_collaborator
 templates:
   producer_cold: |-
-    **Subject:** Host Mannis x [GUEST] — [EPISODE TENSION]
+    **Subject:** Ari Mannis x [GUEST] — [EPISODE TENSION]
 
     Hi [NAME] —
 
-    I produce a new show with Host Mannis and [CO-HOST]. Each episode begins with a
+    I produce a new show with Ari Mannis and [CO-HOST]. Each episode begins with a
     consequential claim, stress-tests it, and ends by making something new rather
     than repeating a standard biography or promotional interview.
 
@@ -30,11 +30,11 @@ templates:
     [ROLE]
     [SHOW]
   prior_collaborator: |-
-    **Subject:** A new format with Host — [EPISODE TENSION]
+    **Subject:** A new format with Ari — [EPISODE TENSION]
 
     Hi [NAME] —
 
-    I'm producing a new format with Host. An earlier conversation touched on
+    I'm producing a new format with Ari. An earlier conversation touched on
     [VERIFIED SUBJECT], but this episode would pursue a different question:
     **[THESIS]**.
 
@@ -46,7 +46,7 @@ templates:
 
     [REAL SENDER]
   ari_note: |-
-    **Host personal note (draft for Host to review, edit, and send himself):**
+    **Ari personal note (draft for Ari to review, edit, and send himself):**
 
     I'm making a new show with [CO-HOST]. We've designed one episode that feels
     specifically right for you: **[ONE SENTENCE]**. Our producer handles the

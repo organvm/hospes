@@ -97,7 +97,7 @@ def _config(path: Path, *, include_private: bool = False) -> Path:
             "show_id": SHOW,
             "guest_id": "ari",
             "visibility": "public",
-            "label": "Host",
+            "label": "Ari",
         },
         {
             "tenant_id": TENANT,
@@ -821,7 +821,7 @@ def test_bounded_config_archive_and_guest_validation_fail_closed(
             [
                 {
                     "type": "guest",
-                    "guest": "Host",
+                    "guest": "Ari",
                     "date": "2026-01-01",
                     "confidence": "high",
                 }
@@ -836,7 +836,7 @@ def test_bounded_config_archive_and_guest_validation_fail_closed(
         host_guest_id="ari",
     )
     assert edges == []
-    assert labels == {"ari": "Host"}
+    assert labels == {"ari": "Ari"}
     assert targets == set()
     archive_path.write_text(
         json.dumps([{"type": "guest", "guest": "No Date", "date": None}]),
@@ -1153,7 +1153,7 @@ def test_writer_rejects_self_edges_and_legacy_rows_do_not_break_reads(
     assert value["nodes"] == [
         {
             "id": "ari",
-            "label": "Host",
+            "label": "Ari",
             "visibility": "public",
             "distance": 0,
             "relationship_class": None,

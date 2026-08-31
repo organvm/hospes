@@ -38,7 +38,7 @@ def create_editorial_candidate(conn) -> str:
         conn,
         service.OpportunityCreate.from_dict({
             "tenant_id": "pilot_tenant",
-            "network_id": "example_network",
+            "network_id": "ari_network",
             "show_id": "private_pilot",
             "guest_name": "Synthetic Pilot Guest",
             "why_guest": "The synthetic guest can test a concrete private-pilot claim.",

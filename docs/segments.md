@@ -35,8 +35,8 @@ nothing to produce.
 The hosts test the claim through contradiction, counterexample, comedy, research, or a
 designed scenario.
 
-Host split: Host applies instinct, friction, and compression — he is the test of whether
-an idea survives ordinary language and skepticism. Producer applies structure, evidence, and
+Host split: Ari applies instinct, friction, and compression — he is the test of whether
+an idea survives ordinary language and skepticism. Anthony applies structure, evidence, and
 synthesis — he ensures the friction has something substantial to strike.
 
 **Output:** conflict, surprise, and the strongest conversational clips.
@@ -73,16 +73,16 @@ The guest brings or selects an object that reveals how they work, think, remembe
 fail. The object anchors the conversation to a physical thing and produces a natural
 artifact-camera moment.
 
-**Estate connection:** this segment links directly to Producer's existing Object Lessons
+**Estate connection:** this segment links directly to Anthony's existing Object Lessons
 editorial and multimedia system (documented in `docs/estate-composition.md`). The segment
-is one in-show instantiation of a repeatable form that already exists across Producer's
+is one in-show instantiation of a repeatable form that already exists across Anthony's
 creative practice — the same object-as-argument method, applied to a guest's world
 instead of his own.
 
-### Explain It to Host
+### Explain It to Ari
 
-A complex idea must survive compression into plain language and survive Host's skepticism.
-Host is not framed as the uninformed party; he is the compression test. If the idea cannot
+A complex idea must survive compression into plain language and survive Ari's skepticism.
+Ari is not framed as the uninformed party; he is the compression test. If the idea cannot
 be explained to him, it has not yet been understood by the guest.
 
 ### Build the Worst Version

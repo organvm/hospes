@@ -1,4 +1,4 @@
-"""Resettable, explicitly non-authoritative Host demonstration stores.
+"""Resettable, explicitly non-authoritative Ari demonstration stores.
 
 The factory builds two isolated SQLite databases through the same domain
 services used by the operator.  It never opens or copies the canonical private
@@ -70,7 +70,7 @@ SCENARIOS = {
         "tenant_id": "ari_demo_complete",
     },
 }
-PARTNERSHIP_TEMPLATE = CONFIG_DIR / "partnerships" / "ari-synthetic-demo.yaml"
+PARTNERSHIP_TEMPLATE = CONFIG_DIR / "partnerships" / "example-synthetic-demo.yaml"
 
 _FIGURES = (
     {

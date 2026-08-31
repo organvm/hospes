@@ -19,8 +19,8 @@ from hospes.pilot_planner import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-TEMPLATE = ROOT / "config" / "partnerships" / "example-partnership-private-pilot.yaml"
-POLICY_PATH = ROOT / "config" / "pilot_policies" / "example-partnership-pilot-1.yaml"
+TEMPLATE = ROOT / "config" / "partnerships" / "example-private-pilot.yaml"
+POLICY_PATH = ROOT / "config" / "pilot_policies" / "example-pilot-1.yaml"
 NOW = datetime(2026, 7, 22, 18, 0, tzinfo=UTC)
 TENANT = "private_pilot"
 PARTNERSHIP_ID = "partnership-fixture"

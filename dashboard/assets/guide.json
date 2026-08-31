@@ -9,7 +9,7 @@
   },
   "personas": {
     "owner": {
-      "label": "Producer — owner",
+      "label": "Anthony — owner",
       "actor": "demo_owner",
       "role": "relationship_owner",
       "depth": "expert",
@@ -17,7 +17,7 @@
       "opening": "You hold relationship_owner. That is the only role that can protect a C4 figure or start a Pilot run, and the tour calls out each place the authority is load-bearing."
     },
     "ari": {
-      "label": "Host — co-host",
+      "label": "Ari — co-host",
       "actor": "demo_cohost",
       "role": "relationship_owner",
       "depth": "practitioner",

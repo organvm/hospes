@@ -3,7 +3,7 @@
 Subcommands:
 
 * ``demo``              — run the full loop on the pipeline CSV (falls back to
-  the test fixture, with a warning, when ``data/example-pipeline.csv`` is absent):
+  the test fixture, with a warning, when ``data/pipeline.csv`` is absent):
   validate -> apply sample decisions -> route -> draft -> brief -> assets ->
   record 2 commitments -> triage the fixture replies. Prints one receipt line
   per step, writes ONLY under ``out/``, exits 0, and is IDEMPOTENT.
@@ -1258,7 +1258,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_synthetic = sub.add_parser(
         "seed-synthetic-demo",
-        help="atomically build marked, non-authoritative Host demo databases",
+        help="atomically build marked, non-authoritative Ari demo databases",
     )
     p_synthetic.add_argument(
         "--output-dir",

@@ -61,7 +61,7 @@ workspace, then the show's own documents on top of it:
 | `config/brand.yaml` | White-label name and colors |
 | `config/analytics.yaml` | Analytics provider template with credential references, never keys |
 | `config/notifications.yaml` | The operator notification credential reference and `draft_only` delivery |
-| `data/example-pipeline.csv` | The candidate pipeline template |
+| `data/pipeline.csv` | The candidate pipeline template |
 
 The pipeline template carries `hospes.pipeline.PIPELINE_HEADERS` — the engine's
 own canonical header order. A shorter hand-written header omitted columns the
@@ -129,7 +129,7 @@ opaque receipt reference:
 
 ```bash
 python3 -m hospes init --root new-podcast --answers answers.json \
-  --github-authorized-by example_operator \
+  --github-authorized-by anthony_operator \
   --github-authorization-ref receipt://hospes/github-repo-create/2026-08-14
 ```
 

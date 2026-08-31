@@ -222,8 +222,8 @@ relationship_classes:
     protected: true
     notes: >
       No automated sending under any circumstances. The system may prepare research
-      and suggest language. Host explicitly decides whether to reach out and how.
-      The system does not follow up unless Host instructs it to.
+      and suggest language. Ari explicitly decides whether to reach out and how.
+      The system does not follow up unless Ari instructs it to.
 
   C5:
     label: close_friend_mentor_or_sensitive
@@ -241,7 +241,7 @@ relationship_classes:
     automation_permitted: false    # system may not even draft without explicit instruction
     notes: >
       Fully manual. The system may hold a record, but it may not generate correspondence,
-      send follow-ups, or enter private messages without Host's explicit one-at-a-time
+      send follow-ups, or enter private messages without Ari's explicit one-at-a-time
       direction. The relationship_owner must mark any use of this edge as an AuditEvent.
 
 rules:

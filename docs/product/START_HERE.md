@@ -4,7 +4,7 @@ This pack is a **concierge MVP**, not a finished SaaS product. It is designed to
 
 ## The three-layer model
 
-1. **Flagship studio show** — Host + co-host, recorded in Los Angeles, New York City, and Austin.
+1. **Flagship studio show** — Ari + co-host, recorded in Los Angeles, New York City, and Austin.
 2. **Field show** — the co-host enters guests' own spaces with a portable multi-camera kit.
 3. **Reusable operating system** — guest discovery, relationship routing, outreach drafting,
    booking/consent receipt tracking, episode design, sponsor creative, asset production, and
@@ -22,7 +22,7 @@ The system is ready for first use when:
 
 - candidates can be entered into the pipeline;
 - each candidate has an episode thesis and contact route;
-- Host can approve, reject, protect, or add a personal note;
+- Ari can approve, reject, protect, or add a personal note;
 - approved candidates generate correspondence drafts;
 - accepted guests are routed to LA, NYC, or Austin;
 - the producer receives a research and segment brief;

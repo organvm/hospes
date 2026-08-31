@@ -12,7 +12,7 @@ The guest states one consequential proposition: something they believe, somethin
 ### 2. The Stress Test
 The hosts test the claim through contradiction, counterexample, comedy, research, or a designed scenario.
 
-**Host split:** Host applies instinct and friction; the co-host applies structure, evidence, and synthesis.
+**Host split:** Ari applies instinct and friction; the co-host applies structure, evidence, and synthesis.
 
 **Output:** conflict, surprise, and the strongest conversational clips.
 
@@ -29,8 +29,8 @@ Present a verified quotation, old clip, abandoned project, contradictory stateme
 ### Object Lesson
 The guest brings or selects an object that reveals how they work, think, remember, or fail.
 
-### Explain It to Host
-A complex idea must survive plain language and skepticism. Host is not framed as stupid; he is the compression test.
+### Explain It to Ari
+A complex idea must survive plain language and skepticism. Ari is not framed as stupid; he is the compression test.
 
 ### Build the Worst Version
 Design the most destructive, absurd, or corrupted version of the guest's industry, idea, or product. Then identify which elements already exist.

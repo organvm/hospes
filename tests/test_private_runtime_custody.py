@@ -35,7 +35,7 @@ def _environment(tmp_path: Path, bin_dir: Path) -> dict[str, str]:
         {
             "HOSPES_DB": str(database),
             "HOSPES_BACKUP_CONTAINER": (
-                "/Volumes/Archive4T/HOSPES/"
+                "/Volumes/EncryptedBackups/HOSPES/"
                 f"missing-test-{uuid.uuid4()}.sparsebundle"
             ),
             "PATH": f"{bin_dir}{os.pathsep}{environment['PATH']}",

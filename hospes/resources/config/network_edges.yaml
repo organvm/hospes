@@ -16,7 +16,7 @@ aliases:
     show_id: flagship
     guest_id: ari
     visibility: public
-    label: Host
+    label: Ari
   - tenant_id: hospes
     show_id: flagship
     guest_id: theo-von

@@ -27,7 +27,7 @@ TENANT = "hospes"
 SHOW_A = "flagship"
 SHOW_B = "field"
 PRODUCER_TOKEN = "issue23-producer-token-0123456789abcdef"  # allow-secret: fixture
-TEMPLATE = Path(__file__).resolve().parents[2] / "config" / "partnerships" / "example-partnership-private-pilot.yaml"
+TEMPLATE = Path(__file__).resolve().parents[2] / "config" / "partnerships" / "example-private-pilot.yaml"
 
 pytestmark = pytest.mark.skipif(TestClient is None, reason="fastapi is not installed")
 

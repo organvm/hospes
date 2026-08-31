@@ -10,7 +10,7 @@ How HOSPES is positioned, sold, and expanded from one flagship show to a network
 
 Not "AI podcast automation." Not a tool. Not a chatbot. A desk — the institutional production office a major podcast would normally staff with a talent coordinator, a researcher, a scheduler, a producer, and a relationship manager — installed around a show with almost none of that staff.
 
-The intelligence is backstage. The host, the guest, the relationship, and the performance remain human. The guest never knows a system was involved. Host never manages a spreadsheet.
+The intelligence is backstage. The host, the guest, the relationship, and the performance remain human. The guest never knows a system was involved. Ari never manages a spreadsheet.
 
 The framing parallel is Aerarium: "institutional weight for one person, zero staff." HOSPES is the media equivalent of that proposition.
 
@@ -20,7 +20,7 @@ The framing parallel is Aerarium: "institutional weight for one person, zero sta
 
 The primary product requirement is not a feature. It is a constraint:
 
-> **Host's operational load must not exceed approximately 10 minutes per week.**
+> **Ari's operational load must not exceed approximately 10 minutes per week.**
 
 Everything else — feature scope, agent design, approval flow, interface design — is subordinate to this constraint. If a workflow requires more than 10 minutes of host attention per week, it is a product defect, not a UX problem.
 
@@ -54,19 +54,19 @@ The productization sequence is deliberate. Do not attempt to build a self-serve 
 
 ### Step 0: Operate the flagship
 
-Run HOSPES for the Host and Producer show. Own the full stack: dossiers, outreach, scheduling, episode production, relationship stewardship, distribution. Build nothing for outside customers yet. The only goal is to make the flagship run on the 10-minute host budget consistently.
+Run HOSPES for the Ari and Anthony show. Own the full stack: dossiers, outreach, scheduling, episode production, relationship stewardship, distribution. Build nothing for outside customers yet. The only goal is to make the flagship run on the 10-minute host budget consistently.
 
 This step proves:
 - The workflow actually works in production conditions.
-- The approval flow matches how Host actually makes decisions.
+- The approval flow matches how Ari actually makes decisions.
 - The agent outputs are good enough to send under a real producer's name.
 - The editorial thesis and segment design survive real guest conversations.
 
 ### Step 1: Install for one or two network shows
 
-Once the flagship has run for several episodes without system-caused problems, install HOSPES for one or two other shows inside the same network. These are shows Producer already has relationships with, not cold outside customers.
+Once the flagship has run for several episodes without system-caused problems, install HOSPES for one or two other shows inside the same network. These are shows Anthony already has relationships with, not cold outside customers.
 
-The install is still managed: the system operators (Host and Producer) configure and run it. The outside show gets the benefit; the operators retain control and learn what is genuinely configurable versus what is flagship-specific.
+The install is still managed: the system operators (Ari and Anthony) configure and run it. The outside show gets the benefit; the operators retain control and learn what is genuinely configurable versus what is flagship-specific.
 
 This step proves:
 - Show DNA configuration works as a real isolation boundary.
@@ -99,12 +99,12 @@ This creates a compounding moat: every episode adds relationship capital that ma
 
 Tenancy is not a later feature. It is built from day one, proven in this order:
 
-### Tenant 1: Flagship show (Host + Producer)
+### Tenant 1: Flagship show (Ari + Anthony)
 - Two hosts, one producer, LA/NYC/Austin studios.
 - Full feature set: candidate pipeline, protected relationships, outreach, scheduling, episode production, clip yield, distribution.
 - Proves the system works as an operator-facing product, not just a personal tool.
 
-### Tenant 2: Field show (Producer)
+### Tenant 2: Field show (Anthony)
 - One host, portable kit, guest environments.
 - Same guest desk, relationship graph, archive, and distribution system.
 - Different Show DNA: Place → Object → Intervention → Artifact format engine.

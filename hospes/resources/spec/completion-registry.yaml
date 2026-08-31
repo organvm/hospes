@@ -17,7 +17,7 @@ substrates:
     receipt_owner: github://organvm/hospes/pulls
 issues:
   - number: 9
-    title: "Example Private Pilot: record Pilot 1 at earliest confirmed production window"
+    title: "Ari + Anthony Private Pilot: record Pilot 1 at earliest confirmed production window"
     dependencies:
       - substrate.storage_migration
       - substrate.encryption_artifacts

@@ -2,14 +2,14 @@
 
 ## Starting Position
 
-Host is not starting from zero. The 179-episode *Unlicensed Therapy* archive is effectively a
+Ari is not starting from zero. The 179-episode *Unlicensed Therapy* archive is effectively a
 pre-existing guest CRM. Every prior guest is a completed professional relationship, not a cold
 target. The AI system should ingest that archive and extract: guest identity, repeat appearances,
 apparent chemistry, representative and booking route, what has changed since the episode, and
 what a genuinely different second conversation could be.
 
 The 50,000 Instagram followers and roughly 12,000 YouTube subscribers are owned-distribution
-assets — not personal favors. Host's Melrose Podcasts co-founding and the three-city studio
+assets — not personal favors. Ari's Melrose Podcasts co-founding and the three-city studio
 infrastructure are producer credentials that establish legitimacy in the background. The comedy
 touring credits (Mark Normand, Theo Von, Andrew Santino, Dan Soder, Pauly Shore, and others)
 establish legitimacy in the background too — their function is described below under placement rules.
@@ -20,7 +20,7 @@ establish legitimacy in the background too — their function is described below
 
 Mine first. The episode archive is the seed CRM. A producer can write:
 
-> Host previously had a strong conversation with [Guest] on *Unlicensed Therapy*. We are developing
+> Ari previously had a strong conversation with [Guest] on *Unlicensed Therapy*. We are developing
 > a different format around [specific idea], and their perspective would be unusually useful for
 > this episode.
 
@@ -28,11 +28,11 @@ That is professional continuity, not begging.
 
 ### Ring 2 — Weak Ties
 
-Probably the most valuable category. People Host has shared a bill with, a comic who recorded at
+Probably the most valuable category. People Ari has shared a bill with, a comic who recorded at
 Melrose, someone represented by a manager he knows, a past guest's collaborator, a host whose show
-Host appeared on, another festival alumnus, a person several existing guests have worked with.
+Ari appeared on, another festival alumnus, a person several existing guests have worked with.
 Weak ties provide recognition without creating the emotional burden of asking a friend for a favor.
-The message is not "Host is your friend, please help." It is: "You and Host have crossed professional
+The message is not "Ari is your friend, please help." It is: "You and Ari have crossed professional
 paths, and we have a specific episode that makes sense for you."
 
 ### Ring 3 — Connectors
@@ -73,10 +73,10 @@ That is entirely different from asking someone to donate prestige to an undiffer
 |---|---|---|
 | C0 | No connection | Publicist, manager, professional email |
 | C1 | Public adjacency | Producer-led outreach mentioning only verifiable context |
-| C2 | Prior professional interaction | Producer-led outreach, optional Host note |
-| C3 | Recurring colleague | Producer outreach followed by brief personal Host confirmation |
-| C4 | Friend | Host explicitly decides; no automated sending |
-| C5 | Close friend, mentor, or sensitive relationship | Fully manual, protected — system may prepare research and suggest language, but never sends or follows up without Host's explicit decision |
+| C2 | Prior professional interaction | Producer-led outreach, optional Ari note |
+| C3 | Recurring colleague | Producer outreach followed by brief personal Ari confirmation |
+| C4 | Friend | Ari explicitly decides; no automated sending |
+| C5 | Close friend, mentor, or sensitive relationship | Fully manual, protected — system may prepare research and suggest language, but never sends or follows up without Ari's explicit decision |
 
 ## Relationship Capital Governor Record
 
@@ -120,18 +120,18 @@ Connector value: 76/100
 Route A — publicist
   Probability: 35%   Social cost: 1/5
 
-Route B — producer Host knows
+Route B — producer Ari knows
   Probability: 58%   Social cost: 2/5
 
-Route C — Host texts directly
+Route C — Ari texts directly
   Probability: 78%   Social cost: 5/5
 
 System recommendation: Use Route B.
-Preserve Route C unless A and B fail or Host prefers direct contact.
+Preserve Route C unless A and B fail or Ari prefers direct contact.
 ```
 
 Priority cascade: (1) representative or existing professional channel, (2) weak-tie producer
-outreach, (3) mutual-contact permission, (4) brief Host note, (5) direct personal request only
+outreach, (3) mutual-contact permission, (4) brief Ari note, (5) direct personal request only
 when justified.
 
 ## "Not Pathetic" Operational Standard
@@ -154,8 +154,8 @@ person into a carefully designed, professionally produced conversation is normal
 
 ## Hard-Coded Rules
 
-1. No automatic messages from Host's personal accounts.
-2. No close-friend outreach without Host's explicit approval.
+1. No automatic messages from Ari's personal accounts.
+2. No close-friend outreach without Ari's explicit approval.
 3. No requests to promote inside the booking invitation.
 4. No more than one routine follow-up after silence.
 5. No inferred private relationships from follows alone.
@@ -182,9 +182,9 @@ The first-season guest source distribution should land approximately:
 
 ## Owned Distribution vs. Favors
 
-Host's existing audience, episode archive, website, production affiliations, and social channels are
+Ari's existing audience, episode archive, website, production affiliations, and social channels are
 owned or earned assets — not personal favors. The launch should include a clear show announcement
-on Host's channels, clips published through both the show identity and Host's personal identity, and
+on Ari's channels, clips published through both the show identity and Ari's personal identity, and
 links from his existing podcast presence.
 
 Not asking friends for help is reasonable. Refusing to use his own audience is self-imposed
@@ -194,7 +194,7 @@ amputation. These are separate questions.
 
 The tour credits (Theo Von, Mark Normand, and others) establish legitimacy. They belong in:
 
-- Host's professional biography
+- Ari's professional biography
 - The media kit
 - The show website
 - A booking deck
@@ -205,10 +205,10 @@ They should **not** appear in:
 - The email subject line
 - The first sentence of an invitation
 - Repeated social copy
-- A message to someone who already knows Host
+- A message to someone who already knows Ari
 - Language suggesting endorsement
 
-The pitch is not: "Host opened for Theo Von, therefore come on our podcast." It is: "Host is a
+The pitch is not: "Ari opened for Theo Von, therefore come on our podcast." It is: "Ari is a
 demonstrably experienced comic and host, and this particular conversation has been developed for you."
 The names establish legitimacy in the background. They should not become borrowed authority.
 

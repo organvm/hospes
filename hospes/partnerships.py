@@ -2,7 +2,7 @@
 
 The registry holds bounded operating summaries and opaque owner references. It
 never stores contracts, bank details, correspondence, private notes, or full
-deal terms. One schema serves Host + Producer and any future partnership tenant.
+deal terms. One schema serves Ari + Anthony and any future partnership tenant.
 """
 
 from __future__ import annotations

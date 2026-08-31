@@ -2,7 +2,7 @@
 
 ## The Three-City Model
 
-The studios are not peripheral infrastructure borrowed from Host's other operations. They are
+The studios are not peripheral infrastructure borrowed from Ari's other operations. They are
 **owned operating infrastructure**, and the system is designed around them from the beginning.
 The podcast can be presented as a new format from an established production operation, even though
 the show itself has no prior audience.
@@ -145,7 +145,7 @@ Studio availability matches afternoon before performance.
 ```
 
 The invitation becomes: "We know you are already in town. We have a studio, crew, and a specific
-episode ready." Not: "Can you do Host a favor?"
+episode ready." Not: "Can you do Ari a favor?"
 
 ### Cross-City Executive Producer
 

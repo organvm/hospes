@@ -145,13 +145,13 @@ whether HOSPES v0 already covers it or defers it.
 | # | New work | HOSPES v0 covers | Deferred to later |
 |---|---|---|---|
 | 1 | Podcast-domain contracts (people, relationships, opportunities, episodes, studios, commitments, consent, assets, sponsors, approvals) | **Yes** — `spec/` domain contracts + appearance state machine | production DB backing |
-| 2 | Permissioned relationship ownership (Host designates friends, protected relationships, allowable routes, whether his name may be invoked) | **Yes** — relationship classes C0–C5 + protect/route policy in domain + operator approval | UI polish |
+| 2 | Permissioned relationship ownership (Ari designates friends, protected relationships, allowable routes, whether his name may be invoked) | **Yes** — relationship classes C0–C5 + protect/route policy in domain + operator approval | UI polish |
 | 3 | Real scheduling infrastructure (host/studio/guest free-busy, durable reminders, three-city routing) | **Partial** — studio objects + LA/NYC/Austin routing logic + reminder *schema* | real Google Calendar free/busy, durable worker (network — later) |
 | 4 | Guest portal (intake, releases, accessibility, hospitality, tech reqs, transport, shipping consent) | **Partial** — intake + consent *contracts* and day-of packet | hosted portal UI |
 | 5 | Cross-show tenancy (flagship, field show, outside customers; explicit per-show permission for shared relationships) | **Partial** — Show DNA config + tenant/show entities + per-show route permission | billing, onboarding, isolation hardening |
 | 6 | Sponsor-creative governance (approved/prohibited claims, script versions, disclosures, approvals, results) | **Partial** — sponsor claim/evidence + approval contract (adapts the-actual-news pattern) | performance results loop |
 | 7 | Adapters (Gmail, Calendar, media archive, content engine, distribution, e-sign, gift/travel) | **Yes** — this adapter layer (18 adapter files) | live wiring of network adapters |
-| 8 | One operator experience (Host sees one concise approval surface, not the constellation) | **Yes** — the control-plane / approval-session checklist (Host's ~10-min/week budget) | dashboard app |
+| 8 | One operator experience (Ari sees one concise approval surface, not the constellation) | **Yes** — the control-plane / approval-session checklist (Ari's ~10-min/week budget) | dashboard app |
 
 ## Six-step build order
 
@@ -163,7 +163,7 @@ whether HOSPES v0 already covers it or defers it.
    packet + salon-archive transcript model + media-ark ingest + materia-collider clip ledger.
 4. **Activate content yield** — master → asset-amplifier → human clip approval → voice/editorial
    gates → announcement compilation → social-automation dispatch → delivery + performance.
-5. **Prove multiple tenants** — Host + Producer flagship → Producer field show → one outside
+5. **Prove multiple tenants** — Ari + Anthony flagship → Anthony field show → one outside
    podcaster from the network. Only then is it a generalized customer product.
 
 ## Reconciliation table — every discrepancy between the audit and ground truth

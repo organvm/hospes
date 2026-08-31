@@ -1,29 +1,29 @@
-# Pilot Brief 02 — Producer's World
+# Pilot Brief 02 — Anthony's World
 
 **Status:** RESEARCHING  
-**Relationship class:** C1 (direct professional relationship — Producer's network, no Host capital spent)  
-**Relationship owner:** Producer  
-**Route:** Direct professional email from Producer — no producer intermediary, no publicist  
+**Relationship class:** C1 (direct professional relationship — Anthony's network, no Ari capital spent)  
+**Relationship owner:** Anthony  
+**Route:** Direct professional email from Anthony — no producer intermediary, no publicist  
 **City / Studio:** New York City — TBD conversation-room venue (not a studio; a working space the guest actually uses)  
-**Social cost:** 1 / 5 — Producer emails a person he already works with or alongside  
+**Social cost:** 1 / 5 — Anthony emails a person he already works with or alongside  
 
 ---
 
 ## Guest Archetype
 
-An artist, writer, or technologist in Producer's professional orbit — someone who builds things by
+An artist, writer, or technologist in Anthony's professional orbit — someone who builds things by
 hand and also thinks structurally about what they're doing. Not a performer; not primarily a podcast
 guest. Operates at the intersection of creative practice and systems thinking. NYC-based. Has a
 public body of work (publication, project, tool, or body of making) but is not seeking mainstream
 profile. Would find the conversation interesting, not promotional.
 
-**Why this person:** Producer can run this relationship end-to-end without spending Host's social
+**Why this person:** Anthony can run this relationship end-to-end without spending Ari's social
 capital. The guest type — rigorous maker — is also the natural complement to the comedian and
 crossover figures in the other pilots. Together the three pilots prove the show can hold different
 registers of guest without changing the format.
 
-**Why now:** Testing whether Producer can independently source and host a guest answers a structural
-question about the show's long-term supply chain. If the show can only source guests through Host's
+**Why now:** Testing whether Anthony can independently source and host a guest answers a structural
+question about the show's long-term supply chain. If the show can only source guests through Ari's
 network, it will plateau.
 
 ---
@@ -43,8 +43,8 @@ surfaces what that question was — and whether answering it changed the work.
 - **Segment timing:** Does the fixed three-part structure (Claim → Stress Test → Artifact) hold
   across the full duration with a guest who is not a performer? A non-comedian, non-podcast guest
   will not paper over awkward transitions. The timing stress test is real here.
-- **Producer's solo hosting weight:** How much of the conversation can Producer carry alone? This
-  episode should have Host in a lighter supporting role — or potentially absent for one of the three
+- **Anthony's solo hosting weight:** How much of the conversation can Anthony carry alone? This
+  episode should have Ari in a lighter supporting role — or potentially absent for one of the three
   segments. The edit will reveal whether that works.
 - **Artifact production in-session:** Can the show actually produce a working artifact in the room?
   This guest is asked to produce something — written notes, a diagram, a sketch — during the
@@ -56,7 +56,7 @@ surfaces what that question was — and whether answering it changed the work.
 ## Intended Artifact
 
 **In-session written object:** One page of working notes or a diagram the guest draws or writes
-during the conversation in response to a specific prompt from Producer. Photographed in the room;
+during the conversation in response to a specific prompt from Anthony. Photographed in the room;
 included verbatim in show notes. Not polished, not captioned — just the object and the context in
 which it appeared. This tests whether the Artifact segment can produce something genuinely usable
 rather than symbolic.
@@ -66,9 +66,9 @@ rather than symbolic.
 ## Rotating Segment
 
 **Claim / Stress Test / Artifact** (fixed) +  
-**Rotating:** *The Object Lesson* — Producer places one physical object on the table before the
+**Rotating:** *The Object Lesson* — Anthony places one physical object on the table before the
 conversation starts. The guest is not told what it is or why it's there. Fifteen minutes in,
-Producer points to it and asks the guest to connect it to something they said in the first half of
+Anthony points to it and asks the guest to connect it to something they said in the first half of
 the conversation. The segment tests whether the show can generate genuine surprise without a
 performance frame.
 
@@ -86,8 +86,8 @@ interviewed.
 
 ## Relationship Route + Social Cost
 
-Producer emails directly — no producer note, no Host introduction, no agent. The email is one
-paragraph: "I'm recording a new show with Host Mannis, it's a conversation format, not an
+Anthony emails directly — no producer note, no Ari introduction, no agent. The email is one
+paragraph: "I'm recording a new show with Ari Mannis, it's a conversation format, not an
 interview, I think you'd find it interesting." Social cost: 1. If the guest asks what the show is
 about before agreeing, that's a good sign — it means they're thinking, not performing.
 

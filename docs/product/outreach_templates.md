@@ -4,11 +4,11 @@ All external messages must have a real human owner. AI may research, draft, clas
 
 ## Producer-led initial outreach
 
-**Subject:** Host Mannis × [GUEST] — [EPISODE TENSION]
+**Subject:** Ari Mannis × [GUEST] — [EPISODE TENSION]
 
 Hi [NAME]—
 
-I produce a new show with Host Mannis and [CO-HOST]. Each episode begins with a consequential claim, stress-tests it, and ends by making something new rather than repeating a standard biography or promotional interview.
+I produce a new show with Ari Mannis and [CO-HOST]. Each episode begins with a consequential claim, stress-tests it, and ends by making something new rather than repeating a standard biography or promotional interview.
 
 We are developing an episode around **[PRECISE QUESTION OR TENSION]**. [GUEST]’s work on **[SPECIFIC VERIFIED PROJECT]** gives us a strong way into it, particularly **[SPECIFIC REASON]**.
 
@@ -24,7 +24,7 @@ Would [GUEST] be open to considering [DATE WINDOW]? I can send the one-page edit
 
 Hi [NAME]—
 
-I’m producing a new format with Host. His earlier conversation/work with [GUEST] touched on [VERIFIED SUBJECT], but this episode would pursue a different question: **[THESIS]**.
+I’m producing a new format with Ari. His earlier conversation/work with [GUEST] touched on [VERIFIED SUBJECT], but this episode would pursue a different question: **[THESIS]**.
 
 The show is structured around a claim, a designed stress test, and a final artifact. We can record in LA, NYC, or Austin and handle the full production process.
 
@@ -32,7 +32,7 @@ May I send the one-page brief and proposed windows?
 
 [REAL SENDER]
 
-## Host personal note
+## Ari personal note
 
 I’m making a new show with [CO-HOST]. We’ve designed one episode that feels specifically right for you: **[ONE SENTENCE]**. Our producer handles the logistics, and there’s no expectation to promote it. Interested?
 

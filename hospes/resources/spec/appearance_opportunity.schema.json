@@ -114,7 +114,7 @@
     "ari_effort": {
       "type": "string",
       "enum": ["none", "review_only", "note_only", "direct_contact_required"],
-      "description": "How much of Host's personal social capital this opportunity requires. Drives the morning approval queue."
+      "description": "How much of Ari's personal social capital this opportunity requires. Drives the morning approval queue."
     },
     "city": {
       "type": ["string", "null"],
@@ -147,7 +147,7 @@
     },
     "source_provenance": {
       "type": "string",
-      "description": "How this opportunity was surfaced (e.g. 'RSS archive ingest', 'Host suggestion', 'producer research', 'referral from [person]')."
+      "description": "How this opportunity was surfaced (e.g. 'RSS archive ingest', 'Ari suggestion', 'producer research', 'referral from [person]')."
     },
     "editorial_fit_score": {
       "type": ["number", "null"],

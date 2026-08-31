@@ -10,11 +10,11 @@ control stays with the show.
 
 Before any paid sponsor enters the format, prove the creative system with house ads:
 
-- Host's studio network (LA, NYC, Austin)
+- Ari's studio network (LA, NYC, Austin)
 - The show's email list
 - Another owned show in the network
 - A live studio event
-- Producer's creative projects and publications
+- Anthony's creative projects and publications
 
 House ads allow the format to be developed, tested, and refined without a sponsor
 watching nervously. The first time a paying partner sees a Commercial Break Lab slot,
@@ -26,24 +26,24 @@ it should already look finished.
 
 ### Product on Trial
 
-Host cross-examines the product directly — its claims, its category, its failure modes.
-Producer constructs an absurdly overqualified defense. The final line states the product's
+Ari cross-examines the product directly — its claims, its category, its failure modes.
+Anthony constructs an absurdly overqualified defense. The final line states the product's
 actual utility plainly.
 
-Protocol: Host is the prosecution; Producer is the overcredentialed defense attorney;
+Protocol: Ari is the prosecution; Anthony is the overcredentialed defense attorney;
 the closing statement is simple and factual. The comedy comes from the mismatch
 between the defense's intellectual machinery and the plainness of what the product
 actually does.
 
 ### The Overbuilt Explanation
 
-Producer develops an elaborate intellectual theory of a basic product — its philosophy,
-its cultural implications, its place in the history of the relevant category. Host
+Anthony develops an elaborate intellectual theory of a basic product — its philosophy,
+its cultural implications, its place in the history of the relevant category. Ari
 reduces it to the single reason someone would buy it.
 
-Protocol: Producer escalates the abstraction; Host lands the product on the simplest
+Protocol: Anthony escalates the abstraction; Ari lands the product on the simplest
 true sentence. The format is most effective when the intellectual frame is genuinely
-interesting before Host deflates it.
+interesting before Ari deflates it.
 
 ### Worst Possible Spokesperson
 

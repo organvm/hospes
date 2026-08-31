@@ -443,8 +443,8 @@ def test_unsafe_colours_fonts_and_logo_urls_never_reach_a_stylesheet() -> None:
         branding.brand_css(None, logo_url="https://cdn.example/logo.svg")
 
     # A partial brand file is a supported profile, not a failure.
-    partial = branding.merge_brand({"show_name": "The Host Show", "primary_color": "#ff6b35"})
-    assert partial["show_name"] == "The Host Show"
+    partial = branding.merge_brand({"show_name": "The Ari Show", "primary_color": "#ff6b35"})
+    assert partial["show_name"] == "The Ari Show"
     assert partial["accent_color"] == branding.DEFAULT_BRAND["accent_color"]
     assert "--brand-primary:#ff6b35" in branding.brand_css(partial)
 

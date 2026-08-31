@@ -1,6 +1,6 @@
 # Guest Network Map v1
 
-**Source:** Public RSS parse of *Unlicensed Therapy* with Host Mannis  
+**Source:** Public RSS parse of *Unlicensed Therapy* with Ari Mannis  
 **Parsed:** 2026-07-13  
 **Dataset location:** `data/unlicensed-therapy/archive.json` + `guests.json`
 **Public-footprint rule:** This dataset contains only public-figure facts derived from a
@@ -43,8 +43,8 @@ high-confidence appearances to C2 prior professional interactions, and other
 validated single appearances to C1 public adjacency. Future-dated appearances and
 public labels containing contact-like private data are rejected. Traversal follows
 relationship edges in either direction while exports preserve the declared semantic direction, so a
-map rooted at Theo includes the incoming Host-to-Theo relationship and the
-second-degree alumni beyond Host. Reachable C2/C3 alumni are target candidates;
+map rooted at Theo includes the incoming Ari-to-Theo relationship and the
+second-degree alumni beyond Ari. Reachable C2/C3 alumni are target candidates;
 their deterministic shortest paths are highlighted in visual exports and
 listed in the dashboard Relationship paths panel. This is read-only evidence:
 loading or exporting a map cannot send, book, consent, publish, or mutate an
@@ -89,7 +89,7 @@ Mo Mandel, Sam Tripoli, Sara Weinshenk, Steven Randolph.
 
 No guest appears three or more times in the public archive. The 16 returners represent
 9.5% of the unique guest population and constitute the highest-confidence Ring 1 candidates:
-Host has already invested enough social capital to bring them back once; a second re-engagement
+Ari has already invested enough social capital to bring them back once; a second re-engagement
 on a new show is a materially lower-cost ask than a first-time booking.
 
 ---
@@ -102,9 +102,9 @@ established working relationship and the outreach is a re-engagement, not a cold
 This archive provides the **public-footprint confirmation layer** for Ring 1. A name appearing
 here means:
 
-1. The person has appeared on a related show hosted by Host.
+1. The person has appeared on a related show hosted by Ari.
 2. The appearance is publicly documented (RSS-verified date, title, episode type).
-3. The relationship owner is Host for all 169 guest names in this archive.
+3. The relationship owner is Ari for all 169 guest names in this archive.
 4. Returners have confirmed willingness to appear a second time — the prior ask succeeded.
 
 The archive does **not** provide contact routes, representation details, chemistry notes, or
@@ -131,15 +131,15 @@ optional at launch; the archive is usable as-is for Ring 1 identification.
 
 3. **Chemistry notes** — For returning guests and high-priority Ring 1 candidates, a producer
    note on the prior episode's dynamic: did the conversation run long, was the guest reluctant
-   to go deep, did Host redirect the topic? These notes inform the Claim design for each
+   to go deep, did Ari redirect the topic? These notes inform the Claim design for each
    episode brief.
 
 4. **Melrose ecosystem cross-reference** — Guests who have worked at or near the Melrose
-   studio may have relationships with Host that postdate or predate their podcast appearance.
+   studio may have relationships with Ari that postdate or predate their podcast appearance.
    That enrichment requires producer knowledge and cannot be derived from the RSS alone.
 
-5. **Producer's network overlay** — This archive covers Host's prior show only. Producer's direct
-   professional network (Ring 1 from Producer's side) is a separate data source. Pilot B
+5. **Anthony's network overlay** — This archive covers Ari's prior show only. Anthony's direct
+   professional network (Ring 1 from Anthony's side) is a separate data source. Pilot B
    (`pilot-02.md`) tests the first entry from that overlay.
 
 ---

@@ -43,12 +43,12 @@ Minimalism means **few objects with purpose**, not an empty room.
 Establishes the bodies, the room, and the spatial relation between everyone present.
 This shot is the anchor. Shot first; returned to when attention or mode shifts.
 
-**2. Host single**
+**2. Ari single**
 Medium or medium-close. Wide enough to preserve enough environment that the frame does
 not read as broadcast news or a talking-head interview.
 
 **3. Guest single**
-Matched in visual weight to the Host single. Symmetry in importance, not necessarily
+Matched in visual weight to the Ari single. Symmetry in importance, not necessarily
 in lens and angle — a perfect mirror read signals production, not encounter.
 
 **4. Artifact camera** (optional)
@@ -96,7 +96,7 @@ by episode and lives primarily in the graphic layer.
 
 **The physical room is calm; the graphic layer may become strange.**
 
-This is the doctrine that allows Producer's multimedia and generative-environment practice
+This is the doctrine that allows Anthony's multimedia and generative-environment practice
 to enter the show without requiring a permanent set renovation.
 
 - Kinetic type rather than persistent lower thirds
@@ -111,7 +111,7 @@ custom furniture.
 
 ---
 
-## Field-show grammar (Producer's GoPro series)
+## Field-show grammar (Anthony's GoPro series)
 
 The mobile show should not imitate the flagship with worse equipment. Its distinction is
 that the guest's own environment is the third participant.

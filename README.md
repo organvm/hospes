@@ -24,10 +24,10 @@ entirely human. HOSPES drafts; humans decide and send.
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  FLAGSHIP SHOW                                          │
-│  Host + Producer • studio LA / NYC / Austin • hidden mic  │
+│  Ari + Anthony • studio LA / NYC / Austin • hidden mic  │
 ├─────────────────────────────────────────────────────────┤
 │  FIELD SHOW                                             │
-│  Producer solo • other people's spaces • GoPro kit       │
+│  Anthony solo • other people's spaces • GoPro kit       │
 │  Place → Object → Intervention → Artifact               │
 ├─────────────────────────────────────────────────────────┤
 │  REUSABLE OS                                            │
@@ -86,7 +86,7 @@ packages live under `docs/blueprint/` and `docs/product/`; verbatim provenance s
 
 ```bash
 # 1 — Install
-cd /Users/4jp/Workspace/hospes
+cd /path/to/hospes
 pip install -e '.[test,api]'
 
 # 2 — Run the demo (idempotent; safe to run twice)
@@ -104,7 +104,7 @@ export HOSPES_DB="$HOME/Library/Application Support/HOSPES/private_pilot/hospes.
 IFS= read -r -s -p "Operator token: " HOSPES_OPERATOR_TOKEN; printf '\n'
 export HOSPES_OPERATOR_TOKEN
 python3 -m hospes operator --db "$HOSPES_DB" \
-  --actor example_operator --role producer --tenant private_pilot
+  --actor anthony_operator --role producer --tenant private_pilot
 unset HOSPES_OPERATOR_TOKEN
 ```
 
@@ -128,7 +128,7 @@ PYTHONPATH=. python3 -m hospes init --root new-podcast
 
 The wizard generates the show DNA, show contract, partnership record, brand,
 analytics, and notification configuration plus a canonical-header
-`data/example-pipeline.csv`, validates that workspace with the engine's own validators,
+`data/pipeline.csv`, validates that workspace with the engine's own validators,
 runs the demo scoped to it, and appends its receipts to `<root>/out/audit.log`.
 Rerunning is refused rather than destructive (`--merge` is the explicit
 fill-the-gaps rerun), and the optional GitHub repository is *requested*, never
@@ -178,7 +178,7 @@ faked. It also refuses to record at all unless the visible `SYNTHETIC DEMO — N
 marker is present and the tenant is a demo tenant, so it can never be pointed at Pilot authority.
 Both the operator token and the private-field master key are minted per run and never persisted.
 
-For the isolated, resettable Host walkthrough, build two marked synthetic stores:
+For the isolated, resettable Ari walkthrough, build two marked synthetic stores:
 
 ```bash
 python3 -m hospes seed-synthetic-demo \
@@ -197,8 +197,8 @@ Private candidates enter through an external CSV that is never copied into Git:
 
 ```bash
 python3 -m hospes import-candidates /private/path/candidates.csv \
-  --tenant private_pilot --network example_network --show flagship_private_pilot \
-  --actor example_operator --role producer
+  --tenant private_pilot --network ari_network --show flagship_private_pilot \
+  --actor anthony_operator --role producer
 ```
 
 The optional `contact_roster` CSV column is a private JSON object with
@@ -234,8 +234,8 @@ without discovering or enabling a contact route:
 ```bash
 python3 -m hospes suggest-guests --min-gap-years 2 --max-social-cost 3 \
   | python3 -m hospes import-candidates - \
-      --tenant private_pilot --network example_network --show flagship_private_pilot \
-      --actor example_operator --role producer
+      --tenant private_pilot --network ari_network --show flagship_private_pilot \
+      --actor anthony_operator --role producer
 ```
 
 The imported route remains explicitly unverified and unusable until a human
@@ -358,11 +358,11 @@ receipt carrying the SHA-256 of the exact document handed over. The role gate,
 tenant scoping, milestone counting, report escaping, and receipt trail are
 documented in [`docs/network-dashboard.md`](docs/network-dashboard.md).
 
-Seed the reusable Partnership Command Center before the first Host review:
+Seed the reusable Partnership Command Center before the first Ari review:
 
 ```bash
 python3 -m hospes import-partnership config/partnerships/example-private-pilot.yaml \
-  --tenant private_pilot --actor example_operator --role producer
+  --tenant private_pilot --actor anthony_operator --role producer
 ```
 
 After the schema-v7 custody checkpoint, import the immutable Pilot 1 policy using the internal
@@ -371,13 +371,13 @@ partnership id returned by that command:
 ```bash
 python3 -m hospes import-pilot-policy config/pilot_policies/example-pilot-1.yaml \
   --partnership PARTNERSHIP_ID --tenant private_pilot \
-  --actor example_operator --role producer
+  --actor anthony_operator --role producer
 ```
 
 Policy imports are checksummed and idempotent. Candidate records, correspondence, calendar
 contents, and contact details are not part of the policy document.
 
-The **Partnership Cockpit** then gives Host and Producer three connected views: an executive agenda,
+The **Partnership Cockpit** then gives Ari and Anthony three connected views: an executive agenda,
 the Pilot Workbench, and a versioned Complete Register spanning engine, plans, roles, agreements,
 deals, obligations, decisions, receipts, risks, and explicitly unknown items. The schema is
 partnership-neutral: another collaboration gets its own tenant and template, not a fork of the
@@ -398,7 +398,7 @@ delivery endpoint).
 
 The versioned Pilot execution interface adds three human-gated routes:
 
-- `POST /v1/partnerships/{id}/pilot-runs` starts a run only after Host review, a valid three-person
+- `POST /v1/partnerships/{id}/pilot-runs` starts a run only after Ari review, a valid three-person
   slate, three verified routes, and an agreed opaque calendar window exist.
 - `GET /v1/partnerships/{id}/pilot-runs/{run_id}/plan` returns the current revision, ranked action,
   alternatives, latest-safe timing, constraints, rationale, and evidence.

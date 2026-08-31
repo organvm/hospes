@@ -2,7 +2,7 @@
 
 **Status:** Architecture audit; no repository mutations performed  
 **Working product name:** Conversation Operations System  
-**Primary proof environments:** Host + Producer flagship show; Producer's mobile field show  
+**Primary proof environments:** Ari + Anthony flagship show; Anthony's mobile field show  
 **Commercial direction:** Multi-tenant invisible production desk for podcasters and studio networks
 
 ## Executive conclusion
@@ -121,11 +121,11 @@ CANCELLED
 ```text
 conversation-ops/
 ├── apps/
-│   ├── operator/             # Host/producer approvals and exception queue
+│   ├── operator/             # Ari/producer approvals and exception queue
 │   ├── guest-portal/         # scheduling, intake, releases, care preferences
 │   ├── show-console/         # episode thesis, research, segments, day-of packet
 │   ├── network-admin/        # multi-tenant setup, studios, shows, policies
-│   └── field-capture/        # Producer's portable show profile and ingest
+│   └── field-capture/        # Anthony's portable show profile and ingest
 ├── services/
 │   ├── api/
 │   ├── workflow-worker/
@@ -239,10 +239,10 @@ Extract:
 - corpus comparison
 
 Create separate voice profiles for:
-- Host personal note
+- Ari personal note
 - producer / guest desk
 - flagship show
-- Producer field show
+- Anthony field show
 - sponsor creative
 - public launch copy
 
@@ -517,9 +517,9 @@ A guest relationship may be network-level, but permission to use it must be expl
 - stable visual grammar
 - fixed and rotating segments
 - claim → stress test → artifact
-- Host’s effort concentrated in approval and recording
+- Ari’s effort concentrated in approval and recording
 
-### Producer field show
+### Anthony field show
 - portable GoPro/capture kit
 - guest environment as third participant
 - place → object → intervention → artifact
@@ -598,7 +598,7 @@ A guest relationship may be network-level, but permission to use it must be expl
    - evidence and correction policy
 4. Build adapters before rewrites.
 5. Replace mock scheduling with real calendar infrastructure.
-6. Create seed data for Host, Producer, three studios, two shows, five relationship classes, and three pilot opportunities.
+6. Create seed data for Ari, Anthony, three studios, two shows, five relationship classes, and three pilot opportunities.
 7. Use the flagship as the first production tenant.
 8. Install a second internal tenant for the field show.
 9. Only then install a third tenant for an outside podcaster.

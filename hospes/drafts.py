@@ -138,7 +138,7 @@ def _fill(text: str, candidate: Dict[str, str]) -> str:
         "DATE WINDOW": window,
         "DURATION": "75 minutes",
         "OUTPUT CREATED IN EPISODE": artifact,
-        "CO-HOST": "Producer",
+        "CO-HOST": "Anthony",
         "REAL SENDER": "[the show's real producer — a human signs and sends]",
         "ROLE": "Guest Producer",
         "SHOW": "the show",

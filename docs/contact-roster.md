@@ -33,8 +33,8 @@ never prints contact values:
 
 ```bash
 python3 -m hospes import-candidates /private/path/candidates.csv \
-  --tenant private_pilot --network example_network --show flagship_private_pilot \
-  --actor example_operator --role producer
+  --tenant private_pilot --network ari_network --show flagship_private_pilot \
+  --actor anthony_operator --role producer
 ```
 
 The complete batch is validated before mutation. HOSPES then encrypts every
