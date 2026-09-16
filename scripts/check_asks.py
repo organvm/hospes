@@ -9,6 +9,7 @@ be expressed as file-existence checks alone.
 
 Exit 0 if all artifacts present and all content checks pass; exit 1 otherwise.
 """
+import argparse
 import re
 import sys
 from pathlib import Path
@@ -187,11 +188,18 @@ def run_content_checks() -> list[tuple[str, str, str]]:
 
 
 def main() -> int:
-    if not LEDGER.exists():
-        print(f"MISSING: {LEDGER.relative_to(ROOT)}")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--ledger", default="docs/ASKS-LEDGER.md")
+    args = parser.parse_args()
+    ledger = (ROOT / args.ledger).resolve()
+    if not ledger.is_relative_to(ROOT.resolve()):
+        print("ledger must remain inside the repository")
+        return 1
+    if not ledger.is_file():
+        print(f"MISSING: {ledger.relative_to(ROOT.resolve())}")
         return 1
 
-    lines = LEDGER.read_text().splitlines()
+    lines = ledger.read_text().splitlines()
 
     # Find table rows: lines that start with |, skip header and separator rows
     rows = []
@@ -257,6 +265,10 @@ def main() -> int:
         print("\nFailed content checks:")
         for check_id, rel_path, needle in content_failures:
             print(f"  {check_id}: '{needle}' not in {rel_path}")
+
+    if total == 0:
+        print("ledger must declare at least one artifact")
+        return 1
 
     if failures or content_failures:
         return 1

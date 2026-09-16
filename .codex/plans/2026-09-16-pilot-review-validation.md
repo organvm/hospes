@@ -17,3 +17,15 @@ Independent remaining gates passed: hardening ratchet, declared predicates, perm
 ## Source-scope correction
 
 The public repository is a separate immutable GitHub repository created after the original operations repository. Its issue #9 is absent. Read-only metadata confirms the historical pilot issue and ask ledger remain in the private operations owner. The earlier issue #9 reference is historical, not an issue in this public repository. Do not copy the private ledger into public Git. The public done predicate still incorrectly requires private-era document homes; its scope must be repaired while retaining explicit private acceptance ownership.
+
+## Public software predicate routing
+
+The public command now explicitly chooses docs/PUBLIC-ACCEPTANCE.md and the
+public generated completion projection. The 25 existing content requirements
+remain intact, with matching artifact rows derived only from public code.
+Default checker invocations still require their historical operations inputs;
+there is no silent fallback. Five tests cover explicit selection, missing and
+empty input, and attempts to select files outside the checkout. No private
+source body was read or copied. The final done statement names public software
+and leaves private pilot outcomes external. Full verification follows on this
+changed command tree; older passing shards remain historical evidence.

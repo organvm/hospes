@@ -76,8 +76,8 @@ PYTHONPATH=. python3 -m hospes config validate
 PYTHONPATH=. python3 -m hospes capabilities >/dev/null
 echo "[7a/13] installed-wheel acceptance"
 bash scripts/verify-installed-wheel.sh
-python3 scripts/check_asks.py
-python3 scripts/check_completion_registry.py --check
+python3 scripts/check_asks.py --ledger docs/PUBLIC-ACCEPTANCE.md
+python3 scripts/check_completion_registry.py --check --document docs/ROADMAP.md --document docs/public-completion.md
 echo ""
 
 # --- Gate 8: deferred review debt ---
@@ -133,4 +133,4 @@ echo "[13/13] clean ending worktree"
 require_clean_worktree
 echo ""
 
-echo "HOSPES DONE — all predicates green"
+echo "HOSPES PUBLIC SOFTWARE DONE — all local predicates green; private pilot outcomes remain external"
