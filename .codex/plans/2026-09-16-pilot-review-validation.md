@@ -29,3 +29,12 @@ empty input, and attempts to select files outside the checkout. No private
 source body was read or copied. The final done statement names public software
 and leaves private pilot outcomes external. Full verification follows on this
 changed command tree; older passing shards remain historical evidence.
+
+## Public verification receipt
+
+The exact code tree 1e6d1f8 passed host-admitted bash done.sh, exit 0,
+including full Python coverage, Node and shell checks, clean demo twice,
+installed-wheel acceptance, explicit public artifact/content checks, both
+completion projections, debt and permission ratchets, privacy and whitespace.
+The public scope is software verification only. No private ledger or participant
+source was copied, and no publication consent or real pilot was inferred.
