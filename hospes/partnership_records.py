@@ -266,7 +266,7 @@ def record_review(
     decisions_count = payload.get("decisions_count")
     coverage_met = payload.get("coverage_met")
     coverage_total = payload.get("coverage_total")
-    if not all(isinstance(value, int) and 0 <= value <= 100 for value in (
+    if not all(type(value) is int and 0 <= value <= 100 for value in (
         decisions_count, coverage_met, coverage_total
     )):
         raise PartnershipError(422, "review counts must be integers between 0 and 100")
