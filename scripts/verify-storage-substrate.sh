@@ -6,6 +6,8 @@ cd "$ROOT"
 
 python3 -m pytest tests/test_migrations.py tests/test_database_backends.py -q
 bash scripts/verify-postgres-bootstrap.sh
-python3 scripts/check_completion_registry.py --check
+python3 scripts/check_completion_registry.py --check \
+  --document docs/ROADMAP.md \
+  --document docs/public-completion.md
 
 echo "storage and migration substrate acceptance passed"

@@ -24,11 +24,18 @@ def main() -> int:
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--check", action="store_true")
     mode.add_argument("--write", action="store_true")
+    parser.add_argument("--document", action="append", help="repository-relative projection home; repeat for multiple homes")
     args = parser.parse_args()
+    documents = tuple((ROOT / value).resolve() for value in args.document) if args.document else DOCUMENTS
+    if any(not path.is_relative_to(ROOT) for path in documents):
+        parser.error("projection documents must remain inside the repository")
     registry = completion_registry.load_registry()
     block = completion_registry.managed_document_block(registry)
     stale: list[Path] = []
-    for path in DOCUMENTS:
+    for path in documents:
+        if not path.is_file():
+            print(f"MISSING: {path.relative_to(ROOT)}")
+            return 1
         current = path.read_text(encoding="utf-8")
         updated = completion_registry.replace_managed_block(current, block)
         if current == updated:
@@ -41,7 +48,7 @@ def main() -> int:
             print(f"completion registry projection is stale: {path.relative_to(ROOT)}")
         return 1
     action = "updated" if stale else "verified"
-    print(f"completion registry {action}: {len(registry.issues)} issues, {len(DOCUMENTS)} documents")
+    print(f"completion registry {action}: {len(registry.issues)} issues, {len(documents)} documents")
     return 0
 
 
