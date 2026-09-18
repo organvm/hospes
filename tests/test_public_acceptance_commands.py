@@ -40,6 +40,34 @@ def test_ledger_cannot_leave_repository(monkeypatch, tmp_path):
     assert main() == 1
 
 
+@pytest.mark.parametrize("artifact", ["../outside.txt", "/tmp/outside.txt"])
+def test_public_ledger_artifact_cannot_leave_repository(monkeypatch, tmp_path, artifact):
+    ledger = tmp_path / "public.md"
+    ledger.write_text(
+        "| Check | Requirement | Artifact |\n"
+        "|---|---|---|\n"
+        f"| P1 | engine | `{artifact}` |\n"
+    )
+    main = load_script("check_asks.py", monkeypatch, tmp_path, ["--ledger", "public.md"])
+    monkeypatch.setitem(main.__globals__, "CONTENT_CHECKS", [])
+    assert main() == 1
+
+
+def test_public_ledger_artifact_cannot_escape_through_symlink(monkeypatch, tmp_path):
+    outside = tmp_path.parent / "outside.txt"
+    outside.write_text("external evidence")
+    (tmp_path / "linked.txt").symlink_to(outside)
+    ledger = tmp_path / "public.md"
+    ledger.write_text(
+        "| Check | Requirement | Artifact |\n"
+        "|---|---|---|\n"
+        "| P1 | engine | `linked.txt` |\n"
+    )
+    main = load_script("check_asks.py", monkeypatch, tmp_path, ["--ledger", "public.md"])
+    monkeypatch.setitem(main.__globals__, "CONTENT_CHECKS", [])
+    assert main() == 1
+
+
 def test_projection_document_selection_and_missing_input(monkeypatch, tmp_path):
     from hospes import completion_registry
     document = tmp_path / "public.md"
@@ -55,3 +83,9 @@ def test_projection_cannot_leave_repository(monkeypatch, tmp_path):
     with pytest.raises(SystemExit) as error:
         main()
     assert error.value.code == 2
+
+
+def test_storage_acceptance_uses_public_completion_projections():
+    command = (ROOT / "scripts" / "verify-storage-substrate.sh").read_text()
+    assert "--document docs/ROADMAP.md" in command
+    assert "--document docs/public-completion.md" in command

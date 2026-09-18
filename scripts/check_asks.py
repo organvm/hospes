@@ -239,7 +239,11 @@ def main() -> int:
 
         for artifact in artifacts:
             total += 1
-            path = ROOT / artifact
+            path = (ROOT / artifact).resolve()
+            if not path.is_relative_to(ROOT.resolve()):
+                print(f"  OUTSIDE REPOSITORY  [{ask_id}] {artifact}")
+                failures.append((ask_id, artifact))
+                continue
             if path.exists():
                 print(f"  OK  [{ask_id}] {artifact}")
             else:
