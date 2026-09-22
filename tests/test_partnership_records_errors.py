@@ -265,6 +265,12 @@ def review_payload(**overrides) -> dict:
     [
         (review_payload(review_kind="unknown"), "relationship_owner", "review_kind"),
         (review_payload(), "producer", "requires the relationship owner"),
+        *[
+            (review_payload(**{field: value}), "relationship_owner",
+             "review counts must be integers")
+            for field in ("decisions_count", "coverage_met", "coverage_total")
+            for value in (True, False)
+        ],
         (
             review_payload(decisions_count="three"),
             "relationship_owner",

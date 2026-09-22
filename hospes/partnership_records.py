@@ -257,6 +257,12 @@ def record_review(
     actor_role: str,
     now: datetime | None = None,
 ) -> dict[str, Any]:
+    """Validate and store a tenant-scoped review with bounded integer counts.
+
+    Reject boolean counts, unauthorized review kinds, unsafe evidence references,
+    and invalid or future timestamps before writing. Apply linked pilot evidence
+    and commit the review; roll back if applying that evidence fails.
+    """
     partnership = _partnership(conn, partnership_id, tenant_id)
     review_kind = _bounded(payload, "review_kind", 2, 40)
     if review_kind not in REVIEW_KINDS:
@@ -266,7 +272,7 @@ def record_review(
     decisions_count = payload.get("decisions_count")
     coverage_met = payload.get("coverage_met")
     coverage_total = payload.get("coverage_total")
-    if not all(isinstance(value, int) and 0 <= value <= 100 for value in (
+    if not all(type(value) is int and 0 <= value <= 100 for value in (
         decisions_count, coverage_met, coverage_total
     )):
         raise PartnershipError(422, "review counts must be integers between 0 and 100")
