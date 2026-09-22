@@ -188,6 +188,11 @@ def run_content_checks() -> list[tuple[str, str, str]]:
 
 
 def main() -> int:
+    """Check an explicitly selected in-repository ledger and its declared artifacts.
+
+    Preserve the historical default rather than falling back to public inputs.
+    Return one for missing, empty, escaping, or content-incomplete evidence.
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("--ledger", default="docs/ASKS-LEDGER.md")
     args = parser.parse_args()

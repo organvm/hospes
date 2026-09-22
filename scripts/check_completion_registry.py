@@ -20,6 +20,11 @@ DOCUMENTS = (
 
 
 def main() -> int:
+    """Check or refresh selected in-repository completion projections.
+
+    Reject escaping paths and missing documents. The historical projection homes
+    remain the defaults; only explicit --write replaces stale managed blocks.
+    """
     parser = argparse.ArgumentParser()
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--check", action="store_true")
